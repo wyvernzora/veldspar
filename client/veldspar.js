@@ -10,6 +10,8 @@ Template.hello.events({
         data: result
       });
       
+      console.log(JSON.stringify(result));
+      
     });
 
   }

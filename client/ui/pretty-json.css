@@ -9,7 +9,7 @@
 
 /* node */
 .node-content-wrapper{
-    font-family: 'Quicksand', sans-serif;
+    font-family: /*'Quicksand',*/ 'Open Sans', sans-serif;
     background-color:#fff;
 }
 .node-content-wrapper ul{
