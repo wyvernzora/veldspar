@@ -4,10 +4,11 @@ Meteor.methods({
 
   test: function () {
 
-    var debugChar = JSON.parse(Asset.getText("ayase.apikey.json"));
-
-    return Veldspar.API.Character.getAccountBalance({
-      id: debugChar.key,
+    var debugChar = JSON.parse(Assets.getText("ayase.apikey.json"));
+    console.log(JSON.stringify(debugChar));
+    
+    return Veldspar.API.AccountInfo.getApiKeyInfo({
+      id: debugChar.id,
       code: debugChar.code,
       accessMask: debugChar.accessMask
     }, debugChar.characterID);

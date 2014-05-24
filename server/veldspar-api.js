@@ -12,6 +12,9 @@ Veldspar.API.apiClient = function (endpoint) {
 }
 
 Veldspar.API.apiClient.prototype.setApiKey = function (apiKey) {
+  
+  console.log(JSON.stringify(apiKey));
+  
   this.apiKey = apiKey;
   return this;
 }
@@ -49,13 +52,13 @@ Veldspar.API.apiClient.prototype.request = function () {
   };
   _.extend(args.params, this.params);
 
+  console.log(JSON.stringify(args));
+  
   var raw = Veldspar.HTTP.jsonRequest("POST", this.endpoint, args);
-
-
-
-  if (this.unwrap) raw = Veldspar.Transforms.unwrapRowsets(raw);
-  if (this.transform) raw = Veldspar.Transforms.jsonTransform(raw, this.transform);
-
+  
+  if (this.unwrap) raw = Transformer.unwrap(raw, "rowset", "row", "name", true);
+  if (this.transform) raw = Transformer.transform(raw, this.transform);
+  
   return raw;
 }
 
@@ -87,6 +90,12 @@ Veldspar.API.Character = {
         characterID: characterID
       })
       .setTransform(Veldspar.Transforms.Character.walletBalance, true).request();
+  },
+  
+  getAssetList: function (apiKey, characterID) {
+    var client = new Veldspar.API.apiClient("/char/AssetList.xml.aspx");
+    return client.setApiKey(apiKey).requireAccessMask(2).addParams({characterID: characterID})
+      .setTransform(null, true).request();
   }
 
 }
