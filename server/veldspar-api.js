@@ -12,9 +12,6 @@ Veldspar.API.apiClient = function (endpoint) {
 }
 
 Veldspar.API.apiClient.prototype.setApiKey = function (apiKey) {
-  
-  console.log(JSON.stringify(apiKey));
-  
   this.apiKey = apiKey;
   return this;
 }
@@ -95,7 +92,7 @@ Veldspar.API.Character = {
   getAssetList: function (apiKey, characterID) {
     var client = new Veldspar.API.apiClient("/char/AssetList.xml.aspx");
     return client.setApiKey(apiKey).requireAccessMask(2).addParams({characterID: characterID})
-      .setTransform(null, true).request();
+      .setTransform(Veldspar.Transforms.Character.assetList, true).request();
   }
 
 }
