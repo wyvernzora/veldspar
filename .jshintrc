@@ -1,0 +1,11 @@
+{
+  "eqeqeq": true,
+  "freeze": true,
+  "unused": true,
+  "strict": true,
+  "curly": true,
+  "latedef": "nofunc",
+  "quotmark": true,
+  "trailing": true,
+  "predef": [ "Meteor", "_", "Transformer", "Veldspar" ]
+}

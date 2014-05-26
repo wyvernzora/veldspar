@@ -1,5 +1,4 @@
 /* Veldspar Utilities */
-
 if (_.isUndefined(Veldspar.HTTP)) {
   
   Veldspar.HTTP = { };
@@ -12,6 +11,7 @@ if (_.isUndefined(Veldspar.HTTP)) {
   });
   
   Veldspar.HTTP.parseXml = function (xml) {
+    "use strict";
     return blocking(this.parser, this.parser.parseString)(xml);
   };
   
@@ -24,6 +24,10 @@ if (_.isUndefined(Veldspar.HTTP)) {
     catch (error) { response = error.response; }
     /* Make sure the response is defined (is there need to?) */
     if (!response) { throw new Meteor.Error(0, "Undefined response."); }
+    /* Log response */
+    if (Veldspar.Config.logResponse) {
+      console.log(response.content);
+    }
     /* Error processing */
     if (response.statusCode !== 200) {
       var reason = "API endpoint did not return an error response.";
@@ -37,6 +41,6 @@ if (_.isUndefined(Veldspar.HTTP)) {
     /* Parse content */
     obj = this.parseXml(response.content);
     return obj;
-  }
+  };
   
 }

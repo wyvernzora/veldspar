@@ -5,16 +5,19 @@ Veldspar.API = {};
 if (_.isUndefined(Veldspar.API.Client)) {
   
   Veldspar.API.Client = function (endpoint) {
+    "use strict";
     this.endpoint = Veldspar.Config.endpoint + endpoint;
     return this;
   };
 
   Veldspar.API.Client.prototype.setApiKey = function (apiKey) {
+    "use strict";
     this.apiKey = apiKey;
     return this;
   };
 
   Veldspar.API.Client.prototype.requireAccessMask = function (mask) {
+    "use strict";
     if (_.isUndefined(this.apiKey.accessMask))
       throw new Meteor.Error(12, "Access mask required but undefined! Consider using getApiKeyInfo() first.");
     var a = this.apiKey.accessMask & mask;
@@ -24,6 +27,7 @@ if (_.isUndefined(Veldspar.API.Client)) {
   };
 
   Veldspar.API.Client.prototype.setTransform = function (transform, unwrap) {
+    "use strict";
     if (_.isUndefined(unwrap)) unwrap = true;
     this.unwrap = unwrap;
     this.transform = transform;
@@ -31,11 +35,13 @@ if (_.isUndefined(Veldspar.API.Client)) {
   };
 
   Veldspar.API.Client.prototype.addParams = function (params) {
+    "use strict";
     this.params = params;
     return this;
   };
 
   Veldspar.API.Client.prototype.request = function () {
+    "use strict";
     var args = {
       params: {
         keyID: this.apiKey.id,
