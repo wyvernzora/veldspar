@@ -1,26 +1,21 @@
 /* Veldspar Utilities */
 
-
-Veldspar.HTTP = {
+if (_.isUndefined(Veldspar.HTTP)) {
   
-  parser : new xml2js.Parser({
+  Veldspar.HTTP = { };
+  
+  Veldspar.HTTP.parser = new xml2js.Parser({
     attrkey: "@",
     emptyTag: null,
     explicitArray: false,
     mergeAttrs: true
-  }),
+  });
   
-  parseXml : function (xml) {
-    return blocking(Veldspar.HTTP.parser, Veldspar.HTTP.parser.parseString)(xml);
-  },
+  Veldspar.HTTP.parseXml = function (xml) {
+    return blocking(this.parser, this.parser.parseString)(xml);
+  };
   
-  /* Calls a remote HTTP endpoint.
-        method : HTTP method to use (POST, GET, etc.)
-        uri    : Full URI of the endpoint.
-        params : Request parameters, see HTTP.call() for Meteor's HTTP package.
-     Returns
-        A JavaScript object created from the returned XML. */
-  jsonRequest : function (method, uri, params) {
+  Veldspar.HTTP.jsonRequest = function (method, uri, params) {
     "use strict";
     var response, obj;
     /* EVE Online API returns a response even if request is unsuccessful */
@@ -33,18 +28,15 @@ Veldspar.HTTP = {
     if (response.statusCode !== 200) {
       var reason = "API endpoint did not return an error response.";
       if (response.content) {
-        obj = Veldspar.HTTP.parseXml(response.content);
+        obj = this.parseXml(response.content);
         reason = obj.eveapi.error._;
         response.statusCode = obj.eveapi.error.code;
       }
       throw new Meteor.Error(response.statusCode, reason);
     }
-    
     /* Parse content */
-    obj = Veldspar.HTTP.parseXml(response.content);
-    
+    obj = this.parseXml(response.content);
     return obj;
-  },
+  }
   
- 
-};
+}
