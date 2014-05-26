@@ -127,6 +127,7 @@ Veldspar.API.Character = {
     /* Making the transform recursive */
     recAssetTransform.contents = recAssetTransform;
     assetTransform._path_ = "eveapi.result.assets";
+    assetTransform.contents = recAssetTransform;
     transform.assets = assetTransform;
 
     return client
@@ -135,7 +136,8 @@ Veldspar.API.Character = {
       .addParams({
         characterID: characterID
       })
-      .setTransform(Veldspar.Transforms.Character.assetList, true).request();
+      .setTransform(transform, true)
+      .request();
   }
 
 }
