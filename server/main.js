@@ -6,7 +6,7 @@ Meteor.methods({
 
     var debugChar = JSON.parse(Assets.getText("ayase.apikey.json"));
     
-    return Veldspar.API.Character.getContracts({
+    return Veldspar.API.Character.getCharacterSheet({
       id: debugChar.id,
       code: debugChar.code,
       accessMask: debugChar.accessMask

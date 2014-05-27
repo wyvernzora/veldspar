@@ -32,9 +32,13 @@ if (_.isUndefined(Veldspar.HTTP)) {
     if (response.statusCode !== 200) {
       var reason = "API endpoint did not return an error response.";
       if (response.content) {
+        try {
         obj = this.parseXml(response.content);
         reason = obj.eveapi.error._;
         response.statusCode = obj.eveapi.error.code;
+        } catch (err) { 
+          reason = response.content;
+        }
       }
       throw new Meteor.Error(response.statusCode, reason);
     }
