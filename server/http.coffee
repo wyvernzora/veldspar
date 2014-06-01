@@ -15,6 +15,8 @@ class Veldspar.HttpClient
   #             See http://docs.meteor.com/#HTTP for more details.
   # verbose -   A {Boolean} indicating whether the HTTP client should log
   #             detailed information to the console.
+  #
+  # Returns nothing.
   constructor: (@host, @params = { }, @verbose = no) ->
     @parser = new xml2js.Parser attrkey: '@', emptyTag: null, mergeAttrs: yes, explicitArray: no
   # Public: Seds an HTTP request to the specified endpoint of the remote
@@ -27,6 +29,8 @@ class Veldspar.HttpClient
   # params -    An {Object} with parameters that should be added to this
   #             HTTP request. For more information about the format of the
   #             object, see http://docs.meteor.com/#HTTP
+  #
+  # Returns the JavaScript object representation of the XML response.
   request: (method, endpoint, params) ->
     # Concaterate URI and merge parameters
     uri = @host + endpoint;
