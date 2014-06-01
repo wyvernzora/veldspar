@@ -15,7 +15,7 @@ class Veldspar.HttpClient
   #             See http://docs.meteor.com/#HTTP for more details.
   # verbose -   A {Boolean} indicating whether the HTTP client should log
   #             detailed information to the console.
-  constructor: (@host, @params, @verbose) ->
+  constructor: (@host, @params = { }, @verbose = no) ->
     @parser = new xml2js.Parser attrkey: '@', emptyTag: null, mergeAttrs: yes, explicitArray: no
   # Public: Seds an HTTP request to the specified endpoint of the remote
   # host.

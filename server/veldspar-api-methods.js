@@ -1,9 +1,11 @@
 /* API method calls */
+Veldspar.API = { }
+
 Veldspar.API.AccountInfo = {
 
   getApiKeyInfo: function (apiKey) {
     "use strict";
-    var client = new Veldspar.API.Client("/account/APIKeyInfo.xml.aspx"),
+    var client = new ApiClient("/account/APIKeyInfo.xml.aspx"),
       transform = {
         "_currentTime": "eveapi.currentTime",
         "_cachedUntil": "eveapi.cachedUntil",
