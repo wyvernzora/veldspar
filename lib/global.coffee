@@ -6,9 +6,10 @@
 root = exports ? this
 
 # Application namespace definition
-root = root.Veldspar = root.Veldspar ? { }
+root = root.Veldspar ?= { }
 
 # Veldspar configuration namespace
-config = root.Config = root.Config ? { }
-config.apiHost = 'https://api.eveonline.com'
+config = root.Config ?= { }
+#config.apiHost = 'https://api.eveonline.com'
+config.apiHost = 'http://localhost:8888'
 config.verbose = no

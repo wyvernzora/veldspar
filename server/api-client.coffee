@@ -76,5 +76,5 @@ class Veldspar.ApiClient
     # Send the request
     raw = ApiClient.httpClient.request('POST', @endpoint, params)
     # Transform as needed
-    raw = Transformer.unwrap raw if @unwrap
-    raw = Transformer.transform raw, @transform if @transform
+    raw = Veldspar.Transformer.unwrap raw if @unwrap
+    raw = Veldspar.Transformer.transform raw, @transform if @transform

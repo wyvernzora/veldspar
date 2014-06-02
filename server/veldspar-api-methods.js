@@ -112,7 +112,7 @@ Veldspar.API.Character = {
      variables and both transforms can only be recursively assigned after
      variable initialization is complete (after the var statement).
     */
-    var client = new Veldspar.API.Client("/char/AssetList.xml.aspx"),
+    var client = new Veldspar.ApiClient("/char/AssetList.xml.aspx"),
       recAssetTransform = {
         "_path_": "contents",
         "id": "itemID",
@@ -121,7 +121,7 @@ Veldspar.API.Character = {
         "quantity": "quantity",
         "flag": "flag",
         "stackable": function (o) {
-          var singleton = Transformer.getProperty(o, "singleton");
+          var singleton = Veldspar.Transformer.property(o, "singleton");
           return !singleton;
         },
         "rawQuantity": "rawQuantity"
@@ -139,7 +139,7 @@ Veldspar.API.Character = {
 
     return client
       .setApiKey(apiKey)
-      .requireAccessMask(2)
+      .requirePermission(2)
       .addParams({
         characterID: characterID
       })
