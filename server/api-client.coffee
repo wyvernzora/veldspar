@@ -1,7 +1,7 @@
 # Veldspar EVE Online API Client
 # api-client.coffee - CCP API Client
 # Copyright © Denis Luchkin-Zhou
-Veldspar = exports ? this
+Veldspar = (exports ? this).Veldspar
 
 # Public: Minimalistic EVE Online API Client
 class Veldspar.ApiClient
@@ -14,7 +14,7 @@ class Veldspar.ApiClient
   #
   # Returns the ApiClient instance.
   constructor: (@endpoint) ->
-    ApiClient.httpClient = new Veldspar.HttpClient 'https://api.eveonline.com'
+    ApiClient.httpClient = new Veldspar.HttpClient Veldspar.Config.apiHost, undefined, Veldspar.Config.verbose
     this
   # Public: Sets the player's API Key info
   #

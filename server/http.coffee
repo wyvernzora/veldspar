@@ -1,7 +1,7 @@
 # Veldspar EVE Online API Client
 # http.coffee - HTTP requesting
 # Copyright © Denis Luchkin-Zhou
-Veldspar = exports ? this
+Veldspar = (exports ? this).Veldspar
 
 # Public: Calls remote REST endpoint and converts the XML response into a 
 # JavaScript object. Also captures errors and delivers them to the client
