@@ -93,7 +93,7 @@ Veldspar.Transformer.unwrap = (object) =>
   if object.hasOwnProperty 'rowset'
     if _.isArray object.rowset
       # Unwrap all rowsets in the object
-      _.each obj.rowset, (r) ->
+      _.each object.rowset, (r) ->
         # Force wrap rows into arrays
         if not _.isArray r.row
           r.row = [ r.row ] 

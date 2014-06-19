@@ -21,7 +21,7 @@ class Veldspar.ApiClient
   # apiKey -    An {ApiKey} object
   # 
   # Returns the ApiClient instance.
-  setApiKey: (@apiKey) ->
+  key: (@apiKey) ->
     this
   # Public: Specifies the access mask requirements.
   # Also verifies the access mask of the API Key.
@@ -30,7 +30,7 @@ class Veldspar.ApiClient
   # accessMask -  Access mask 
   # 
   # Returns the ApiClient instance. 
-  requirePermission: (accessMask) ->
+  permission: (accessMask) ->
     # Check for API Key
     if not @apiKey
       throw new Meteor.Error 9, 'API Key required but undefiend!'
@@ -49,7 +49,7 @@ class Veldspar.ApiClient
   #               unwrapped into arrays. (Default: yes)
   # 
   # Returns the ApiClient instance.
-  setTransform: (@transform, @unwrap = yes) ->
+  transform: (@transform, @unwrap = yes) ->
     this
   # Public: Adds parameters to the underlying HTTP call.
   #
@@ -58,7 +58,7 @@ class Veldspar.ApiClient
   #               Meteor's HTTP package: http://docs.meteor.com/#HTTP
   # 
   # Returns the ApiClient instance.
-  addParams: (@params) ->
+  params: (@params) ->
     this
   # Public: Sends the requests and retrieves the response.
   # Parses, unwraps and transforms the response as needed.
