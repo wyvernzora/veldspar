@@ -11,5 +11,6 @@ root = root.Veldspar ?= { }
 # Veldspar configuration namespace
 config = root.Config ?= { }
 config.apiHost = 'https://api.eveonline.com'
-#config.apiHost = 'http://localhost:8888'
+config.apiHost = 'http://localhost:8888'
+config.apiHost = 'https://api.testeveonline.com'
 config.verbose = yes
