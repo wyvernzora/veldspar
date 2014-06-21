@@ -57,16 +57,16 @@ Veldspar.Transformer.transform = (object, rule) ->
   result = { }
   # Execute transform
   _.each rule, (k,n) ->
-    if n isnt '_path_'
+    if n isnt '$path'
       if _.isString k
         # {String}: set the target property
         Veldspar.Transformer.property result, n, Veldspar.Transformer.property object, k
       else if _.isFunction k
         # {Function}: compute result
         Veldspar.Transformer.property result, n, k object
-      else if _.isObject(k) and _.isString(k._path_)
+      else if _.isObject(k) and _.isString(k.$path)
         # {Object}: nested transform
-        p = Veldspar.Transformer.property object, k._path_ 
+        p = Veldspar.Transformer.property object, k.$path 
         # If target is an array, transform contents
         if _.isArray p
           arr = []
