@@ -49,7 +49,7 @@ class Veldspar.ApiClient
   #               unwrapped into arrays. (Default: yes)
   # 
   # Returns the ApiClient instance.
-  transform: (@transform, @unwrap = yes) ->
+  transform: (@rule, @unwrap = yes) ->
     this
   # Public: Adds parameters to the underlying HTTP call.
   #
@@ -58,7 +58,7 @@ class Veldspar.ApiClient
   #               Meteor's HTTP package: http://docs.meteor.com/#HTTP
   # 
   # Returns the ApiClient instance.
-  params: (@params) ->
+  params: (@args) ->
     this
   # Public: Sends the requests and retrieves the response.
   # Parses, unwraps and transforms the response as needed.
@@ -71,10 +71,11 @@ class Veldspar.ApiClient
         keyID: @apiKey?.id
         vCode: @apiKey?.code
       headers:
-        'User-Agent': 'Veldspar/1.0'
-    _.extend params.params, @params
+        #'User-Agent': 'Veldspar/1.0'
+        'User-Agent': 'Paw 2.0.7 (Macintosh; Mac OS X 10.9.3; en_US)'
+    _.extend params.params, @args
     # Send the request
     raw = ApiClient.httpClient.request('POST', @endpoint, params)
     # Transform as needed
     raw = Veldspar.Transformer.unwrap raw if @unwrap
-    raw = Veldspar.Transformer.transform raw, @transform if @transform
+    raw = Veldspar.Transformer.transform raw, @rule if @rule
