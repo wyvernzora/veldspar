@@ -177,3 +177,39 @@ Character.getContactList = (key, charID) ->
     .params(characterID: charID)
     .transform(transform)
     .request()
+
+Character.getContactNotifications = (key, charID) ->
+  client = new Veldspar.ApiClient '/char/ContactNotifications.xml.aspx'
+  transform = 
+    '_currentTime': 'eveapi.currentTime'
+    '_cachedUntil': 'eveapi.cachedUntil'
+    'notifications':
+      '$path': 'eveapi.result.contactNotifications'
+      'id': 'notificationID'
+      'sender.id': 'senderID'
+      'sender.name': 'senderName'
+      'sentDate': 'sentDate'
+      'data': 'messageData'
+  raw = client
+    .key(key)
+    .permission(32)
+    .params(characterID: charID)
+    .transform(transform)
+    .request()
+  # Need post-processing to parse the data field
+  _.each raw.notifications, (n) ->
+    _.reduce _.map(n.data.split('\n'), (i) -> i.split ':'), (mem, i) ->
+      mem[i[0]] = i[1]
+      return mem
+    , n
+    n.data = undefined
+  return raw
+  
+Character.getContracts = (key, charID, contractID) ->
+  client = new Veldspar.ApiClient '/char/Contracts.xml.aspx'
+  transform =
+    '_currentTime': 'eveapi.currentTime'
+    '_cachedUntil': 'eveapi.cachedUntil'
+  throw new Meteor.Error 0, 'Method not implemented'
+    
+    
