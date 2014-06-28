@@ -16,20 +16,20 @@ Account = Veldspar.API.Account ?= { }
 Account.getApiKeyInfo = (key) ->
   client = new Veldspar.ApiClient '/account/APIKeyInfo.xml.aspx'
   transform = 
-    "_currentTime": "eveapi.currentTime"
-    "_cachedUntil": "eveapi.cachedUntil"
+    "_currentTime": "date:eveapi.currentTime"
+    "_cachedUntil": "date:eveapi.cachedUntil"
     "type": "eveapi.result.key.type"
-    "accessMask": "eveapi.result.key.accessMask"
-    "expires": "eveapi.result.key.expires"
+    "accessMask": "number:eveapi.result.key.accessMask"
+    "expires": "date:eveapi.result.key.expires"
     "characters":
       "$path": "eveapi.result.key.characters"
-      "id": "characterID"
+      "id": "number:characterID"
       "name": "characterName"
-      "corp.id": "corporationID"
+      "corp.id": "number:corporationID"
       "corp.name": "corporationName"
-      "alliance.id": "allianceID"
+      "alliance.id": "number:allianceID"
       "alliance.name": "allianceName"
-      "faction.id": "factionID"
+      "faction.id": "number:factionID"
       "faction.name": "factionName"
   return client.key(key).transform(transform).request()
 # Public: Gets the information about the account status, including creation
@@ -44,12 +44,12 @@ Account.getApiKeyInfo = (key) ->
 Account.getAccountStatus = (key) ->
   client = new Veldspar.ApiClient '/account/AccountStatus.xml.aspx'
   transform =
-    '_currentTime': 'eveapi.currentTime'
-    '_cachedUntil': 'eveapi.cachedUntil'
-    'paidUntil': 'eveapi.result.paidUntil'
-    'createDate': 'eveapi.result.createDate'
-    'logonCount': 'eveapi.result.logonCount'
-    'logonMinutes': 'eveapi.result.logonMinutes'
+    '_currentTime': 'date:eveapi.currentTime'
+    '_cachedUntil': 'date:eveapi.cachedUntil'
+    'paidUntil': 'date:eveapi.result.paidUntil'
+    'createDate': 'date:eveapi.result.createDate'
+    'logonCount': 'number:eveapi.result.logonCount'
+    'logonMinutes': 'number:eveapi.result.logonMinutes'
   return client.key(key).permission(33554432).transform(transform).request()
 # Public: Gets the list of characters associated with the account.
 #
@@ -62,16 +62,16 @@ Account.getAccountStatus = (key) ->
 Account.getCharacters = (key) ->
   client = new Veldspar.ApiClient '/account/Characters.xml.aspx'
   transform = 
-    '_currentTime': 'eveapi.currentTime'
-    '_cachedUntil': 'eveapi.cachedUntil'
+    '_currentTime': 'date:eveapi.currentTime'
+    '_cachedUntil': 'date:eveapi.cachedUntil'
     'characters':
       '$path': "eveapi.result.characters"
-      "id": "characterID"
+      "id": "number:characterID"
       "name": "name"
-      "corp.id": "corporationID"
+      "corp.id": "number:corporationID"
       "corp.name": "corporationName"
-      "alliance.id": "allianceID"
+      "alliance.id": "number:allianceID"
       "alliance.name": "allianceName"
-      "faction.id": "factionID"
+      "faction.id": "number:factionID"
       "faction.name": "factionName"
   return client.key(key).transform(transform).request()
