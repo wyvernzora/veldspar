@@ -43,8 +43,8 @@ Character.getAssetList = (key, charID) ->
   assetTransformRec =
     '$path': 'contents'
     'id': 'itemID'
-    'locationID': 'locationID'
-    'typeID': 'typeID'
+    'location.id': 'locationID'
+    'type.id': 'typeID'
     'quantity': 'quantity'
     'flag': 'flag'
     'stackable': (o) ->
@@ -118,7 +118,7 @@ Character.getCharacterSheet = (key, charID) ->
     'skills': 
       '$path': 'eveapi.result.skills'
       'id': 'typeID'
-      'skillPoints': 'skillpoints'
+      'sp': 'skillpoints'
       'level': 'level'
       'published': (o) ->
         value = Veldspar.Transformer.property o, 'published';
@@ -210,6 +210,201 @@ Character.getContracts = (key, charID, contractID) ->
   transform =
     '_currentTime': 'eveapi.currentTime'
     '_cachedUntil': 'eveapi.cachedUntil'
-  throw new Meteor.Error 0, 'Method not implemented'
+    'contracts': 
+      '$path': 'eveapi.result.contractList'
+      'id': 'contractID'
+      'type': 'type'
+      'status': 'status'
+      'title': 'title'
+      'forCorp': (o) ->
+        flag = Veldspar.Transformer.property o, 'forCorp'
+        return flag && true
+      'availability': 'availability'
+      'issuer.id': 'issuerID'
+      'issuerCorp.id': 'issuerCorpID'
+      'assignee.id': 'assigneeID'
+      'acceptop.id': 'acceptorID'
+      'startStation.id': 'startStationID'
+      'endStation.id': 'endStationID'
+      'dates.issued': 'dateIssued'
+      'dates.expired': 'dateExpired'
+      'dates.accepted': 'dateAccepted'
+      'dates.completed': 'dateCompleted'
+      'numDays': 'numDays'
+      'price': 'price'
+      'reward': 'reward'
+      'collateral': 'collateral'
+      'buyout': 'buyout'
+      'volume': 'volume'
+  return client
+    .key(key)
+    .permission(67108864)
+    .params('characterID': charID, 'contractID': contractID)
+    .transform(transform)
+    .request()
+
+Character.getContractItems = (key, charID, contractID) ->
+  if _.isUndefined contractID
+    throw new Meteor.Error 15, 'Method requires contractID, which is undefined.'
+  client = new Veldspar.ApiClient '/char/ContractItems.xml.aspx'
+  transform =
+    '_currentTime': 'eveapi.currentTime'
+    '_cachedUntil': 'eveapi.cachedUntil'
+    'items':
+      '$path': 'eveapi.result.itemList'
+      'id': 'recordID'
+      'type.id': 'typeID'
+      'quantity': 'quantity'
+      'rawQuantity': 'rawQuantity'
+      'stackable': (o) ->
+        v = Veldspar.Transformer.property o, 'singleton'
+        console.log typeof v
+        return Number(v) is 0
+      'included': (o) ->
+        v = Veldspar.Transformer.property o, 'included'
+        return Number(v) is 1
+  return client
+    .key(key)
+    .permission(67108864)
+    .params('characterID': charID, 'contractID': contractID)
+    .transform(transform)
+    .request()
+
+Character.getContractBids = (key, charID, contractID) ->
+  if _.isUndefined contractID
+    throw new Meteor.Error 15, 'Method requires contractID, which is undefined.'
+  client = new Veldspar.ApiClient '/char/ContractBids.xml.aspx'
+  transform =
+    '_currentTime': 'eveapi.currentTime'
+    '_cachedUntil': 'eveapi.cachedUntil'
+    'bids':
+      '$path': 'eveapi.result.bidList'
+      'id': 'bidID'
+      'contract.id': 'contractID'
+      'bidder.id': 'bidderID'
+      'date': 'dateBid'
+      'amount': 'amount'
+  return client
+    .key(key)
+    .permission(67108864)
+    .params('characterID': charID, 'contractID': contractID)
+    .transform(transform)
+    .request()
+  
+Character.getFacWarStats = (key, charID) ->
+  client = new Veldspar.ApiClient '/char/FacWarStats.xml.aspx'
+  transform =
+    '_currentTime': 'eveapi.currentTime'
+    '_cachedUntil': 'eveapi.cachedUntil'
+    'faction.id': 'eveapi.result.factionID'
+    'faction.name': 'eveapi.result.factionName'
+    'enlisted': 'eveapi.result.enlisted'
+    'currentRank': 'eveapi.result.currentRank'
+    'highestRank': 'eveapi.result.highestRank'
+    'kills.yesterday': 'eveapi.result.killsYesterday'
+    'kills.lastWeek': 'eveapi.result.killsLastWeek'
+    'kills.total': 'eveapi.result.killsTotal'
+    'victoryPoints.yesterday': 'eveapi.result.victoryPointsYesterday'
+    'victoryPoints.lastWeek': 'eveapi.result.victoryPointsLastWeek'
+    'victoryPoints.total': 'eveapi.result.victoryPointsTotal'
+  return client
+    .key(key)
+    .permission(64)
+    .params('characterID': charID)
+    .transform(transform, no) # No need to unwrap
+    .request()
     
+Character.getIndustryJobs = (key, charID) ->
+  throw new Meteor.Error 0, 'Method call not implemented.'
+
+Character.getKillLog = (key, charID, beforeKillID) ->
+  client = new Veldspar.ApiClient '/char/KillLog.xml.aspx'
+  transform =
+    '_currentTime': 'eveapi.currentTime'
+    '_cachedUntil': 'eveapi.cachedUntil'
+    'kills':
+      '$path': 'eveapi.result.kills'
+      'id': 'killID'
+      'solarSystem.id': 'solarSystemID'
+      'time': 'killTime'
+      'moon.id': 'moonID'
+      'victim.id': 'victim.characterID'
+      'victim.name': 'victim.characterName'
+      'victim.corp.id': 'victim.corporationID'
+      'victim.corp.name': 'victim.corporationName'
+      'victim.faction.id': 'victim.factionID'
+      'victim.faction.name': 'victim.factionName'
+      'victim.alliance.id': 'victim.allianceID'
+      'victim.alliance.name': 'victim.allianceName'
+      'victim.shipType.id': 'victim.shipTypeID'
+      'victim.damageTaken': 'victim.damageTaken'
+      'attackers':
+        '$path': 'attackers'
+        'id': 'characterID'
+        'name': 'characterName'
+        'corp.id': 'corporationID'
+        'corp.name': 'corporationName'
+        'alliance.id': 'allianceID'
+        'alliance.name': 'allianceName'
+        'faction.id': 'factionID'
+        'faction.name': 'factionName'
+        'damageDone': 'damageDone'
+        'finalBlow': (o) ->
+          v = Veldspar.Transformer.property o, 'finalBlow'
+          return v is '1'
+        'securityStatus': 'securityStatus'
+        'shipType.id': 'shipTypeID'
+        'weaponType.id': 'weaponTypeID'
+      'items':
+        '$path': 'items'
+        'flag': 'flag'
+        'qtyDropped': 'qtyDropped'
+        'qtyDestroyed': 'qtyDestroyed'
+        'type.id': 'typeID'
+        'singleton': 'singleton'
+  return client
+    .key(key)
+    .permission(256)
+    .params('characterID': charID, 'beforeKillID': beforeKillID)
+    .transform(transform)
+    .request()
     
+Character.getLocations = (key, charID, IDs) ->
+  client = new Veldspar.ApiClient '/char/Locations.xml.aspx'
+  transform =
+    '_currentTime': 'eveapi.currentTime'
+    '_cachedUntil': 'eveapi.cachedUntil'
+    'locations':
+      '$path': 'eveapi.result.locations'
+      'item.id': 'itemID'
+      'item.name': 'itemName'
+      'x': 'x'
+      'y': 'y'
+      'z': 'z'
+  strIds = IDs.join ',' if not _.isUndefined IDs
+  return client
+    .key(key)
+    .permission(134217728)
+    .params('characterID': charID, 'IDs': strIds)
+    .transform(transform)
+    .request()
+
+Character.getMailBodies = (key, charID, IDs) ->
+  client = new Veldspar.ApiClient '/char/MailBodies.xml.aspx'
+  transform = 
+    '_currentTime': 'eveapi.currentTime'
+    '_cachedUntil': 'eveapi.cachedUntil'
+    'messages':
+      '$path': 'eveapi.result.messages'
+      'id': 'messageID'
+      'data': '_'
+    'missing': (o) ->
+      v = Veldspar.Transformer.property o, 'eveapi.result.missingMessageIDs'
+      return _.map v.split(','), (i) -> Number(i)
+  strIds = IDs.join ',' if not _.isUndefined IDs
+  return client
+    .key(key)
+    .permission(512)
+    .params('characterID': charID, 'IDs': strIds)
+    .transform(transform)
+    .request()
