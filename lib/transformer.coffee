@@ -145,12 +145,41 @@ T.unwrap = (object) =>
   object.rowset = undefined
   return object
 
-# Register common prefix functions
+# Internal: 'number' prefix function, converts the object to a number.
+#
+# obj -   The {String} that needs to be converted.
+#
+# Returns the number representation of the string; or {undefined} if
+# obj is undefined.
 T.Prefix.register 'number', (obj) -> 
-  Number(obj)
+  if obj
+    Number(obj)
+  else
+    undefined
+# Internal: 'bool' prefix function, converts the object to a boolean.
+#
+# obj -   The {String} that needs to be converted.
+#         '1' for true, '0' for false.
+#
+# Returns the boolean representation of the string; or {undefined} if
+# obj is undefined.
 T.Prefix.register 'bool', (obj) -> 
   obj is '1'
+# Internal: 'booln' prefix function, converts the object to a boolean
+# and negates the result.
+#
+# obj -   The {String} that needs to be converted.
+#         '1' for false, '0' for true.
+#
+# Returns the boolean representation of the string; or {undefined} if
+# obj is undefined.
 T.Prefix.register 'booln', (obj) -> 
   obj is '0'
+# Internal: 'date' prefix function, converts the object to a datetime.
+#
+# obj -   The {String} that needs to be converted.
+#
+# Returns the {Date} representation of the string; or {undefined} if
+# obj is undefined.
 T.Prefix.register 'date', (obj) -> 
   obj
