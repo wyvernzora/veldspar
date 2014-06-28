@@ -71,11 +71,11 @@ class Veldspar.ApiClient
         keyID: @apiKey?.id
         vCode: @apiKey?.code
       headers:
-        #'User-Agent': 'Veldspar/1.0'
-        'User-Agent': 'Paw 2.0.7 (Macintosh; Mac OS X 10.9.3; en_US)'
+        'User-Agent': 'Veldspar/1.0'
     _.extend params.params, @args
     # Send the request
     raw = ApiClient.httpClient.request('POST', @endpoint, params)
     # Transform as needed
     raw = Veldspar.Transformer.unwrap raw if @unwrap
     raw = Veldspar.Transformer.transform raw, @rule if @rule
+    return raw
