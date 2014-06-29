@@ -152,10 +152,8 @@ Transformer.unwrap = (object) =>
 # Returns the number representation of the string; or {undefined} if
 # obj is undefined.
 Transformer.Prefix.register 'number', (obj) -> 
-  if obj
-    Number(obj)
-  else
-    undefined
+  return obj if not obj
+  return Number(obj)
 # Internal: 'bool' prefix function, converts the object to a boolean.
 #
 # obj -   The {String} that needs to be converted.
@@ -182,5 +180,6 @@ Transformer.Prefix.register 'booln', (obj) ->
 # Returns the {Date} representation of the string; or {undefined} if
 # obj is undefined.
 Transformer.Prefix.register 'date', (obj) -> 
+  return undefined if not obj
   v = obj.match /(\d{4})-(\d{2})-(\d{2}) (\d{2})\:(\d{2})\:(\d{2})/
   return new Date Number(v[1]), Number(v[2]), Number(v[3]), Number(v[4]), Number(v[5]), Number(v[6])
