@@ -2,9 +2,9 @@
 # transformer.coffee - JSON Object Transformation
 # Copyright © Denis Luchkin-Zhou
 Veldspar = (exports ? this).Veldspar
-T = Veldspar.Transformer ?= { }
+Transformer = Veldspar.Transformer ?= { }
 # Prefix store, basically a collection of named conversion methods
-T.Prefix ?= { }
+Transformer.Prefix ?= { }
 # Internal: Registers a prefix function for processing values during
 # transformation.
 #
@@ -12,20 +12,20 @@ T.Prefix ?= { }
 # func -    A {Function} that takes an {Object} as argument, and returns
 #           whatever result of the transformation is. Deletes the prefix
 #           function if this argument is undefined
-T.Prefix.register = (name, func) ->
-  T.Prefix[name] = func if name
+Transformer.Prefix.register = (name, func) ->
+  Transformer.Prefix[name] = func if name
 # Internal: Applies a prefix function to the specified object.
 #
 # name -    A {String} name for the function
 # obj -     The {Object} to transform.
 #
 # Returns the resulting transformation.
-T.Prefix.apply = (name, obj) ->
+Transformer.Prefix.apply = (name, obj) ->
   # Undefined prefix means no prefix
   if not name 
     return obj
   # Process
-  f = T.Prefix[name]
+  f = Transformer.Prefix[name]
   if f 
     return f(obj)
   else
@@ -41,7 +41,7 @@ T.Prefix.apply = (name, obj) ->
 #
 # Returns current property value when value is undefined; otherwise returns
 # nothing.
-T.property = (obj, prop, value) ->
+Transformer.property = (obj, prop, value) ->
   # Make sure that object and prop are defiend
   if (not prop) or (not obj)
     return
@@ -69,9 +69,9 @@ T.property = (obj, prop, value) ->
     obj = obj[n]
   # Perform the operation
   if _.isUndefined value
-    return T.Prefix.apply prefix, obj[list[0]]
+    return Transformer.Prefix.apply prefix, obj[list[0]]
   else
-    obj[list[0]] = T.Prefix.apply prefix, value
+    obj[list[0]] = Transformer.Prefix.apply prefix, value
 # Internal: Transforms a JSON object according to the specified set of rules.
 #
 # object -  An {Object} to transform.
@@ -79,7 +79,7 @@ T.property = (obj, prop, value) ->
 #           the properties of the transformed object.
 #
 # Returns the transformed object.
-T.transform = (object, rule) ->
+Transformer.transform = (object, rule) ->
   # Make sure that object is defined
   if not object
     return
@@ -93,21 +93,21 @@ T.transform = (object, rule) ->
     if n isnt '$path'
       if _.isString k
         # {String}: set the target property
-        T.property result, n, T.property object, k
+        Transformer.property result, n, Transformer.property object, k
       else if _.isFunction k
         # {Function}: compute result
-        T.property result, n, k object
+        Transformer.property result, n, k object
       else if _.isObject(k) and _.isString(k.$path)
         # {Object}: nested transform
-        p = T.property object, k.$path 
+        p = Transformer.property object, k.$path 
         # If target is an array, transform contents
         if _.isArray p
           arr = []
           _.each p, (i) ->
-            arr.push T.transform i, k
-          T.property result, n, arr
+            arr.push Transformer.transform i, k
+          Transformer.property result, n, arr
         else
-          T.property result, n, T.transform p, k
+          Transformer.property result, n, Transformer.transform p, k
       else
         throw new Meteor.Error 19, 'Unexpected transform rule.'
   result
@@ -117,11 +117,11 @@ T.transform = (object, rule) ->
 # object -  An {Object} to unwrap. 
 #
 # Returns the unwrapped version of the original object.
-T.unwrap = (object) =>
+Transformer.unwrap = (object) =>
   # Recursively unwrap children first
   _.each object, (k,n) ->
     if object.hasOwnProperty(n) and _.isObject(object[n])
-      object[n] = T.unwrap k
+      object[n] = Transformer.unwrap k
   # Unwrap current object
   if object.hasOwnProperty 'rowset'
     if _.isArray object.rowset
@@ -151,7 +151,7 @@ T.unwrap = (object) =>
 #
 # Returns the number representation of the string; or {undefined} if
 # obj is undefined.
-T.Prefix.register 'number', (obj) -> 
+Transformer.Prefix.register 'number', (obj) -> 
   if obj
     Number(obj)
   else
@@ -163,7 +163,7 @@ T.Prefix.register 'number', (obj) ->
 #
 # Returns the boolean representation of the string; or {undefined} if
 # obj is undefined.
-T.Prefix.register 'bool', (obj) -> 
+Transformer.Prefix.register 'bool', (obj) -> 
   obj is '1'
 # Internal: 'booln' prefix function, converts the object to a boolean
 # and negates the result.
@@ -173,7 +173,7 @@ T.Prefix.register 'bool', (obj) ->
 #
 # Returns the boolean representation of the string; or {undefined} if
 # obj is undefined.
-T.Prefix.register 'booln', (obj) -> 
+Transformer.Prefix.register 'booln', (obj) -> 
   obj is '0'
 # Internal: 'date' prefix function, converts the object to a datetime.
 #
@@ -181,5 +181,6 @@ T.Prefix.register 'booln', (obj) ->
 #
 # Returns the {Date} representation of the string; or {undefined} if
 # obj is undefined.
-T.Prefix.register 'date', (obj) -> 
-  obj
+Transformer.Prefix.register 'date', (obj) -> 
+  v = obj.match /(\d{4})-(\d{2})-(\d{2}) (\d{2})\:(\d{2})\:(\d{2})/
+  return new Date Number(v[1]), Number(v[2]), Number(v[3]), Number(v[4]), Number(v[5]), Number(v[6])
