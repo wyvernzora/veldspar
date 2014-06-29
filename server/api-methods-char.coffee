@@ -13,7 +13,7 @@ Character = Veldspar.API.Character ?= { }
 #           :accessMask - Access mask of the API Key
 #
 # Returns an {Object} containing the account balance.
-Character.getAccountBalance = (key, charID) ->
+Character.getAccountBalance       = (key, charID) ->
   client = new Veldspar.ApiClient '/char/AccountBalance.xml.aspx'
   transform =
     '_currentTime': 'date:eveapi.currentTime'
@@ -38,7 +38,7 @@ Character.getAccountBalance = (key, charID) ->
 #           :accessMask - Access mask of the API Key
 #
 # Returns an {Object} containing the asset list.
-Character.getAssetList = (key, charID) ->
+Character.getAssetList            = (key, charID) ->
   client = new Veldspar.ApiClient '/char/AssetList.xml.aspx'
   assetTransformRec =
     '$path': 'contents'
@@ -77,7 +77,7 @@ Character.getAssetList = (key, charID) ->
 
 # TODO /char/CalendarEventAttendees #
 
-Character.getCharacterSheet = (key, charID) ->
+Character.getCharacterSheet       = (key, charID) ->
   client = new Veldspar.ApiClient '/char/CharacterSheet.xml.aspx'
   transform =
     '_currentTime': 'date:eveapi.currentTime'
@@ -144,7 +144,7 @@ Character.getCharacterSheet = (key, charID) ->
     .transform(transform)
     .request()
 
-Character.getContactList = (key, charID) ->
+Character.getContactList          = (key, charID) ->
   client = new Veldspar.ApiClient '/char/ContactList.xml.aspx'
   transform =
     '_currentTime': 'date:eveapi.currentTime'
@@ -202,7 +202,7 @@ Character.getContactNotifications = (key, charID) ->
     n.level = Number(n.level) if n.level
   return raw
   
-Character.getContracts = (key, charID, contractID) ->
+Character.getContracts            = (key, charID, contractID) ->
   client = new Veldspar.ApiClient '/char/Contracts.xml.aspx'
   transform =
     '_currentTime': 'date:eveapi.currentTime'
@@ -238,7 +238,7 @@ Character.getContracts = (key, charID, contractID) ->
     .transform(transform)
     .request()
 
-Character.getContractItems = (key, charID, contractID) ->
+Character.getContractItems        = (key, charID, contractID) ->
   if _.isUndefined contractID
     throw new Meteor.Error 15, 'Method requires contractID, which is undefined.'
   client = new Veldspar.ApiClient '/char/ContractItems.xml.aspx'
@@ -260,7 +260,7 @@ Character.getContractItems = (key, charID, contractID) ->
     .transform(transform)
     .request()
 
-Character.getContractBids = (key, charID, contractID) ->
+Character.getContractBids         = (key, charID, contractID) ->
   if _.isUndefined contractID
     throw new Meteor.Error 15, 'Method requires contractID, which is undefined.'
   client = new Veldspar.ApiClient '/char/ContractBids.xml.aspx'
@@ -281,7 +281,7 @@ Character.getContractBids = (key, charID, contractID) ->
     .transform(transform)
     .request()
   
-Character.getFacWarStats = (key, charID) ->
+Character.getFacWarStats          = (key, charID) ->
   client = new Veldspar.ApiClient '/char/FacWarStats.xml.aspx'
   transform =
     '_currentTime': 'date:eveapi.currentTime'
@@ -304,10 +304,10 @@ Character.getFacWarStats = (key, charID) ->
     .transform(transform, no) # No need to unwrap
     .request()
     
-Character.getIndustryJobs = (key, charID) ->
+Character.getIndustryJobs         = (key, charID) ->
   throw new Meteor.Error 0, 'Method call not implemented.'
 
-Character.getKillLog = (key, charID, beforeKillID) ->
+Character.getKillLog              = (key, charID, beforeKillID) ->
   client = new Veldspar.ApiClient '/char/KillLog.xml.aspx'
   transform =
     '_currentTime': 'date:eveapi.currentTime'
@@ -357,7 +357,7 @@ Character.getKillLog = (key, charID, beforeKillID) ->
     .transform(transform)
     .request()
     
-Character.getLocations = (key, charID, IDs) ->
+Character.getLocations            = (key, charID, IDs) ->
   client = new Veldspar.ApiClient '/char/Locations.xml.aspx'
   transform =
     '_currentTime': 'date:eveapi.currentTime'
@@ -377,7 +377,7 @@ Character.getLocations = (key, charID, IDs) ->
     .transform(transform)
     .request()
 
-Character.getMailBodies = (key, charID, IDs) ->
+Character.getMailBodies           = (key, charID, IDs) ->
   client = new Veldspar.ApiClient '/char/MailBodies.xml.aspx'
   transform = 
     '_currentTime': 'date:eveapi.currentTime'
@@ -396,7 +396,7 @@ Character.getMailBodies = (key, charID, IDs) ->
     .params('characterID': charID, 'IDs': strIds)
     .transform(transform)
     .request()
-Character.getMailingLists = (key, charID) ->
+Character.getMailingLists         = (key, charID) ->
   client = new Veldspar.ApiClient '/char/MailingLists.xml.aspx'
   transform =
     '_currentTime': 'date:eveapi.currentTime'
@@ -412,7 +412,7 @@ Character.getMailingLists = (key, charID) ->
     .transform(transform)
     .request()
 
-Character.getMailHeaders = (keyy, charID) ->
+Character.getMailHeaders          = (key, charID) ->
   client = new Veldspar.ApiClient '/char/MailMessages.xml.aspx'
   transform =
     '_currentTime': 'date:eveapi.currentTime'
@@ -424,7 +424,239 @@ Character.getMailHeaders = (keyy, charID) ->
       'sender.name': 'senderName'
       'date': 'date:sentDate'
       'title': 'title'
-      # TODO Implement a better receiver parsing logic
-  throw new Meteor.Error 0, 'API method not implemented.'
+      'tca': 'toCorpOrAllianceID'
+      'tci': 'toCharacterIDs'
+      'tli': 'toListID'
+  raw = client
+    .key(key)
+    .permission(2048)
+    .params('characterID': charID)
+    .transform(transform)
+    .request()
+  # Post processing to produce a better recepient list
+  _.each raw.messages, (m) ->
+    m.recepients = []
+    _.each _.map(m.tca.split(','), (i)->Number(i)), (i)->
+      m.recepients.push 'id': i, 'type': 'corpOrAlliance'
+    _.each _.map(m.tci.split(','), (i)->Number(i)), (i)->
+      m.recepients.push 'id': i, 'type': 'character'
+    _.each _.map(m.tli.split(','), (i)->Number(i)), (i)->
+      m.recepients.push 'id': i, 'type': 'mailingList'
+    m.tca = m.tci = m.tli = undefined
+  return raw
 
-      
+Character.getMarketOrders         = (key, charID, orderID) ->
+  client = new Veldspar.ApiClient '/char/MarketOrders.xml.aspx'
+  transform =
+    '_currentTime': 'date:eveapi.currentTime'
+    '_cachedUntil': 'date:eveapi.cachedUntil'
+    'orders':
+      '$path': 'eveapi.result.orders'
+      'id': 'number:orderID'
+      'char.id': 'number:charID'
+      'station.id': 'number:stationID'
+      'volume.entered': 'number:volEntered'
+      'volume.remaining': 'number:volRemaining'
+      'volume.minimum': 'number:minVolume'
+      'state': 'number:orderState'
+      'type.id': 'number:typeID'
+      'range': 'number:range'
+      'accountKey': 'number:accountKey'
+      'duration': 'number:duration'
+      'escrow': 'number:escrow'
+      'price': 'number:price'
+      'isBuyOrder': 'bool:bid'
+      'issued': 'date:issued'
+  return client
+    .key(key)
+    .permission(4096)
+    .params('characterID': charID, 'orderID': orderID)
+    .transform(transform)
+    .request()
+
+Character.getMedals               = (key, charID) ->
+  client = new Veldspar.ApiClient '/char/Medals.xml.aspx'
+  transform =
+    '_currentTime': 'date:eveapi.currentTime'
+    '_cachedUntil': 'date:eveapi.cachedUntil'
+    'cc':
+      '$path': 'eveapi.result.currentCorporation'
+      'id': 'number:medalID'
+      'reason': 'reason'
+      'isPublic': (o) ->
+        return o.status is 'public'
+      'issuer.id': 'number:issuerID'
+      'issued': 'date:issued'
+      'corp.id': 'number:corporationID'
+      'title': 'title'
+      'description': 'description'
+    'oc':
+      '$path': 'eveapi.result.otherCorporations'
+      'id': 'number:medalID'
+      'reason': 'reason'
+      'isPublic': (o) ->
+        return o.status is 'public'
+      'issuer.id': 'number:issuerID'
+      'issued': 'date:issued'
+      'corp.id': 'number:corporationID'
+      'title': 'title'
+      'description': 'description'
+  raw = client
+    .key(key)
+    .permission(8192)
+    .params('characterID': charID)
+    .transform(transform)
+    .request()
+  # Post processing to merge both medal arrays
+  raw.medals = _.union(raw.cc, raw.oc)
+  raw.cc = raw.oc = undefined
+  return raw
+
+Character.getNotifications        = (key, charID) ->
+  client = new Veldspar.ApiClient '/char/Notifications.xml.aspx'
+  transform =
+    '_currentTime': 'date:eveapi.currentTime'
+    '_cachedUntil': 'date:eveapi.cachedUntil'
+    'notifications':
+      '$path': 'eveapi.result.notifications'
+      'id': 'number:notificationID'
+      'type.id': 'number:typeID'
+      'sender.id': 'number:senderID'
+      'date': 'date:sentDate'
+      'read': 'bool:read'
+  return client
+    .key(key)
+    .permission(16384)
+    .params('characterID': charID)
+    .transform(transform)
+    .request()
+
+Character.getNotificationTexts    = (key, charID, IDs) ->
+  client = new Veldspar.ApiClient '/char/NotificationTexts.xml.aspx'
+  transform =
+    '_currentTime': 'date:eveapi.currentTime'
+    '_cachedUntil': 'date:eveapi.cachedUntil'
+  throw new Meteor.Error 0, 'API method not implemented.'
+  
+Character.getResearch             = (key, charID) ->
+  client = new Veldspar.ApiClient '/char/Research.xml.aspx'
+  transform =
+    '_currentTime': 'date:eveapi.currentTime'
+    '_cachedUntil': 'date:eveapi.cachedUntil'
+    'research':
+      '$path': 'eveapi.result.research'
+      'agent.id': 'number:agentID'
+      'skill.id': 'number:skillTypeID'
+      'startDate': 'date:researchStartDate'
+      'pointsPerDay': 'number:pointsPerDay'
+      'remainder': 'number:remainderPoints'
+  return client
+    .key(key)
+    .permission(65536)
+    .params('characterID': charID)
+    .transform(transform)
+    .request()
+    
+Character.getSkillInTraining      = (key, charID) ->
+  client = new Veldspar.ApiClient '/char/SkillInTraining.xml.aspx'
+  transform =
+    '_currentTime': 'date:eveapi.currentTime'
+    '_cachedUntil': 'date:eveapi.cachedUntil'
+    'active': 'bool:skillInTraining'
+    'now': 'date:eveapi.result.currentTQTime._'
+    'start.date': 'date:eveapi.result.trainingStartTime'
+    'start.skillPoints': 'number:eveapi.result.trainingStartSP'
+    'end.date': 'date:eveapi.result.trainingEndTime'
+    'end.skillPoints': 'number:eveapi.result.trainingDestinationSP'
+    'skill.id': 'number:eveapi.result.trainingTypeID'
+    'skill.level': 'number:eveapi.result.trainingToLevel'
+  return client
+    .key(key)
+    .permission(131072)
+    .params('characterID': charID)
+    .transform(transform)
+    .request()
+    
+Character.getSkillQueue           = (key, charID) ->
+  client = new Veldspar.ApiClient '/char/SkillQueue.xml.aspx'
+  transform =
+    '_currentTime': 'date:eveapi.currentTime'
+    '_cachedUntil': 'date:eveapi.cachedUntil'
+    'skillQueue':
+      '$path': 'eveapi.result.skillqueue'
+      'position': 'number:queuePosition'
+      'skill.id': 'number:typeID'
+      'skill.level': 'number:level'
+      'start.skillPoints': 'number:startSP'
+      'start.date': 'date:startTime'
+      'end.skillPoints': 'number:endSP'
+      'end.date': 'date:endTime'
+  raw = client
+    .key(key)
+    .permission(262144)
+    .params('characterID': charID)
+    .transform(transform)
+    .request()
+  raw.skillQueue.sort (a, b) ->
+    return -1 if a.position < b.position
+    return 1 if a.position > b.position
+    return 0
+  return raw
+
+Character.getNpcStandings         = (key, charID) ->
+  client = new Veldspar.ApiClient '/char/Standings.xml.aspx'
+  transform =
+    '_currentTime': 'date:eveapi.currentTime'
+    '_cachedUntil': 'date:eveapi.cachedUntil'
+    'agents':
+      '$path': 'eveapi.result.characterNPCStandings.agents'
+      'id': 'number:fromID'
+      'name': 'fromName'
+      'standing': 'number:standing'
+    'corps':
+      '$path': 'eveapi.result.characterNPCStandings.NPCCorporations'
+      'id': 'number:fromID'
+      'name': 'fromName'
+      'standing': 'number:standing'
+    'factions':
+      '$path': 'eveapi.result.characterNPCStandings.factions'
+      'id': 'number:fromID'
+      'name': 'fromName'
+      'standing': 'number:standing'
+  return client
+    .key(key)
+    .permission(524288)
+    .params('characterID': charID)
+    .transform(transform)
+    .request()
+    
+Character.getCalendarEvents       = (key, charID) ->
+  client = new Veldspar.ApiClient '/char/UpcomingCalendarEvents.xml.aspx'
+  transform =
+    '_currentTime': 'date:eveapi.currentTime'
+    '_cachedUntil': 'date:eveapi.cachedUntil'
+    'events':
+      '$path': 'eveapi.result.upcomingEvents'
+      'id': 'number:eventID'
+      'owner.id': 'number:ownerID'
+      'owner.name': (o) ->
+        return 'CCP' if o.ownerID is '1'
+        return o.ownerName
+      'date': 'date:eventDate'
+      'title': 'eventTitle'
+      'duration': 'number:duration'
+      'important': 'bool:importance'
+      'description': 'eventText'
+      'response': 'response'
+  return client
+    .key(key)
+    .permission(1048576)
+    .params('characterID': charID)
+    .transform(transform)
+    .request()
+
+Character.getWalletJournal        = (key, charID, fromID) ->
+  throw new Meteor.Error 0, 'API method not implemented.'
+  
+Character.getWalletTransactions   = (key, charID, fromID, rowCount) ->
+  throw new Meteor.Error 0, 'API method not implemented.'
