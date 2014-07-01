@@ -69,6 +69,7 @@ Transformer.property = (obj, prop, value) ->
     obj = obj[n]
   # Perform the operation
   if _.isUndefined value
+    return null if not obj
     return Transformer.Prefix.apply prefix, obj[list[0]]
   else
     obj[list[0]] = Transformer.Prefix.apply prefix, value
@@ -128,7 +129,9 @@ Transformer.unwrap = (object) =>
       # Unwrap all rowsets in the object
       _.each object.rowset, (r) ->
         # Force wrap rows into arrays
-        if not _.isArray r.row
+        if not r.row
+          r.row = []
+        else if not _.isArray r.row
           r.row = [ r.row ] 
         # Append if already exists
         if not _.isUndefined object[r.name]
@@ -137,7 +140,9 @@ Transformer.unwrap = (object) =>
           object[r.name] = r.row
     else
       # Single rowset, unwrap
-      if not _.isArray object.rowset.row
+      if not object.rowset.row
+        object.rowset.row = []
+      else if not _.isArray object.rowset.row
         object.rowset.row = [ object.rowset.row ]
       object[object.rowset.name] = object.rowset.row
     
