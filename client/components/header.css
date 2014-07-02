@@ -1,0 +1,48 @@
+/* Header style sheet */
+header {  
+  width: 100%;
+  height: 55px;
+  background-image: url("/banner.png");
+  background-color: #5D5F60;
+  font-family: 'Open Sans', 'Arial', sans-serif;
+  font-weight: lighter;
+  /*border-bottom: 1px solid #6c7474;*/
+}
+
+header h1 {
+  display: inline-block;
+  margin: 0;
+  padding: 0px 20px 5px 20px;
+  font-size: 2.2em;
+  font-weight: normal;
+  color: white;
+}
+
+header h1 .title-veld {
+  color: #E5A228;
+  margin: 0;
+  padding: 0;
+}
+
+header nav {
+  display: inline-block;
+  float: right;
+  margin-right: 20px;
+  color: white;
+}
+
+header nav ul {
+  margin: 0;
+  list-style-type: none;
+}
+
+header nav li {
+  display: inline-block;
+  padding: 15px 15px 0 15px;
+  cursor: pointer;
+  height: 40px;
+}
+
+header nav li:hover {
+  background-color: rgba(114, 119, 119, 0.63);
+}

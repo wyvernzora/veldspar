@@ -1,2 +1,17 @@
 /* CSS declarations go here */
-input { display: block; }
+html, body {
+  margin: 0;
+  background-color: #5D5F60;
+}
+
+#main-wrapper {
+  
+  position: absolute;
+  background-color: #DFE2E2;
+  top: 55px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 1px solid #fff;
+  border-bottom: none;
+}

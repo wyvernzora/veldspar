@@ -3,11 +3,28 @@
 </head>
 
 <body>
-  {{> hello}}
+  {{> root}}
 </body>
 
-<template name="hello">
-  <h1>Hello World!</h1>
-  <input type="button" value="Click" />
-  <span id="result"></span>
+<template name="root">
+  {{> header}}
+  <div id="main-wrapper">
+    {{#if showDebugView}}
+      {{> debug}}
+    {{else}}
+      {{#if currentUser}}
+        {{> loggedIn}}
+      {{else}}
+        {{> title}}
+      {{/if}}
+    {{/if}}
+  </div>
 </template>
+
+<template name="title">
+  <div id="login-box" class="dialog-box">
+    
+  </div>
+</template>
+
+
