@@ -4,9 +4,7 @@ header {
   height: 55px;
   background-image: url("/banner.png");
   background-color: #5D5F60;
-  font-family: 'Open Sans', 'Arial', sans-serif;
-  font-weight: lighter;
-  /*border-bottom: 1px solid #6c7474;*/
+  z-index: 0;
 }
 
 header h1 {
@@ -16,12 +14,6 @@ header h1 {
   font-size: 2.2em;
   font-weight: normal;
   color: white;
-}
-
-header h1 .title-veld {
-  color: #E5A228;
-  margin: 0;
-  padding: 0;
 }
 
 header nav {
@@ -45,4 +37,8 @@ header nav li {
 
 header nav li:hover {
   background-color: rgba(114, 119, 119, 0.63);
+}
+
+header nav #navLogout:hover {
+  color: #E5A228;
 }

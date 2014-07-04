@@ -1,0 +1,34 @@
+.view {
+  z-index: 0;
+  color: #909090;
+}
+.view h1 {
+  font-size: 2.0em;
+  font-weight: normal;
+  margin-top: 0.67em;
+  margin-bottom: 0.67em;
+}
+.view a {
+  color: #446998;
+}
+.view .view-content {
+  max-width: 80%;
+  margin: auto;
+}
+.modal-view {
+  text-align: center;
+}
+
+.sidebar {
+  z-index: 1;
+  position: absolute;
+  top: 55px;
+  bottom: 0;
+  width: 25%;
+  color: #DADADA;
+  overflow-y: scroll;
+  box-shadow: inset -4px 4px 5px #141414;
+}
+.sidebar a {
+  color: #E5A228;
+}

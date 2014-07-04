@@ -1,0 +1,57 @@
+#login-view .motd {
+  font-size: 2.0em;
+}
+#login-view #login-box {
+  width: 50%;
+  margin: auto;
+}
+#login-view #login-box .textbox {
+  font-size: 1.3em;
+  font-weight: lighter;
+  height: 1.8em;
+  padding: 3px 10px;
+  width: 50%;
+  margin: auto;
+}
+#login-view #login-wrapper {
+  position: relative;
+}
+#login-view #login-username {
+  border-radius: 5px 5px 0 0;
+}
+#login-view #login-password {
+  border-top: none;
+  border-radius: 0 0 5px 5px;
+}
+#login-view #login-forgot {
+  text-align: center;
+  color: #909090;
+  display: none;
+}
+#login-view .button {
+  background-image: none;
+  text-shadow: none;
+  color: #FFFFFF;
+  width: 50%;
+  margin: auto;
+}
+#login-view #login-submit {
+  margin-top: 2em;
+  background-color: #59877B;
+}
+#login-view #login-signup {
+  margin-top: 0.5em;
+  background-color: #929292;
+}
+#login-view #footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 0.8em;
+}
+
+#login-view #login-err {
+  display: none;
+}

@@ -8,22 +8,25 @@
 
 <template name="root">
   {{> header}}
+  <div id="shadow"></div>
+  <div id="sidebar">
+    {{#if currentUser}}
+      {{#if activeCharacrer}}
+      {{else}}
+        {{> addApiKey}}
+      {{/if}}
+    {{/if}}
+  </div>
   <div id="main-wrapper">
     {{#if showDebugView}}
       {{> debug}}
     {{else}}
       {{#if currentUser}}
-        {{> loggedIn}}
+        {{> userHome}}
       {{else}}
-        {{> title}}
+        {{> login}}
       {{/if}}
     {{/if}}
-  </div>
-</template>
-
-<template name="title">
-  <div id="login-box" class="dialog-box">
-    
   </div>
 </template>
 

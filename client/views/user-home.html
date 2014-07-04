@@ -1,0 +1,44 @@
+<template name="userHome">
+  <div class="view" id="user-home">
+    <div class="view-content">
+      <h1>Characters</h1>
+      <div class="character-grid" id="characters">
+        {{#each characters}} {{> userHomeCharCard}} {{/each}}
+        <div class="character-card new-character-card">
+          <div class="portrait">
+            <i class="icon ion-plus"></i>
+          </div>
+          <div class="info">
+            <h2 class="char-name">add new</h2>
+          </div>
+        </div>
+      </div>
+
+      <h1>Corporations</h1>
+      <div class="character-grid" id="corps">
+        {{#each corporations}} {{> userHomeCharCard}} {{/each}}
+        <div class="character-card new-character-card">
+          <div class="portrait">
+            <i class="icon ion-plus"></i>
+          </div>
+          <div class="info">
+            <h2 class="char-name">add new</h2>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</template>
+
+<template name="userHomeCharCard">
+  <div class="character-card" id="add-character">
+    <div class="portrait" style="background-image: url({{portraitUrl}});">
+      
+    </div>
+    <div class="info">
+      <h2 class="char-name">{{name}}</h2>
+    </div>
+
+  </div>
+</template>

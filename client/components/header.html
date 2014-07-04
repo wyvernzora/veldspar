@@ -1,14 +1,16 @@
 <template name="header">
   <header>
     <h1>
-      <span class="title-veld">Veld</span>spar
+      <span class="veld">Veld</span>spar
     </h1>
+    {{#if currentUser}}
     <nav>
       <ul class="navbar">
         <li id="navAdmin">admin</li>
         <li id="navDebug">debug</li>
-        <li id="navLogin">log out</li>
+        <li id="navLogout">log out</li>
       </ul>
     </nav>
+    {{/if}}
   </header>
 </template>

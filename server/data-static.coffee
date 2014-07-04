@@ -4,6 +4,10 @@
 Veldspar = (exports ? this).Veldspar
 StaticData = Veldspar.StaticData
 
+# Publish all static data
+Meteor.publish 'static_skillTree', -> StaticData.skillTree.find()
+Meteor.publish 'static_skillCategories', -> StaticData.skillCategories.find()
+
 # Internal: Fetches the skill tree data from EVE API and updates the
 # existing 'static_SkillTree' collection.
 StaticData.updateSkillTree = () ->

@@ -1,0 +1,49 @@
+<template name="addApiKey">
+  <div class="view sidebar" id="add-api-key">
+    <div id="step-one" class="step">
+      <h1>Add API Key</h1>
+      <div class="dialog-box dialog-box-err" id="error">
+        Something went wrong...
+      </div>
+      <input class="textbox" id="add-api-id" type="text" placeholder="API Key ID">
+      <input class="textbox" id="add-api-vcode" type="text" placeholder="Verification Code">
+      <input class="button submit" id="add-api-next" type="button" value="Next">
+      <input class="button cancel" type="button" value="Cancel">
+      <p>
+        <b class="accented">API Key ID</b> and <b class="accented">Verification Code</b> are both parts of the customizable API key, which can be obtained at EVE Online's <a class="accented" href="http://support.eveonline.com">API Key Management</a> page.
+      </p>
+    </div>
+    <div id="step-two" class="step">
+      {{#if apiKeyInfo}}
+      <h1>Select Characters</h1>
+      <div id="char-list">
+        {{#each characters}}
+        <div class="dialog-box char-list-item">
+          <div class="portrait" style="background-image: url({{portraitUrl}})">
+            <div id="dim-{{id}}">
+              <i class="icon {{selIconClass}}"></i>
+            </div>
+          </div>
+          <div class="name-wrapper">
+            <span class="char-name"><b>{{name}}</b></span>
+            <span class="corp-name">{{corp.name}}</span>
+            <spam class="corp-name">{{allianceName}}</spam>
+          </div>
+        </div>
+        {{/each}}
+      </div>
+      <input class="button submit" id="add-api-add" type="button" value="Add Characters">
+      <input class="button cancel" type="button" value="Cancel">
+      <p>This is a(n) <b class="accented">{{apiKeyInfo.type}}</b> key with an access mask of <b class="accented">{{apiKeyInfo.accessMask}}</b>. The API Key <b class="accented">{{expirationMessage}}</b>.</p>
+      {{else}}
+      {{#if showLoading}}
+      <div id="wait-wrapper">
+        <i id="loading-indicator" class="icon ion-loading-c"></i>
+        <h1>loading</h1>
+        <p>We are contacting <span class="accented">CONCORD</span> to verify your capsuleer identity. We should hear back from them in just a few seconds.</p>
+      </div>
+      {{/if}}
+      {{/if}}
+    </div>
+  </div>
+</template>

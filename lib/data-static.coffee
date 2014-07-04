@@ -10,3 +10,8 @@ root.StaticData ?= { }
 # Skills & Certificates
 root.StaticData.skillCategories = new Meteor.Collection 'static_SkillCategories'
 root.StaticData.skillTree = new Meteor.Collection 'static_SkillTree'
+
+# Subscribe to data on clients
+if Meteor.isClient
+  Meteor.subscribe 'static_SkillCategories'
+  Meteor.subscribe 'static_SkillTree'

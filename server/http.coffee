@@ -47,7 +47,7 @@ class Veldspar.HttpClient
       response = error.response
     # Undefined response, most likely DNS resolution failure
     if not response
-      throw new Meteor.Error 0, 'Empty response.'
+      throw new Meteor.Error 999, 'Empty response.'
     # Log the raw response to the console
     if @verbose
       console.log response.content

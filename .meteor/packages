@@ -4,7 +4,6 @@
 # but you can also edit it by hand.
 
 standard-app-packages
-autopublish
 insecure
 less
 http
@@ -14,3 +13,4 @@ xml2js
 blocking
 backbone
 coffeescript
+accounts-password

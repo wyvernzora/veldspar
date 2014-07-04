@@ -1,0 +1,73 @@
+#user-home h1 {
+  margin-bottom: 0;
+  margin-left: 5px;
+}
+
+#user-home .character-grid {
+  
+  min-height: 198px;
+}
+
+#user-home .character-card {
+  
+  position: relative;
+  display: inline-block;
+  background-color: #FBFBFB;
+  border: 2px solid rgba(132, 132, 132, 0.59);
+  width: 132px;
+  height: 132px;
+  margin: 10px;
+  
+  cursor: pointer;
+  vertical-align: middle;
+}
+#user-home .character-card:hover:not(.new-character-card) {
+  border: 2px solid rgba(59, 152, 244, 0.59);
+}
+
+
+#user-home .character-card .portrait {
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+  left: 2px;
+  right: 2px;
+}
+
+#user-home .character-card .info {
+  position: absolute;
+  /*height: 36px;*/
+  bottom: 2px;
+  left: 2px;
+  right: 2px;
+  background-color: rgba(0, 0, 0, 0.3);
+  color: #FFF;
+}
+
+#user-home .character-card h2 {
+  margin: 0;
+}
+
+#user-home .character-card .char-name {
+  margin: 2px;
+  font-size: 1em;
+  font-weight: normal;
+  text-align: center;
+  line-height: 1em;
+  cursor: pointer;
+}
+
+#user-home .new-character-card {
+  background-color: transparent;
+  text-align: center;
+  border: 3px dashed #909090;
+}
+
+#user-home .new-character-card:hover {
+  border-color: #707070;
+  color: #707070;
+}
+
+#user-home .new-character-card .portrait {
+  font-size: 90px;
+}

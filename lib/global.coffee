@@ -15,6 +15,8 @@ config = root.Config ?= { }
 config.apiHost = 'https://api.eveonline.com'
 config.apiHost = 'http://localhost:8888'
 #config.apiHost = 'https://api.testeveonline.com'
+config.imageHost = 'http://images.eveonline.com'
+config.imageHost = 'http://localhost:8888'
 
 # Indicates whether to log detailed request and response parameters
 config.verbose = no
