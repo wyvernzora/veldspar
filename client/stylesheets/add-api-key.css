@@ -2,7 +2,7 @@
   overflow-x: hidden;
 }
 #add-api-key h1 {
-  margin-bottom: 0;
+  margin-bottom: 10px;
   margin-left: 5px;
 }
 #add-api-key .step {
@@ -18,32 +18,21 @@
   top: 0;
   left: 100%;
 }
-#add-api-key .textbox {
+#add-api-key .ui-textbox {
   font-size: 1.0em;
   font-weight: lighter;
   height: 1.8em;
   padding: 3px 10px;
   width: 92%;
 }
-#add-api-key #add-api-id {
-  margin-top: 10px;
-  border-radius: 5px 5px 0 0;
+
+#add-api-key .button-box {
+  margin: auto;
+  text-align: center;
 }
-#add-api-key #add-api-vcode {
-  border-radius: 0 0 5px 5px;
-  border-top: none;
-}
-#add-api-key .button {
-  width: 100%;
-}
-#add-api-key .submit {
-  margin-top: 2.5em;
-  background-color: #59877B;
-}
-#add-api-key .cancel {
-  margin-top: 0.5em;
-  background-color: #DADADA;
-  color: #333;
+#add-api-key .ui-button {
+  width: 45%;
+  margin-top: 1em;
 }
 #add-api-key #wait-wrapper {
   text-align: center;
@@ -56,9 +45,7 @@
   font-size: 0.8em;
   text-align: justify;
 }
-#add-api-key .char-list {
-  
-}
+
 #add-api-key .char-list-item {
   position: relative;
   margin: 10px 0;

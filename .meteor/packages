@@ -5,7 +5,6 @@
 
 standard-app-packages
 insecure
-less
 http
 jquery
 underscore
@@ -14,3 +13,4 @@ blocking
 backbone
 coffeescript
 accounts-password
+less

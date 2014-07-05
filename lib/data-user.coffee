@@ -8,10 +8,8 @@ root = (exports ? this).Veldspar ?= { }
 root.UserData ?= { }
 
 # User metadata
-root.UserData.users = new Meteor.Collection 'user_Users'
-root.UserData.apiKeys = new Meteor.Collection 'user_ApiKeys'
+root.UserData.characters = new Meteor.Collection 'user_Characters'
 
 if Meteor.isClient
   # Subscribe to user data
-  Meteor.subscribe 'user_Users'
-  Meteor.subscribe 'user_ApiKeys'
+  Meteor.subscribe 'user_Characters'

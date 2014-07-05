@@ -18,7 +18,6 @@ Template.debug.events {
   'click #debugBtn': ->
     $wrapper = $('#main-wrapper')
     $wrapper.animate('margin-left': '22%', 20)
-  
 }
 
 Template.root.showDebugView = -> Session.get('showDebugView')
@@ -27,6 +26,6 @@ Template.root.showDebugView = -> Session.get('showDebugView')
 Deps.autorun ->
   if not Meteor.user()
     $wrapper = $('#main-wrapper')
-    $wrapper.animate('margin-left': '0', 'fast')
+    $wrapper.animate('margin-left': '0', 'margin-right': '0', 'fast')
     
   

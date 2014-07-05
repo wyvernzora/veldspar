@@ -1,12 +1,11 @@
 /* Header style sheet */
-header {  
+header {
   width: 100%;
   height: 55px;
   background-image: url("/banner.png");
   background-color: #5D5F60;
   z-index: 0;
 }
-
 header h1 {
   display: inline-block;
   margin: 0;
@@ -15,30 +14,26 @@ header h1 {
   font-weight: normal;
   color: white;
 }
-
 header nav {
   display: inline-block;
   float: right;
   margin-right: 20px;
   color: white;
 }
-
 header nav ul {
   margin: 0;
   list-style-type: none;
+  height: 55px;
 }
-
 header nav li {
   display: inline-block;
-  padding: 15px 15px 0 15px;
+  padding: 0px 15px 0 15px;
   cursor: pointer;
-  height: 40px;
+  line-height: 55px;
 }
-
 header nav li:hover {
   background-color: rgba(114, 119, 119, 0.63);
 }
-
 header nav #navLogout:hover {
   color: #E5A228;
 }
