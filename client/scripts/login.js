@@ -1,6 +1,11 @@
 var view = Template.login;
 
 view.events({
+  'click #login': function () {
+    if (Components.Sidebar.isOpen){
+      Components.Sidebar.hide('left-scale');
+    }
+  },
   'keydown #login #uname': function (e) {
     if (e.keyCode === 13) {
       $('#login #pwd').focus();
@@ -18,7 +23,7 @@ view.events({
     view.submit();
   },
   'click #login #signup': function () {
-    alert("WIP");
+    Components.Sidebar.show('30%', 'left-scale');
   }
 });
 

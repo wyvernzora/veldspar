@@ -1,0 +1,76 @@
+/*
+# Veldspar EVE Online API Client
+# util.less - LESS utilities and variables.
+# Copyright © Denis Luchkin-Zhou
+*/
+
+/* 
+-------------------------------------------------------- 
+Variable Definitions 
+-------------------------------------------------------- 
+*/
+
+/* Background Colors */
+@bg-color-dark: #5D5F60;
+@bg-color-lite: #DADADA;
+@bg-color-liter: #FBFBFB;
+@bg-color-focus: #D3EDFF;
+@bg-color-error: #FFE6E8;
+
+/* Foreground Colors */
+@fg-color-dark: #808080;
+@fg-color-lite: #DADADA;
+@fg-color-accent: #E5A228;
+@fg-color-link: #446998;
+@fg-color-link-hover: #5d8ece;
+@fg-color-selection: #98ff98;
+
+/* Other misc colors */
+@border-color: rgba(132, 132, 132, 0.59);
+@border-color-txt:#ADADAD;
+@border-color-box:rgba(90, 90, 90, 0.5);
+@shadow-color: #141414;
+
+/* Fonts */
+
+/* 
+-------------------------------------------------------- 
+Utilities
+-------------------------------------------------------- 
+*/
+.border-radius(@nw: 0, @ne: 0, @se: 0, @sw: 0) {
+  -webkit-border-radius: @arguments;
+  -moz-border-radius: @arguments;
+  -o-border-radius: @arguments; 
+  border-radius: @arguments;
+}
+.box-shadow(@type: outset, @x, @y, @blur, @color) {
+  -webkit-box-shadow: @arguments;
+
+-moz-box-shadow: @arguments;
+
+-o-box-shadow: @arguments;
+
+box-shadow: @arguments;
+
+}
+.disable-selection() {
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.absolute-position(@left: 0, @top: 0, @right: 0, @bottom: 0) {
+  position: absolute;
+  left: @left;
+  top: @top;
+  right: @right;
+  bottom: @bottom;
+}
+.hidden() {
+  display: none;
+}
+.centered() {
+  margin: auto;
+}

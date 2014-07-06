@@ -1,51 +1,96 @@
 <template name="userHome">
   <div class="view" id="user-home">
-    <div class="view-content">
+    {{#if loading}}
+    <div class="content">
+      
+      <div class="loading-wrapper">
+        <i class="icon ion-loading-c"></i>
+        <h1>loading</h1>
+        <p>
+          Pulling bits and pieces of data from the interstellar network. This should normally only take a few seconds, but in rare cases of <span class="accented">CONCORD</span> red tape, it can take a minute or so.
+        </p>
+      </div>
+      
+    </div>
+    {{else}}
+    <div class="content">
       <div class="section-head">
         <h1>Characters</h1>
-        <input type="button" class="edit ui-button ui-link-button" value="edit">
+        <div class="toolbox">
+          <input type="button" class="delete ui-button-danger" value="Delete Selected Character(s)">
+          <input type="button" class="edit ui-flat-button" value="Edit">
+        </div>
       </div>
-        <div class="character-grid" id="characters">
-          {{#each characters}} {{> userHomeCharCard}} {{/each}}
-          <div class="character-card new-character-card">
+      <div class="character-grid" id="characters">
+        {{#each characters}} {{> userHomeCharCard}} {{/each}}
+        <div class="new">
+          <div class="body">
             <div class="portrait">
               <i class="icon ion-plus"></i>
             </div>
-            <div class="info">
-              <h2 class="char-name">add new</h2>
+          </div>
+          <div class="info">
+            <div class="name">
+              <span>add new</span>
+            </div>
+            <div class="skill">
+              <span>&nbsp;</span>
             </div>
           </div>
         </div>
+      </div>
 
       <div class="section-head">
         <h1>Corporations</h1>
-        <input type="button" class="edit ui-button ui-link-button" value="edit">
+        <div class="toolbox">
+          <input type="button" class="delete ui-button-danger" value="Delete Selected Character(s)">
+          <input type="button" class="edit ui-flat-button" value="Edit">
+        </div>
       </div>
       <div class="character-grid" id="corps">
         {{#each corporations}} {{> userHomeCharCard}} {{/each}}
-        <div class="character-card new-character-card">
-          <div class="portrait">
-            <i class="icon ion-plus"></i>
+        <div class="new">
+          <div class="body">
+            <div class="portrait">
+              <i class="icon ion-plus"></i>
+            </div>
           </div>
           <div class="info">
-            <h2 class="char-name">add new</h2>
+            <div class="name">
+              <span>add new</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    {{/if}}
   </div>
 </template>
 
 <template name="userHomeCharCard">
-  <div class="character-card" id="add-character">
-    <div class="portrait" style="background-image: url({{portraitUri}});"></div>
+  <div class="card">
+    <div class="body">
+      <div class="portrait" style="background-image: url({{portraitUri}});"></div>
+      {{#if editMode}}
+      <div class="ui-widget-overlay">
+        <i class="icon {{selIconClass}}"></i>
+      </div>
+      {{else}}
+        {{#if alert}}
+        <div class="ui-state-error">
+          <i class="icon ion-ios7-locked-outline"></i>
+        </div>
+        {{/if}}
+      {{/if}}
+    </div>
     <div class="info">
-      <h2 class="char-name">{{name}}</h2>
+      <div class="name">
+        <span>{{name}}</span>
+      </div>
+      <div class="skill">
+        <span>{{corp.name}}</span>
+      </div>
     </div>
-    {{#if editMode}}
-    <div class="ui-widget-overlay">
-      <i class="icon {{selIconClass}}"></i>
-    </div>
-    {{/if}}
   </div>
+  
 </template>

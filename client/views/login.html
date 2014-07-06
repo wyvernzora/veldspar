@@ -1,21 +1,23 @@
 <template name="login">
-  <div id="login" class="view modal-view">
-    <p class="motd"><span class="accented">Veld</span>spar — EVE Online from anywhere!</p>
-    <div id="login-box">
-      <div class="ui-state-error hidden">
-        Capsuleer, you do have an email don't you?
+  <div id="login" class="view">
+    <div class="content">
+      <p class="motd"><span class="accented">Veld</span>spar — EVE Online from anywhere!</p>
+      <div id="login-box">
+        <div class="ui-state-error error-box">
+          Capsuleer, you do have an email don't you?
+        </div>
+        <div class="ui-textbox-group" id="shaky">
+          <input class="ui-textbox" id="uname" placeholder="email" type="email" />
+          <input class="ui-textbox" id="pwd" placeholder="password" type="password" />
+          <a id="forgot" href="#">Forgot your password?</a>
+        </div>
+        <input class="ui-button" id="signup" type="button" value="Sign Up" />
+        <input class="ui-button ui-button-submit" id="submit" type="button" value="Log In" />
       </div>
-      <div class="ui-textbox-group" id="shaky">
-        <input class="ui-textbox" id="uname" placeholder="email" type="email" />
-        <input class="ui-textbox" id="pwd" placeholder="password" type="password" />
-        <a id="forgot" href="#">Forgot your password?</a>
+      <div id="footer">
+        Powered by <a href="https://github.com/jluchiji/veldspar">Veldspar 1.0</a>
+        Copyright © 2014 Denis Luchkin-Zhou
       </div>
-      <input class="ui-button" id="signup" type="button" value="Sign Up" />
-      <input class="ui-button ui-button-submit" id="submit" type="button" value="Log In" />
-    </div>
-    <div id="footer">
-      Powered by <a href="https://github.com/jluchiji/veldspar">Veldspar 1.0</a>
-      Copyright © 2014 Denis Luchkin-Zhou
     </div>
   </div>
 </template>

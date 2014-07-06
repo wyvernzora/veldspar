@@ -18,25 +18,35 @@ Components.Sidebar.resize = function (width, direction, callback) {
       'margin-left': width,
       'margin-right': '-' + width
     }, 'fast', callback);
-  } else if ('right') {
+  } else if (direction === 'right') {
     $main.animate({
       'margin-right': width,
       'margin-left': '-' + width
+    }, 'fast', callback);
+  } else if (direction === 'left-scale') {
+    $main.animate({
+      'margin-left': width
+    }, 'fast', callback);
+  } else if (direction, 'right-scale') {
+    $main.animate({
+      'margin-right': width
     }, 'fast', callback);
   }
 };
 Components.Sidebar.show = function (width, direction, callback) {
   Components.Sidebar.resize(width, direction, function () {
     Components.Sidebar.isOpen = true;
-    if (_.isFunction(callback))
+    if (_.isFunction(callback)) {
       callback();
+    }
   });
 };
 Components.Sidebar.hide = function (direction, callback) {
   Components.Sidebar.resize('0', direction, function () {
     Components.Sidebar.isOpen = false;
-    if (_.isFunction(callback))
+    if (_.isFunction(callback)) {
       callback();
+    }
   });
 };
 

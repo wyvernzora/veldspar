@@ -1,0 +1,173 @@
+/*
+# Veldspar EVE Online API Client
+# common.less - Styles reused throughout the application.
+# Copyright © Denis Luchkin-Zhou
+*/
+@import "util.less";
+/* 
+-------------------------------------------------------- 
+Common Styles 
+-------------------------------------------------------- 
+*/
+html,
+body {
+  margin: 0;
+  background-color: @bg-color-dark;
+  font-family: 'Open Sans', Arial, sans-serif;
+  font-weight: lighter;
+  overflow: hidden;
+}
+h1,
+h2 {
+  .disable-selection();
+  cursor: default;
+}
+.accented {
+  color: @fg-color-accent;
+}
+/* Rectangular box */
+.box {
+  color: @fg-color-dark;
+  border: 1px solid@border-color;
+  background-color: @bg-color-liter;
+  min-width: 25%;
+  max-width: 75%;
+  margin: 20px auto;
+  padding: 20px;
+}
+.error-box {
+  &:extend(.box);
+  padding: 0.7em;
+  color: white;
+  border: 5px solid @border-color-box;
+  .hidden;
+  .centered;
+  margin: 10px auto;
+}
+/* Textbox groups */
+.ui-textbox {
+  display: block;
+  border: 1px solid @border-color-txt;
+  &:focus:not(.ui-textbox-error) {
+    background-color: @bg-color-focus;
+  }
+}
+.ui-textbox-error {
+  background-color: @bg-color-error;
+}
+.ui-textbox-group {
+  .ui-textbox {
+    margin: auto;
+    height: 1.8em;
+    padding: 3px 10px;
+    font-weight: lighter;
+    &:not(:first-of-type) {
+      border-top: none;
+    }
+    &:first-of-type {
+      .border-radius(4px;
+      4px);
+    }
+    &:last-of-type {
+      .border-radius(@se: 4px;
+      @sw: 4px);
+    }
+  }
+}
+/* Buttons */
+.ui-widget {
+  font: inherit;
+}
+.ui-button {
+  border: 1px solid rgba(0, 0, 0, 0.25);
+  .border-radius(1px);
+  color: #444;
+  margin: 0px 5px;
+  min-height: 29px;
+  min-width: 65px;
+  -webkit-user-select: none;
+  padding: 8px 30px;
+  background-image: -webkit-linear-gradient(#ededed, #ededed 38%, #dedede);
+  text-shadow: 0 1px 0 rgb(240, 240, 240);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08), inset 0 1px 2px rgba(255, 255, 255, 0.75);
+}
+.ui-button-submit:extend(.ui-button) {
+  color: #FFF;
+  background-image: -webkit-linear-gradient(hsl(23, 100%, 68%), hsl(23, 100%, 68%) 38%, hsl(23, 84%, 64%));
+  border: 1px solid hsl(23, 62%, 47%);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15), inset 0 1px 2px rgba(255, 255, 255, 0.2);
+}
+.ui-button-danger:extend(.ui-button-submit) {
+  background-image: -webkit-linear-gradient(#ff5d5d, #ff5d5d 38%, #f05858);
+  border: 1px solid rgb(195, 45, 45);
+}
+/* 'Flat' button style */
+.ui-flat-button:extend(.ui-button) {
+  color: rgba(0, 0, 0, 0.25);
+  background: none;
+  text-shadow: none;
+  box-shadow: none;
+  &:hover {
+    border-color: rgba(0, 0, 0, 0.5);
+    color: rgba(0, 0, 0, 0.5);
+  }
+  &:active:extend(&:hover) {
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.5);
+  }
+}
+/* View Styles */
+.view {
+  color: @fg-color-dark;
+  background-color: @bg-color-lite;
+  a {
+    color: @fg-color-link;
+    &:hover {
+      color: @fg-color-link-hover;
+    }
+  }
+  h1 {
+    font-size: 3.6em;
+    font-weight: lighter;
+    margin: 0;
+    margin-left: 5px;
+    margin-top: 0.67em;
+  }
+  h2:extend(& h1) {
+    font-size: 1.6em;
+    font-weight: normal;
+  }
+  .content {
+    .centered();
+    max-width: 80%;
+  }
+  .section-head {
+    position: relative;
+    vertical-align: middle;
+    border-bottom: 1px solid@fg-color-dark;
+
+    h1 {
+      margin-botom: 0;
+      margin-left: 5px;
+      margin-right: 5px;
+    }
+    & > * {
+      display: inline-block;
+    }
+  }
+}
+.sidebar:extend(.view) {
+  z-index: 1;
+  position: absolute;
+  top: 55px;
+  bottom: 0;
+  width: 30%;
+  color: @fg-color-lite;
+  background-color: @bg-color-dark;
+  overflow-y: scroll;
+  .box-shadow(inset; -4px; 4px; 5px; @shadow-color);
+  a {
+    font-weight: normal;
+    color: @fg-color-accent;
+    }
+}
