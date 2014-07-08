@@ -35,19 +35,19 @@ view.rendered = function () {
   $('#login #uname').focus()
 }
 
-
 view.loginFailed = function () {
   var $box = $('#login #shaky');
   $('#login #pwd').val('');
-  speed = 80;
+  var speed = 80;
+  var magnitude = 20;
   $box.animate({
-    left: 10
+    left: magnitude
   }, speed)
     .animate({
-      left: -10
+      left: -magnitude
     }, speed)
     .animate({
-      left: 10
+      left: magnitude
     }, speed)
     .animate({
       left: 0
