@@ -1,8 +1,7 @@
 <template name="userHome">
   <div class="view" id="user-home">
     {{#if loading}}
-    <div class="content">
-      
+    <div class="content">      
       <div class="loading-wrapper">
         <i class="icon ion-loading-c"></i>
         <h1>loading</h1>
@@ -10,7 +9,6 @@
           Pulling bits and pieces of data from the interstellar network. This should normally only take a few seconds, but in rare cases of <span class="accented">CONCORD</span> red tape, it can take a minute or so.
         </p>
       </div>
-      
     </div>
     {{else}}
     <div class="content">
@@ -22,20 +20,14 @@
         </div>
       </div>
       <div class="character-grid" id="characters">
-        {{#each characters}} {{> userHomeCharCard}} {{/each}}
-        <div class="new">
-          <div class="body">
-            <div class="portrait">
-              <i class="icon ion-plus"></i>
-            </div>
+        {{#each characters}} {{> userHomeCharCard}} {{/each}}        
+        <div class="card new">
+          <div class="portrait" title="Add New Character">
+            <i class="icon ion-ios7-plus-outline"></i>
           </div>
           <div class="info">
-            <div class="name">
-              <span>add new</span>
-            </div>
-            <div class="skill">
-              <span>&nbsp;</span>
-            </div>
+            <span class="name">&nbsp;</span>
+            <span>&nbsp;</span>
           </div>
         </div>
       </div>
@@ -49,16 +41,13 @@
       </div>
       <div class="character-grid" id="corps">
         {{#each corporations}} {{> userHomeCharCard}} {{/each}}
-        <div class="new">
-          <div class="body">
-            <div class="portrait">
-              <i class="icon ion-plus"></i>
-            </div>
+        <div class="card new" title="Add New Corporation">
+          <div class="portrait">
+            <i class="icon ion-ios7-plus-outline"></i>
           </div>
           <div class="info">
-            <div class="name">
-              <span>add new</span>
-            </div>
+            <span class="name">&nbsp;</span>
+            <span>&nbsp;</span>
           </div>
         </div>
       </div>
@@ -69,26 +58,25 @@
 
 <template name="userHomeCharCard">
   <div class="card">
-    <div class="body">
-      <div class="portrait" style="background-image: url({{portraitUri}});"></div>
-      {{#if editMode}}
-      <div class="ui-widget-overlay">
-        <i class="icon {{selIconClass}}"></i>
+    <div class="portrait" style="background-image: url({{portraitUri}}), url(/character.png);">
+    {{#if editMode}}
+    <div class="ui-widget-overlay">
+      <i class="icon {{selIconClass}}"></i>
+    </div>
+    {{else}}
+      {{#if alert}}
+      <div class="ui-state-error">
+        <i class="icon ion-ios7-locked-outline"></i>
       </div>
-      {{else}}
-        {{#if alert}}
-        <div class="ui-state-error">
-          <i class="icon ion-ios7-locked-outline"></i>
-        </div>
-        {{/if}}
       {{/if}}
+    {{/if}}
     </div>
     <div class="info">
       <div class="name">
-        <span>{{name}}</span>
+        <span title="{{name}}">{{name}}</span>
       </div>
       <div class="skill">
-        <span>{{corp.name}}</span>
+        <span title="{{corp.name}}">{{corp.name}}</span>
       </div>
     </div>
   </div>

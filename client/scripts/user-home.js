@@ -31,7 +31,7 @@ view.events({
     Session.set('userHome_Edit', false);
     Session.set('userHome_SelectedIDs', null);
   },
-  'click #user-home .card:not(.new)': function () {
+  'click #user-home .portrait:not(.new .portrait)': function () {
     if (Session.get('userHome_Edit')) {
       var selection = Session.get('userHome_SelectedIDs');
       if (!selection) selection = [];
@@ -76,7 +76,11 @@ Template.userHomeCharCard.helpers({
   },
   'selIconClass': function () {
     var chars = Session.get('userHome_SelectedIDs');
-    if (_.indexOf(chars, this._id) !== -1) return 'ion-ios7-checkmark-outline selected';
-    else return 'ion-ios7-circle-outline';
+    if (_.indexOf(chars, this._id) !== -1) return 'ion-ios7-close-outline selected';
+    else return '';//'ion-ios7-circle-outline';
   }
 });
+
+Template.userHomeCharCard.rendered = function () {
+  
+};
