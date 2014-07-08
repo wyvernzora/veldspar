@@ -3,38 +3,39 @@ Veldspar is a [Meteor.js](http://meteor.com) based EVE Online account manager. I
 
 Currently the Veldspar project is still in early development.
 
-##Request Pipeline
-In general, each response goes through the following steps:
-```
-Composition ➠ Cache ➠ Seding ➠ Receiving ➠ XML Parsing ➠ Unwrapping ➠ Transformation ➠ Return
-```
+##Running Veldspar
+Veldspar is a [Meteor.js](http://meteor.com) application, which requires the `mrt` build tool. In order to setup a development environment, please follow the following steps:
 
-**Composition** is a step where information such as API Key and required access mask is gathered and checked for errors.
+**1. Install Meteor.js**  
+`$ curl https://install.meteor.com | sh`
 
-[WIP]**Cache** step is where the client checks the request information against the cache, and if the caching time indicated by CCP has not lapsed, transparently returns the cached version instead of sending a new request.
+**2. Install Node.js and npm**  
+Download the Node.js installer from [the official site](http://nodejs.org) and install it. This will also install the `npm`, which is needed to install Veldspar's dependencies.
 
-**Sending** is self explanatory.
+**3. Clone Veldspar application**  
+In the application root directory, run the following command to install dependencies: `$ mrt update`.
 
-**Receiving** is self explanatory. HTTP errors and CCP-returned errors are raised here.
+**4. Run Veldspar**  
+In the application root directory, `$ mrt`.
 
-**XML Parsing** step is where the XML response text is parsed into a JSON object that can be understood and manipulated by JavaScript.
+##Dependencies
+Veldspar depends on the following atmosphere packages:
 
-**Unwrapping** step is where unnecessary `rowset` objects are stripped down and the structure of the response object is simplified.
+ - `xml2js`
+ - `blocking`
 
-**Transformation** step is where the response object is rearranged in a fashion somewhat similar to the XLST transformation the EVEMon does. This is done to make the structure of the response object even simpler and more sensible.
+Veldspar also uses the following, which is included with Meteor.js by default:
 
-**Return** is when the simplified response object is pushed into cache and returned to the client for displaying.
+ - `jQuery`
+ - `backbone.js`
+ - `underscore.js`
+ - `less`
+ - `coffeescript`
+ 
+A copy of the following has been included in the `lib` or `client/lib` directory:
 
+ - `jQuery UI` (*)
+ - `ionicons`
+ - `pretty-json` (*)
 
-##About API keys for debugging...
-Obviously, my own API keys are not included in this repository. In order to add your own for debugging purposes, paste it into a `.apikey.json` file and put it into the `private` directory of the project. Then, change the path to the file in the `server/main.js`.
-
-Format of the api key file should be like this:
-```
-{
-  "id": <api key id>,
-  "code": <api key verification code>,
-  "accessMask": <api key access mask>,
-  "characterID": <id of the character you wish to test with>
-}
-```
+**Note:** Since Veldspar is still in active development, the list of dependencies may change at any moment. Packages with `(*)` have been slightly modified to work with Veldspar, therefore their original versions may or may not work.
