@@ -17,7 +17,7 @@ view.events({
       view.submitKey();
     }
   },
-  'click #add-api-key .char-list-item': function () {
+  'click #add-api-key .char-list .card': function () {
     var key = Session.get('addApiKey_Adding');
     var id = this.id;
     var char = _.find(key.characters, function (i) {
@@ -63,7 +63,7 @@ view.helpers({
   },
   'selIconClass': function () {
     if (this.selected) {
-      return 'ion-ios7-checkmark-outline char-sel';
+      return 'ion-ios7-checkmark-outline selected';
     } else {
       return 'ion-ios7-circle-outline';
     }
@@ -113,8 +113,11 @@ view.submitKey = function () {
   Session.set('addApiKey_Adding', null);
   Meteor.call('getApiKeyInfo', id, vcode, function (err, result) {
     if (err) {
-      alert(err.reason);
-      Session.set('veldspar_error', err);
+      view.showErrorMsg('<b class="accented">Error ' + err.error + ': </b>' + err.reason, true);
+      $('#add-api-key .step').animate({
+        'left': '+=100%'
+      }, 'fast');
+      return;
     } else {
       Session.set('addApiKey_Adding', result);
     }
