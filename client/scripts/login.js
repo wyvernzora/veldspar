@@ -49,7 +49,7 @@ view.login = function () {
     pwd = $pwd.val();
 
   if (uname === '') {
-    this.showError('#login', 'Capsuleer, don\'t you have an email?');
+    this.showError('#login .main', 'Capsuleer, don\'t you have an email?');
     $uname.addClass('ui-textbox-error').focus();
     return;
   } else {

@@ -12,6 +12,8 @@ Template.header.events {
     Session.set('showDebugView', yes)
   'click #navLogout': ->
     Meteor.logout()
+  'click #navHome': ->
+    Session.set('CurrentCharacter', null)
 }
 
 Template.debug.events {

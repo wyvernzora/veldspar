@@ -151,6 +151,12 @@ view.reset = function () {
 };
 
 view.submitKey = function () {
+  
+  var $id = $('#add-api-key #id'),
+    id = Number($id.val());
+  var $code = $('#add-api-key #vcode'),
+    vcode = $code.val();
+  
   if (view.validateId() && view.valiateVcode()) {
     // Start loading process
     Session.set('addApiKey_ShowLoading', true);
@@ -206,6 +212,8 @@ view.submit = function () {
     else
       Veldspar.UserData.characters.insert(i);
   });
+  
+  Session.set('addApiKey_Adding', null);
 };
 
 /* Validation Methods */

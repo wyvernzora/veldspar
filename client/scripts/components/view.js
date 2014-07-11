@@ -6,31 +6,41 @@
 
 Veldspar.UI = {};
 view = Veldspar.UI.view = function () {
-  
-  this.Sidebar = { };
+  this.Sidebar = {};
   this.Sidebar.resize = function (direction, size, callback) {
-    var args = { },
-        $main = $('.main', this.context),
-        speed = 'fast';
+    var args = {},
+      $main = $('.main', this.context),
+      speed = 'fast';
     switch (direction) {
-        case 'left':
-          args = { 'margin-left': size, 'margin-right': '-' + size };
-          break;
-        case 'right':
-          args = { 'margin-left': '-' + size, 'margin-right': size };
-          break;
-        case 'left-scale':
-          args = { 'margin-left': size };
-          break;
-        case 'right-scale':
-          args = { 'margin-right': size };
-          break;
+    case 'left':
+      args = {
+        'margin-left': size,
+        'margin-right': '-' + size
+      };
+      break;
+    case 'right':
+      args = {
+        'margin-left': '-' + size,
+        'margin-right': size
+      };
+      break;
+    case 'left-scale':
+      args = {
+        'margin-left': size
+      };
+      break;
+    case 'right-scale':
+      args = {
+        'margin-right': size
+      };
+      break;
     }
     $main.animate(args, speed, function () {
-      if (callback) { callback(); }
+      if (callback) {
+        callback();
+      }
     });
-};
-  
+  };
   this.showError = function (context, html) {
     'use strict';
     var $err = $(context + ' .ui-state-error');
@@ -42,7 +52,6 @@ view = Veldspar.UI.view = function () {
       $err.hide('fade');
     }
   }
-  
   this.forward = function (destination, callback) {
     return _.partial(function (d, c, e) {
       if (e.keyCode === 13 && (!c || c())) {
@@ -51,4 +60,3 @@ view = Veldspar.UI.view = function () {
     }, destination, callback);
   }
 };
-
