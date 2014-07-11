@@ -43,6 +43,7 @@ h2 {
   .hidden;
   .centered;
   margin: 10px auto;
+  max-width: none;
 }
 /* Textbox groups */
 .ui-textbox {
@@ -124,56 +125,72 @@ h2 {
 }
 /* View Styles */
 .view {
-  color: @fg-color-dark;
-  background-color: @bg-color-lite;
-  a {
-    color: @fg-color-link;
-    &:hover {
-      color: @fg-color-link-hover;
+  .main {
+    .absolute-position();
+    color: @fg-color-dark;
+    background-color: @bg-color-lite;
+    overflow-y: scroll;
+    z-index: 2;
+    .content { 
+      .centered;
+      max-width: 80%;
     }
-  }
-  h1 {
-    font-size: 3.0em;
-    font-weight: lighter;
-    margin: 0;
-    margin-left: 5px;
-    margin-top: 0.67em;
-  }
-  h2:extend(& h1) {
-    font-size: 1.6em;
-    font-weight: normal;
-  }
-  .content {
-    .centered();
-    max-width: 80%;
-  }
-  .section-head {
-    position: relative;
-    vertical-align: middle;
-    border-bottom: 1px solid@fg-color-dark;
+    .section-head {
+      position: relative;
+      vertical-align: middle;
+      border-bottom: 1px solid@fg-color-dark;
 
-    h1 {
-      margin-botom: 0;
-      margin-left: 5px;
-      margin-right: 5px;
+      h1 {
+        margin-botom: 0;
+        margin-left: 5px;
+        margin-right: 5px;
+      }
+      & > * {
+        display: inline-block;
+      }
     }
-    & > * {
-      display: inline-block;
+    a {
+      color: @fg-color-link;
+      &:hover {
+        color: @fg-color-link-hover;
+      }
+    }
+    h1 {
+      font-size: 3.0em;
+      font-weight: lighter;
+      margin: 0;
+      margin-left: 5px;
+      margin-top: 0.67em;
+    }
+    h2:extend(& h1) {
+      font-size: 1.6em;
+      font-weight: normal;
     }
   }
-}
-.sidebar:extend(.view) {
-  z-index: 1;
-  position: absolute;
-  top: 55px;
-  bottom: 0;
-  width: 30%;
-  color: @fg-color-lite;
-  background-color: @bg-color-dark;
-  overflow-y: scroll;
-  .box-shadow(inset; -4px; 4px; 5px; @shadow-color);
-  a {
-    font-weight: normal;
-    color: @fg-color-accent;
+  .sidebar:extend(.view .main) {
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 30%;
+    color: @fg-color-lite;
+    background-color: @bg-color-dark;
+    overflow-y: scroll;
+    .box-shadow(inset; -4px; 4px; 5px; @shadow-color);
+    a {
+      font-weight: normal;
+      color: @fg-color-accent;
+      }
+    h1 {
+      font-size: 3.0em;
+      font-weight: lighter;
+      margin: 0;
+      margin-left: 5px;
+      margin-top: 0.67em;
     }
+    h2:extend(& h1) {
+      font-size: 1.6em;
+      font-weight: normal;
+    }
+  }
 }

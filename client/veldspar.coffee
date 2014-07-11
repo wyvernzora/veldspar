@@ -21,11 +21,4 @@ Template.debug.events {
 }
 
 Template.root.showDebugView = -> Session.get('showDebugView')
-
-# A trick to force-hide sidebar on logout
-Deps.autorun ->
-  if not Meteor.user()
-    $wrapper = $('#main-wrapper')
-    $wrapper.animate('margin-left': '0', 'margin-right': '0', 'fast')
-    
-  
+Template.root.currentCharacter = -> Session.get('CurrentCharacter');

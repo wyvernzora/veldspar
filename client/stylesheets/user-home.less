@@ -117,4 +117,86 @@
       }
     }
   }
+  
+}
+
+#add-api-key {
+  overflow-x: hidden;
+  
+  h1 {
+    margin-left: 5px;
+    margin-bottom: 10px;
+  }
+  p {
+    font-size: 0.8em; 
+    text-align: justify;
+  }
+  .button-box {
+    .centered;
+    text-align: center;
+    .ui-button {
+      width: 45%;
+      margin-top: 1.0em;
+    }
+  }
+  
+  .step {
+    top: 0;
+    width: 80%;
+    margin: 0 10%;
+    position: absolute;
+  }
+  #step-one:extend(#add-api-key .step) {
+    left: 0;   
+    .ui-textbox {
+      font-size: 1.0em;
+      heght: 1.8em;
+      padding: 3px 10px;
+      width: 93%;
+    }
+    .error-box {
+      max-width: none;
+    }
+  }
+  #step-two:extend(#add-api-key .step) {
+    left: 100%;
+    #wait-wrapper {
+      text-align: center;
+      margin-top: 5.0em; 
+      #loading-indicator {
+        font-size: 128px;
+      }
+    }
+    .char-list .card {
+      max-width: none;
+      position: relative;
+      margin: 10px 0;
+      padding: 0;
+      height: 64px;
+      border: none;
+      cursor: pointer;
+      .portrait {
+        .absolute-position(@left: 0; @top: 0; @bottom: 0; @right: auto);
+        width: 64px;
+        float: left;
+        color: white;
+        font-size: 48px;
+        text-align: center;
+        & > div {
+          background-color: rgba(0, 0, 0, 0.3);
+        }
+        .selected { color: @fg-color-selection; }
+      }
+      .name-wrapper {
+        margin-left: 70px;
+        margin-top: 3px;
+        span { display: block; }
+        .char-name { 
+          font-size: 1.0em; 
+          font-weight: bold;
+        }
+        .corp-name { font-size: 0.8em; }
+      }
+    }
+  } 
 }

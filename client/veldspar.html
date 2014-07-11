@@ -1,7 +1,6 @@
 <head>
   <title>veldspar</title>
 </head>
-
 <body>
   {{> root}}
 </body>
@@ -9,27 +8,15 @@
 <template name="root">
   {{> header}}
   <div id="shadow"></div>
-  <div id="sidebar">
-    {{#if currentUser}}
-      {{#if activeCharacrer}}
-      {{else}}
-        {{> addApiKey}}
-      {{/if}}
-    {{else}}
-      {{> signup}}
-    {{/if}}
-  </div>
   <div id="main-wrapper">
-    {{#if showDebugView}}
-      {{> debug}}
-    {{else}}
-      {{#if currentUser}}
-        {{> userHome}}
+    {{#if currentUser}}
+      {{#if currentCharacter}}
+        {{> character}}
       {{else}}
-        {{> login}}
+        {{> userHome}}
       {{/if}}
+    {{else}}
+      {{> login}}
     {{/if}}
   </div>
 </template>
-
-

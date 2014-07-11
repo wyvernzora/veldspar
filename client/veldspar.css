@@ -9,7 +9,7 @@
   right: 0;
   bottom: 0;
   border-bottom: none;
-  overflow: scroll;
+  overflow: hidden;
   z-index: 3;
 }
 
