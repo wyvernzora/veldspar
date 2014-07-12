@@ -6,102 +6,93 @@
 
 @import "util.less";
 #login {
-  text-align: center;
-  .content {
-    width: 960px;
+  .main {
+    text-align: center;
+    .content {
+      width: 960px;
+    }
+    /* Title message */
+    .motd {
+      .disable-selection();
+      font-size: 1.4em;
+      margin-top: 0.2em;
+    }
+    /* Login buttons */
+    .ui-button {
+      margin-top: 2.0em;
+      width: 25%;
+    }
+    /* Login form */
+    #login-box {
+      .centered();
+      width: 75%;
+      .error-box {
+        max-width: 50%;
+      }
+      .ui-textbox {
+        .centered;
+        font-size: 1.3em;
+        width: 50%;
+      }
+      /* Wrapper for shaking animation */
+      #shaky {
+        position: relative;
+      }
+      /* Password reset link, hidden until login failure */
+      #forgot {
+        .hidden();
+        text-align: center;
+        color: @fg-color-dark;
+      }
+    }
+    /* Simple footer */
+    #footer {
+      position: absolute;
+      bottom: 2px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 0.8em;
+    }
   }
-  /* Title message */
-  .motd {
-    .disable-selection();
-    font-size: 1.4em;
-    margin-top: 0.2em;
-  }
-  /* Login buttons */
-  .ui-button {
-    margin-top: 2.0em;
-    width: 25%;
-  }
-  /* Login form */
-  #login-box {
-    .centered();
-    width: 75%;
-    .error-box {
-      max-width: 50%;
+  .sidebar {
+    #loading {
+      #wait-wrapper {
+        text-align: center;
+        margin-top: 5.0em; 
+        #loading-indicator {
+          font-size: 128px;
+        }
+      }
+    } 
+
+    /* Title message */
+    .motd {
+      .disable-selection();
+      font-size: 1.4em;
+      margin-top: 0.2em;
+      white-space: nowrap;
     }
     .ui-textbox {
       .centered;
       font-size: 1.3em;
-      width: 50%;
-    }
-    /* Wrapper for shaking animation */
-    #shaky {
-      position: relative;
-    }
-    /* Password reset link, hidden until login failure */
-    #forgot {
-      .hidden();
-      text-align: center;
-      color: @fg-color-dark;
-    }
-  }
-  /* Simple footer */
-  #footer {
-    position: absolute;
-    bottom: 2px;
-    left: 0;
-    right: 0;
-    text-align: center;
-    font-size: 0.8em;
-  }
-}
-
-#signup {
-  
-  .step {
-    top: 0;
-    width: 80%;
-    margin: 0 10%;
-    position: absolute;
-  }
-  #step-one:extend(#signup .step) {
-    left: 0;   
-  }
-  #step-two:extend(#signup .step) {
-    left: 100%;
-    #wait-wrapper {
-      text-align: center;
-      margin-top: 5.0em; 
-      #loading-indicator {
-        font-size: 128px;
+      width: 93%;
+      &#email {
+        .border-radius(4px; 4px; 4px; 4px);
       }
     }
-  } 
-  
-  /* Title message */
-  .motd {
-    .disable-selection();
-    font-size: 1.4em;
-    margin-top: 0.2em;
-    white-space: nowrap;
-  }
-  .ui-textbox {
-    .centered;
-    font-size: 1.3em;
-    width: 93%;
-    &#email {
-      .border-radius(4px; 4px; 4px; 4px);
+    .ui-textbox-group {
+      margin-top: 1em;
+      margin-bottom: 1em;
+    }
+    .button-box {
+      .centered;
+      margin-bottom: 2em;
+      text-align: center;
+      .ui-button {
+        width: 45%;
+        margin-top: 1.0em;
+      }
     }
   }
-  .ui-textbox-group {
-    margin-top: 1em;
-    margin-bottom: 1em;
-  }
-  .button-box {
-  .centered;
-  text-align: center;
-  .ui-button {
-    width: 45%;
-    margin-top: 1.0em;
-  }
-}
 }

@@ -1,0 +1,93 @@
+/*
+# Veldspar EVE Online API Client
+# view.less - Application view styles.
+# Copyright © Denis Luchkin-Zhou
+*/
+@import "util.less";
+.view {
+  .main {
+    .absolute-position();
+    
+    z-index: 2;
+    overflow-y: scroll;
+    color: @fg-color-dark;
+    background-color: @bg-color-lite;
+    
+    a {
+      color: @fg-color-link;
+      &:hover {
+        color: @fg-color-link-hover;
+      }
+    }
+    h1 {
+      font-size: 3.0em;
+      font-weight: lighter;
+      margin: 0;
+      margin-left: 5px;
+      margin-top: 0.67em;
+    }    
+    h2:extend(& h1) {
+      font-size: 1.6em;
+      font-weight: normal;
+    }
+    .content { 
+      .centered;
+      max-width: 80%;
+    }
+    .section-head {
+      position: relative;
+      vertical-align: middle;
+      border-bottom: 1px solid@fg-color-dark;
+
+      h1 {
+        margin-botom: 0;
+        margin-left: 5px;
+        margin-right: 5px;
+      }
+      & > * {
+        display: inline-block;
+      }
+    }
+  }
+  .sidebar {
+    .box-shadow(inset; -4px; 4px; 5px; @shadow-color);
+    .absolute-position(@top: 0; @bottom: 0; @left: 0; @right: auto);
+    
+    z-index: 1;
+    width: 30%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    color: @fg-color-lite;
+    background-color: @bg-color-dark;
+    
+    a {
+      font-weight: normal;
+      color: @fg-color-accent;
+      }
+    h1 {
+      font-size: 3.0em;
+      font-weight: lighter;
+      margin: 0;
+      margin-left: 5px;
+      margin-top: 0.67em;
+    }
+    h2:extend(& h1) {
+      font-size: 1.6em;
+      font-weight: normal;
+    }
+  }
+  
+  /* Stepping Framework */
+  .step {
+    .absolute-position(auto; 0; auto; 0);
+    width: 80%;
+    margin: 0 10%;
+  }
+  .generate-steps(@n, @i: 1) when (@i =< @n) {
+    .step-@{i} {
+      left: (@i * 100%);
+    }
+    .generate-steps(@n; (@i + 1));
+  }
+  .generate-steps(5);
+}

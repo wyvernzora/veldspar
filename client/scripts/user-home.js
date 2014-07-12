@@ -1,39 +1,45 @@
-var view = $.extend(Template.userHome, new Veldspar.UI.view());
-
+/*
+# Veldspar EVE Online API Client
+# user-home.js - Interaction logic for views/user-home.html
+# Copyright © Denis Luchkin-Zhou
+*/
+/* Attach Veldspar.view functionality to Meteor template */
+var view = Veldspar.UI.init(Template.userHome);
+/* Event Handling */
 view.events({
-  'click #user-home .main': function () {
+  'click .main': function () {
     view.Sidebar.resize('left', '0');
   },
-  'click #user-home .new': function (e) {
+  'click .main .new': function (e) {
     view.Sidebar.resize('left', '30%');
     e.stopPropagation();
   },
-  'click #user-home .edit': function () {
+  'click .main .edit': function () {
     var editMode = Session.get('userHome_Edit');
     if (editMode) {
-      $('#user-home .edit').val('Edit');
-      $('#user-home .delete').hide('fade', 'fast');
+      $('.edit', view.main()).val('Edit');
+      $('.delete', view.main()).hide('fade', 'fast');
       Session.set('userHome_Edit', false);
       Session.set('userHome_SelectedIDs', null);
     } else {
-      $('#user-home .edit').val('Cancel');
-      $('#user-home .delete').show('fade', 'fast');
+      $('.edit', view.main()).val('Cancel');
+      $('.delete', view.main()).show('fade', 'fast');
       Session.set('userHome_Edit', true);
     }
   },
-  'click #user-home .delete': function () {
+  'click .main .delete': function () {
     var ids = Session.get('userHome_SelectedIDs');
     _.each(ids, function (i) {
       Veldspar.UserData.characters.remove({
         _id: i
       });
     });
-    $('#user-home .edit').val('Edit');
-    $('#user-home .delete').hide('fade', 'fast');
+    $('.edit', view.main()).val('Edit');
+    $('.delete', view.main()).hide('fade', 'fast');
     Session.set('userHome_Edit', false);
     Session.set('userHome_SelectedIDs', null);
   },
-  'click #user-home .portrait:not(.new .portrait)': function () {
+  'click .main .portrait:not(.new .portrait)': function () {
     if (Session.get('userHome_Edit')) {
       var selection = Session.get('userHome_SelectedIDs');
       if (!selection) selection = [];
@@ -47,22 +53,22 @@ view.events({
     }
   },
 
-  'click #add-api-key .cancel': function () {
+  'click .sidebar .cancel': function () {
     Session.set('addApiKey_ShowLoading', false);
     view.Sidebar.resize('left', '0', function () {
-      view.reset();
+      view.util.reset();
     });
   },
-  'click #add-api-key #next': function () {
-    view.submitKey();
+  'click .sidebar #next': function () {
+    view.util.submitKey();
   },
-  'keydown #add-api-key #id': view.forward('#add-api-key #vcode', function () { return view.validateId(); }),
-  'keydown #add-api-key #vcode': function (e) {
+  'keydown .sidebar #id': view.forward('.sidebar #vcode', function () { return view.util.validateId(); }),
+  'keydown .sidebar #vcode': function (e) {
     if (e.keyCode === 13) {
-      view.submitKey();
+      view.util.submitKey();
     }
   },
-  'click #add-api-key .char-list .card': function () {
+  'click .sidebar .char-list .card': function () {
     var key = Session.get('addApiKey_Adding');
     var id = this.id;
     var char = _.find(key.characters, function (i) {
@@ -71,29 +77,28 @@ view.events({
     char.selected = !char.selected;
     Session.set('addApiKey_Adding', key);
   },
-  'click #add-api-key #submit': function () {
-    view.submit();
+  'click .sidebar #submit': function () {
+    view.util.submit();
     Session.set('addApiKey_ShowLoading', false);
     view.Sidebar.resize('left', '0', function () {
-      view.reset();
+      view.util.reset();
     });
   }
 });
-
+/* Template Helper Functions */
 view.helpers({
-  'characters': function () {
+  'characters':     function () {
     return Veldspar.UserData.characters.find({
       type: 'Character'
     });
   },
-  'editMode': function () {
+  'editMode':       function () {
     return Session.get('userHome_Edit');
   },
-  'loading': function () {
+  'loading':        function () {
     return Session.get('userHome_Loading');
   },
-
-  'expirationMsg': function () {
+  'expirationMsg':  function () {
     var key = Session.get('addApiKey_Adding');
     if (key) {
       if (!key.expires) {
@@ -105,140 +110,132 @@ view.helpers({
       }
     }
   },
-  'keyCharacters': function () {
+  'keyCharacters':  function () {
     var key = Session.get('addApiKey_Adding');
     if (key) {
       return key.characters;
     }
   },
-  'apiKeyInfo': function () {
+  'apiKeyInfo':     function () {
     return Session.get('addApiKey_Adding');
   },
-  'portraitUri': function () {
+  'portraitUri':    function () {
     return Veldspar.Config.imageHost + '/Character/' + this.id + '_64.jpg';
   },
-  'allianceName': function () {
+  'allianceName':   function () {
     if (this.alliance.name === '') {
       return 'No Alliance';
     } else {
       return this.alliance.name;
     }
   },
-  'selIconClass': function () {
+  'selIconClass':   function () {
     if (this.selected) {
       return 'ion-ios7-checkmark-outline selected';
     } else {
       return 'ion-ios7-circle-outline';
     }
   },
-  'showLoading': function () {
+  'showLoading':    function () {
     return Session.get('addApiKey_ShowLoading');
   }
 });
+/* UI Utility Functions */
+view.util({
+  'reset':          function () {
+    $('.ui-textbox', view.side()).removeClass('ui-textbox-error').val('');
+    view.Step.reset(view.side());
+    view.showError(view.side(), null);
+  },
+  'submitKey':      function () {
+    var $id = $('#id', view.side()),
+        $code = $('#vcode', view.side()),
+        id = Number($id.val()),
+        vcode = $code.val();
+    
+    if (view.util.validateId() && view.util.validateVcode()) {
+      Session.set('addApiKey_ShowLoading', true);
+      Session.set('addApiKey_Adding', null);
+      Meteor.call('getApiKeyInfo', id, vcode, function (err, result) {
+        if (err) {
+          view.showError(view.side(), '<b class="accented">Error ' + err.error + ': </b>' + err.reason, true);
+          view.Step.prev(view.side());
+          return;
+        } else {
+          Session.set('addApiKey_Adding', result);
+        }
+      });
+      view.Step.next(view.side());
+    }
+  },
+  'submit':         function () {
+    var key = Session.get('addApiKey_Adding');
+    var characters = _(key.characters)
+      .filter(function (i) {
+        return i.selected;
+      })
+      .map(function (i) {
+        return _.omit(i, 'selected');
+      });
+    key.characters = undefined;
 
+    _.each(characters, function (i) {
+      i.apiKey = key;
+      i.owner = Meteor.userId();
+      if (key.type === 'Account' || key.type === 'Character') {
+        i.type = 'Character';
+      } else {
+        i.type = 'Corporation';
+      }
+      var existing = Veldspar.UserData.characters.findOne({
+        'id': i.id,
+        'apiKey.id': key.id
+      }, {
+        fields: {
+          _id: 1
+        }
+      });
+      if (existing)
+        Veldspar.UserData.characters.update({
+          _id: existing._id
+        }, i);
+      else
+        Veldspar.UserData.characters.insert(i);
+    });
+
+    Session.set('addApiKey_Adding', null);
+  },
+  'validateId':     function () {
+    var $id = $('#id', view.side()),
+        id = Number($id.removeClass('ui-textbox-error').val());
+    if (_.isNaN(id) || id === 0) {
+      $id.addClass('ui-textbox-error').focus();
+      view.showError(view.side(), '<b class="accented">API Key ID</b> should be a number!');
+      return false;
+    }
+    view.showError(view.side(), null);
+    return true;
+  },
+  'validateVcode':  function () {
+    var $code = $('#vcode', view.side()),
+        vcode = $code.removeClass('ui-textbox-error').val();
+    if (vcode.length !== 64) {
+      $code.addClass('ui-textbox-error').focus();
+      view.showError(view.side(), '<b class="accented">Verification Code</b> should be a 64-character string!');
+      return false;
+    }
+    view.showError(view.side(), null);
+    return true;
+  }
+});
+/* Rendered Callback */
 view.rendered = function () {
+  view.Step.init(view.side());
   $('.character-grid').sortable({
     cancel: '.new',
     containment: 'parent'
   });
 }
-
-view.reset = function () {
-  $('#add-api-key #id').removeClass('ui-textbox-error').val('');
-  $('#add-api-key #vcode').removeClass('ui-textbox-error').val('');
-  $('#add-api-key .step').removeAttr('style');
-  view.showError('#add-api-key', null);
-};
-
-view.submitKey = function () {
-  
-  var $id = $('#add-api-key #id'),
-    id = Number($id.val());
-  var $code = $('#add-api-key #vcode'),
-    vcode = $code.val();
-  
-  if (view.validateId() && view.valiateVcode()) {
-    // Start loading process
-    Session.set('addApiKey_ShowLoading', true);
-    Session.set('addApiKey_Adding', null);
-    Meteor.call('getApiKeyInfo', id, vcode, function (err, result) {
-      if (err) {
-        view.showErrorMsg('<b class="accented">Error ' + err.error + ': </b>' + err.reason, true);
-        $('#add-api-key .step').animate({
-          'left': '+=100%'
-        }, 'fast');
-        return;
-      } else {
-        Session.set('addApiKey_Adding', result);
-      }
-    });
-    $('#add-api-key .step').animate({
-      'left': '-=100%'
-    }, 'fast');
-  }
-};
-
-view.submit = function () {
-  var key = Session.get('addApiKey_Adding');
-  var characters = _(key.characters)
-    .filter(function (i) {
-      return i.selected;
-    })
-    .map(function (i) {
-      return _.omit(i, 'selected');
-    });
-  key.characters = undefined;
-
-  _.each(characters, function (i) {
-    i.apiKey = key;
-    i.owner = Meteor.userId();
-    if (key.type === 'Account' || key.type === 'Character') {
-      i.type = 'Character';
-    } else {
-      i.type = 'Corporation';
-    }
-    var existing = Veldspar.UserData.characters.findOne({
-      'id': i.id,
-      'apiKey.id': key.id
-    }, {
-      fields: {
-        _id: 1
-      }
-    });
-    if (existing)
-      Veldspar.UserData.characters.update({
-        _id: existing._id
-      }, i);
-    else
-      Veldspar.UserData.characters.insert(i);
-  });
-  
-  Session.set('addApiKey_Adding', null);
-};
-
-/* Validation Methods */
-view.validateId = function () {
-  var $id = $('#add-api-key #id'),
-    id = Number($id.removeClass('ui-textbox-error').val());
-  if (_.isNaN(id) || id === 0) {
-    $id.addClass('ui-textbox-error').focus();
-    view.showError('#add-api-key', '<b class="accented">API Key ID</b> should be a number!');
-    return false;
-  }
-  view.showError('#add-api-key', null);
-  return true;
-};
-view.valiateVcode = function () {
-  var $code = $('#add-api-key #vcode'),
-    vcode = $code.removeClass('ui-textbox-error').val();
-  if (vcode.length !== 64) {
-    $code.addClass('ui-textbox-error').focus();
-    view.showError('#add-api-key', '<b class="accented">Verification Code</b> should be a 64-character string!');
-    return false;
-  }
-  view.showError('#add-api-key', null);
-  return true;
-};
 
 /* Nested Template Helpers */
 Template.userHomeCharCard.helpers({

@@ -1,149 +1,144 @@
-var view = $.extend(Template.login, new Veldspar.UI.view(Template.login));
-
+/*
+# Veldspar EVE Online API Client
+# login.js - Interaction logic for views/login.html
+# Copyright © Denis Luchkin-Zhou
+*/
+/* Attach Veldspar.view functionality to Meteor template */
+var view = Veldspar.UI.init(Template.login);
+/* Event Handling */
 view.events({
-  'keydown #login #uname': view.forward('#login #pwd'),
-  'keydown #login #pwd': function (e) {
+  'keydown .main #uname': view.forward('.main #pwd'),
+  'keydown .main #pwd': function (e) {
     if (e.keyCode === 13) {
-      view.login();
+      view.util.login();
     }
   },
-  'click #login #forgot': function () {
+  'click .main #forgot': function () {
     alert('WIP');
   },
-  'click #login #submit': function () {
-    view.login();
+  'click .main #submit': function () {
+    view.util.login();
   },
-  'click #login input#signup': function () {
-    view.Sidebar.resize('left-scale', '30%', function () { $('#signup #email').focus(); } );
+  'click .main #signup': function () {
+    view.Sidebar.resize('left-scale', '30%', function () { $('#email', view.side()).focus(); } );
   },
-  'keydown #signup #email': view.forward('#signup #pwd1', function () { return view.validateEmail(); }),
-  'keydown #signup #pwd1': view.forward('#signup #pwd2'),
-  'keydown #signup #pwd2': function (e) {
-    if (e.keyCode === 13 && view.validatePassword(true)) {
-      view.signup();
+  'keydown .sidebar #email': view.forward('.sidebar #pwd1', function () { return view.util.validateEmail(); }),
+  'keydown .sidebar #pwd1': view.forward('.sidebar #pwd2'),
+  'keydown .sidebar #pwd2': function (e) {
+    if (e.keyCode === 13 && view.util.validatePassword(true)) {
+      view.util.signup();
     }
   },
-  'click #signup .cancel': function () {
-    view.Sidebar.resize('left-scale', '0', view.resetSidebar);
+  'click .sidebar .cancel': function () {
+    view.Sidebar.resize('left-scale', '0', view.util.resetSidebar);
   },
-  'click #signup .ui-button-submit': function () {
-    view.signup();
+  'click .sidebar .ui-button-submit': function () {
+    view.util.signup();
   }
 });
-
+/* Template Helper Functions */
 view.helpers({
   'showLoading': function () {
     return Session.get('signup_ShowLoading');
   }
 });
+/* UI Utility Functions */
+view.util({
+  'login': function () {
+    var $uname = $('#uname', view.main()).removeClass('ui-textbox-error'),
+        $pwd = $('#pwd', view.main()).removeClass('ui-textbox-error'),
+        uname = $uname.val(),
+        pwd = $pwd.val();
 
-view.rendered = function () {
-  $('#login #uname').focus()
-}
+    if (uname === '') {
+      view.showError(view.main(), 'Capsuleer, don\'t you have an email?');
+      $uname.addClass('ui-textbox-error').focus();
+      return;
+    } else {
+      view.showError(view.main(), null);
+    }
 
-view.login = function () {
-  var $uname = $('#login #uname').removeClass('ui-textbox-error'),
-    $pwd = $('#login #pwd').removeClass('ui-textbox-error');
-  
-  var uname = $uname.val(),
-    pwd = $pwd.val();
-
-  if (uname === '') {
-    this.showError('#login .main', 'Capsuleer, don\'t you have an email?');
-    $uname.addClass('ui-textbox-error').focus();
-    return;
-  } else {
-    this.showError('#login', null);
-  }
-
-  Meteor.loginWithPassword({
-    email: uname
-  }, pwd, function (err) {
-    if (err) {
-      var $box = $('#login #shaky');
-      $('#login #pwd').val('');
-      var speed = 80;
-      var magnitude = 20;
-      $box.animate({
-        left: magnitude
-      }, speed)
-        .animate({
-          left: -magnitude
-        }, speed)
-        .animate({
+    Meteor.loginWithPassword({
+      email: uname
+    }, pwd, function (err) {
+      if (err) {
+        var $box = $('#shaky', view.main());
+        $('#pwd', view.main()).val('');
+        var speed = 80;
+        var magnitude = 20;
+        $box.animate({
           left: magnitude
         }, speed)
-        .animate({
-          left: 0
-        }, speed);
-      $('#login #forgot').show('fade');
-    }
-  });
-
-
-}
-
-view.resetSidebar = function () {
-  $('#signup #email').val('').removeClass('ui-textbox-error');
-  $('#signup #pwd1').val('').removeClass('ui-textbox-error');
-  $('#signup #pwd2').val('').removeClass('ui-textbox-error');
-  $('#signup .step').removeAttr('style');
-  view.showError('#signup', null);
-};
-
-view.signup = function () {
-  if (view.validateEmail() && view.validatePassword(true)) {
-    Session.set('signup_ShowLoading', true);
-    $('#signup .step').animate({
-        'left': '-=100%'
-      }, 'fast');
-    Accounts.createUser({email: $('#signup #email').val(), password: $('#signup #pwd1').val() }, function (err) {
-      if (err) {
-        view.showError('#signup', err.reason);
-        $('#signup .step').animate({
-          'left': '+=100%'
-        }, 'fast', function () {
-          Session.set('signup_ShowLoading', false);
-          $('#signup #email').focus();
-        });
+          .animate({
+            left: -magnitude
+          }, speed)
+          .animate({
+            left: magnitude
+          }, speed)
+          .animate({
+            left: 0
+          }, speed);
+        $('#forgot', view.main()).show('fade');
       }
     });
-  }
-}
+  },
+  'signup': function () {
+    if (view.util.validateEmail() && view.util.validatePassword(true)) {
+      Session.set('signup_ShowLoading', true);
+      view.Step.next(view.side());
+      Accounts.createUser({email: $('#email', view.side()).val(), password: $('#pwd1', view.side()).val() }, function (err) {
+        if (err) {
+          view.showError(view.side(), err.reason);
+          view.Step.prev(view.side(), function () {
+            Session.set('signup_ShowLoading', false);
+            $('#email', view.side()).focus();
+          });
+        }
+      });
+    }
+  },
+  'resetSidebar': function () {
+    $('.ui-textbox', view.side()).val('').removeClass('ui-textbox-error');
+    view.Step.reset(view.side());
+    view.showError(view.side(), null);
+  },
+  'validateEmail': function () {
+    var $email = $('#email', view.side()).removeClass('ui-textbox-error');
+    if (!view.util.isEmailAddress($email.val())) {
+      view.showError(view.side(), 'Your <b class="accented">email address</b> doesn\'t look right.');
+      $email.addClass('ui-textbox-error');
+      return false;
+    }
+    view.showError(view.side(), null);
+    return true;
+  },
+  'validatePassword': function (match) {
+    var $pwd1 = $('#pwd1', view.side()).removeClass('ui-textbox-error'),
+        $pwd2 = $('#pwd2', view.side()).removeClass('ui-textbox-error'),
+        pwd1 = $pwd1.val(),
+        pwd2 = $pwd2.val();
 
-/* Utility methods */
-view.validateEmail = function () {
-  var $email = $('#signup #email').removeClass('ui-textbox-error');
-  if (!Components.Util.isEmailAddress($email.val())) {
-    this.showError('#signup', 'Your <b class="accented">email address</b> doesn\'t look right.');
-    $email.addClass('ui-textbox-error');
-    return false;
-  }
-  this.showError('#signup', null);
-  return true;
-};
+    /* Validate for length */
+    if (pwd1.length < 8) {
+      view.showError(view.side(), 'Your <b class="accented">password</b> should be at least 8 characters long!');
+      $pwd1.addClass('ui-textbox-error').val('').focus();
+      return false;
+    }
 
-view.validatePassword = function (match) {
-  var $pwd1 = $('#signup #pwd1').removeClass('ui-textbox-error'),
-      $pwd2 = $('#signup #pwd2').removeClass('ui-textbox-error'),
-      pwd1 = $pwd1.val(),
-      pwd2 = $pwd2.val();
-  
-  /* Validate for length */
-  if (pwd1.length < 8) {
-    this.showError('#signup', 'Your <b class="accented">password</b> should be at least 8 characters long!');
-    $pwd1.addClass('ui-textbox-error').val('').focus();
-    return false;
+    /* Validate verification */
+    if (match && pwd1 !== pwd2) {
+      view.showError(view.side(), 'Your <b class="accented">password</b> and <b class="accented">verification</b> do not match!');
+      $pwd1.addClass('ui-textbox-error').val('').focus();
+      $pwd2.addClass('ui-textbox-error').val('');
+      return false;
+    }
+
+    view.showError(view.side(), null);
+    return true;
   }
-  
-  /* Validate verification */
-  if (match && pwd1 !== pwd2) {
-    this.showError('#signup', 'Your <b class="accented">password</b> and <b class="accented">verification</b> do not match!');
-    $pwd1.addClass('ui-textbox-error').val('').focus();
-    $pwd2.addClass('ui-textbox-error').val('');
-    return false;
-  }
-  
-  this.showError('#signup', null);
-  return true;
+});
+/* Rendered Callback */
+view.rendered = function () {
+  view.Step.init(view.side()); 
+  $('#uname', view.main()).focus()
 }

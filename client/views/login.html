@@ -5,8 +5,8 @@
 -->
 <template name="login">
   <div id="login" class="view">
-    <div class="sidebar" id="signup">
-      <div class="step" id="step-one">
+    <div class="sidebar">
+      <div class="step">
         <h1>Sign Up</h1>
         <p class="motd">Welcome to the <span class="accented">Veld</span>spar!</p>
         <div class="ui-state-error error-box"></div>
@@ -23,7 +23,7 @@
           <input type="button" class="ui-button ui-button-submit" value="Submit">
         </div>
       </div>
-      <div class="step" id="step-two">
+      <div class="step" id="loading">
         {{#if showLoading}}
         <div id="wait-wrapper">
           <i id="loading-indicator" class="icon ion-loading-c"></i>
