@@ -15,19 +15,11 @@ view = Veldspar.UI.view = function () {
   # used view components: .main and .sidebar
   # These also serve as contexts for the jQuery method.
   #*/
-  this.$main = null;
-  this.$side = null;
   this.main = function () {
-    if (!this.$main) {
-      this.$main = $('.main');
-    }
-    return this.$main;
+      return $('.main');
   };
   this.side = function () { 
-    if (!this.$side) {
-      this.$side = $('.sidebar');
-    }
-    return this.$side;
+    return $('.sidebar');
   };
   
   /* Sidebar */
@@ -133,6 +125,12 @@ view = Veldspar.UI.view = function () {
   this.Step.reset = function (context) {
     var $step = $('.step', context);
     $step.removeAttr('style');
+  };
+  
+  /* Un-cache on destruction */
+  this.destroyed = function () {
+    this.$main = null;
+    this.$side = null;
   };
 };
 

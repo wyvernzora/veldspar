@@ -13,6 +13,7 @@
   z-index: 3;
 }
 
+/*
 #shadow {
   position: absolute;
   left: 0;
@@ -22,4 +23,14 @@
   z-index: 4;
   background-image: linear-gradient(to bottom, #333, transparent);
   background-repeat: repeat-x;
+}
+*/
+#shadow {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 55px;
+  height: 0;
+  z-index: 4;
+  border: inset 1px;
 }

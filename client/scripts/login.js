@@ -7,7 +7,7 @@
 var view = Veldspar.UI.init(Template.login);
 /* Event Handling */
 view.events({
-  'keydown .main #uname': view.forward('.main #pwd'),
+  'keydown .main #uname': view.forward('.main #pwd', function () { return view.util.validateLoginEmail(); }),
   'keydown .main #pwd': function (e) {
     if (e.keyCode === 13) {
       view.util.login();
@@ -49,38 +49,32 @@ view.util({
         $pwd = $('#pwd', view.main()).removeClass('ui-textbox-error'),
         uname = $uname.val(),
         pwd = $pwd.val();
-
-    if (uname === '') {
-      view.showError(view.main(), 'Capsuleer, don\'t you have an email?');
-      $uname.addClass('ui-textbox-error').focus();
-      return;
-    } else {
-      view.showError(view.main(), null);
-    }
-
-    Meteor.loginWithPassword({
-      email: uname
-    }, pwd, function (err) {
-      if (err) {
-        var $box = $('#shaky', view.main());
-        $('#pwd', view.main()).val('');
-        var speed = 80;
-        var magnitude = 20;
-        $box.animate({
-          left: magnitude
-        }, speed)
-          .animate({
-            left: -magnitude
-          }, speed)
-          .animate({
+   
+    if (view.util.validateLoginEmail()) { 
+      Meteor.loginWithPassword({
+        email: uname
+      }, pwd, function (err) {
+        if (err) {
+          var $box = $('#shaky', view.main());
+          $('#pwd', view.main()).val('');
+          var speed = 80;
+          var magnitude = 20;
+          $box.animate({
             left: magnitude
           }, speed)
-          .animate({
-            left: 0
-          }, speed);
-        $('#forgot', view.main()).show('fade');
-      }
-    });
+            .animate({
+              left: -magnitude
+            }, speed)
+            .animate({
+              left: magnitude
+            }, speed)
+            .animate({
+              left: 0
+            }, speed);
+          $('#forgot', view.main()).show('fade');
+        }
+      });
+    }
   },
   'signup': function () {
     if (view.util.validateEmail() && view.util.validatePassword(true)) {
@@ -134,6 +128,19 @@ view.util({
     }
 
     view.showError(view.side(), null);
+    return true;
+  },
+  'validateLoginEmail': function () {    
+    var $uname = $('#uname', view.main()).removeClass('ui-textbox-error'),
+        uname = $uname.val();
+    
+    if (!view.util.isEmailAddress(uname)) {
+      view.showError(view.main(), 'Your <b class="accented">email address</b> doesn\'t look right.');
+      $uname.addClass('ui-textbox-error').focus();
+      return false;
+    } 
+    
+    view.showError(view.main(), null);
     return true;
   }
 });

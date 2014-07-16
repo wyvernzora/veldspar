@@ -1,0 +1,75 @@
+<template name="character">
+  <div class="view" id="character">
+    <div class="sidebar">
+      <nav>
+        <ul>
+          <li class="selected">
+            <div class="nav-icon icon-character-sheet"></div>
+            Character Sheet
+          </li>
+          <li>
+            <div class="nav-icon icon-skillbook"></div>
+            Skills
+          </li>
+          <li>
+            <div class="nav-icon icon-cert"></div>
+            Certificates
+          </li>
+          <li>
+            <div class="nav-icon icon-alliance"></div>
+            Standings
+          </li>
+          <li>
+            <div class="nav-icon icon-database"></div>
+            Database
+          </li>
+          <li>
+            <div class="nav-icon icon-mail"></div>
+            EVE Mail
+          </li>
+          <li>
+            <div class="nav-icon icon-calendar"></div>
+            Calendar
+          </li>
+          <li>
+            <div class="nav-icon icon-fitting"></div>
+            Fitting
+          </li>
+          <li>
+            <div class="nav-icon icon-killmail"></div>
+            Killmails
+          </li>
+          <li>
+            <div class="nav-icon icon-market"></div>
+            Market
+          </li>
+          <li>
+            <div class="nav-icon icon-asset"></div>
+            Assets
+          </li>
+          <li>
+            <div class="nav-icon icon-wallet"></div>
+            Wallet
+          </li>
+          <li>
+            <div class="nav-icon icon-contract"></div>
+            Contracts
+          </li>
+          <li>
+            <div class="nav-icon icon-industry"></div>
+            Industry
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <div class="main" style="margin-left: 250px">
+      <div class="portrait" style="background-image: url({{portraitUri}}), url(/character.png);"></div>
+      <div class="info">
+        <h1 class="char-name">{{character.name}}</h1>
+      </div>
+      
+      
+      <hr>
+    </div>
+  </div>
+</template>

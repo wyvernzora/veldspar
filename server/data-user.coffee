@@ -10,3 +10,5 @@ Meteor.publish 'user_Characters', ->
     return UserData.characters.find({owner: this.userId})
   else
     this.ready()
+
+# Add default flags

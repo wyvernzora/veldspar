@@ -50,7 +50,7 @@
     }
   }
   .sidebar {
-    .box-shadow(inset; -4px; 4px; 5px; @shadow-color);
+    //.box-shadow(inset; -4px; 4px; 5px; @shadow-color);
     .absolute-position(@top: 0; @bottom: 0; @left: 0; @right: auto);
     
     z-index: 1;
@@ -83,6 +83,7 @@
     width: 80%;
     margin: 0 10%;
   }
+  /* Generate step styles */
   .generate-steps(@n, @i: 1) when (@i =< @n) {
     .step-@{i} {
       left: (@i * 100%);

@@ -12,8 +12,15 @@ Template.header.events {
     Session.set('showDebugView', yes)
   'click #navLogout': ->
     Meteor.logout()
+    Session.set('CurrentCharacter', null)
   'click #navHome': ->
     Session.set('CurrentCharacter', null)
+  'click #navAdmin': ->
+    Meteor.call 'updateSkillTree', (err, result) ->
+      if (err) 
+        alert err.reason
+      else
+        alert 'done'
 }
 
 Template.debug.events {
@@ -24,3 +31,6 @@ Template.debug.events {
 
 Template.root.showDebugView = -> Session.get('showDebugView')
 Template.root.currentCharacter = -> Session.get('CurrentCharacter');
+
+UI.registerHelper 'currentCharacter', ->
+  return Session.get 'CurrentCharacter'

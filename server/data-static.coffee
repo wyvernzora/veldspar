@@ -5,8 +5,8 @@ Veldspar = (exports ? this).Veldspar
 StaticData = Veldspar.StaticData
 
 # Publish all static data
-Meteor.publish 'static_skillTree', -> StaticData.skillTree.find()
-Meteor.publish 'static_skillCategories', -> StaticData.skillCategories.find()
+Meteor.publish 'static_SkillTree', -> StaticData.skillTree.find()
+Meteor.publish 'static_SkillCategories', -> StaticData.skillCategories.find()
 
 # Internal: Fetches the skill tree data from EVE API and updates the
 # existing 'static_SkillTree' collection.
@@ -63,3 +63,26 @@ StaticData.updateSkillTree = () ->
     resolveDeps(i)
     StaticData.skillTree.update({_id: i._id}, i)
 
+# Security policies
+StaticData.skillTree.allow {
+  insert: (userId) ->
+    user = Meteor.users.findOne({_id: userId});
+    return (user?.isAdmin)
+  update: (userId) ->
+    user = Meteor.users.findOne({_id: userId});
+    return (user?.isAdmin)
+  remove: (userId) ->
+    user = Meteor.users.findOne({_id: userId});
+    return (user?.isAdmin)
+  }
+StaticData.skillCategories.allow {
+  insert: (userId) ->
+    user = Meteor.users.findOne({_id: userId});
+    return (user?.isAdmin)
+  update: (userId) ->
+    user = Meteor.users.findOne({_id: userId});
+    return (user?.isAdmin)
+  remove: (userId) ->
+    user = Meteor.users.findOne({_id: userId});
+    return (user?.isAdmin)
+  }
