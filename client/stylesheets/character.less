@@ -7,28 +7,7 @@
 @import "util.less";
 #character {
   
-  .main {    
-    .portrait {
-      height: 192px;
-      width: 192px;
-      margin: 25px;
-      float: left;
-      border: 4px solid @bg-color-liter;
-      background-size: contain;
-    }
-    .info {
-      margin: 25px;
-      //margin-left: 242px;
-      
-    }
-    
-    hr {
-      clear: both;
-      margin-top: 0;
-    }
-  }
-  
-  .sidebar {
+  .left {
     width: 250px;
     
     nav ul {
@@ -69,5 +48,40 @@
 
     }
     
+  }  
+  
+  .main {
+    margin-left: 250px;
+  }
+  
+  /* Module Styles */
+  #character-sheet {
+
+    .info {
+      height: 200px;
+      margin: 25px 0;
+      
+      .portrait {
+        height: 192px;
+        width: 192px;
+        float: left;
+        margin: 0 25px;
+        border: 4px solid @bg-color-liter;
+        background-size: contain;
+      }
+      .char-name {
+        font-weight: normal;
+      }
+      .char-id {
+        font-size: 0.5em;
+        font-weight: lighter;
+        vertical-align: middle;
+      }
+    }  
+    hr {
+      clear: both;
+      margin: 0;
+    }
   }
 }
+

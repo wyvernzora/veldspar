@@ -9,8 +9,8 @@
   view = Veldspar.UI.init(view);
 
   view.events({
-    'click .sidebar nav li': function (e) {
-      var $li = $('nav li', view.side),
+    'click .left nav li': function (e) {
+      var $li = $('nav li', view.left()),
         $sel = $(e.currentTarget);
       if (!$sel.hasClass('selected')) {
         $li.removeClass('selected');
@@ -38,7 +38,7 @@
     Session.set('character.fragment', 'character-sheet');
     
     /* Make the navigation bar sortable */
-    $('nav ul', view.side).sortable({
+    $('nav ul', view.left()).sortable({
       containment: 'parent'
     });
     

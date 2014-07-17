@@ -55,24 +55,24 @@
       }
     },
 
-    'click .sidebar .cancel': function () {
+    'click .left .cancel': function () {
       Session.set('addApiKey.ShowLoading', false);
       view.Sidebar.resize('left', '0', function () {
         view.util.reset();
       });
     },
-    'click .sidebar #next': function () {
+    'click .left #next': function () {
       view.util.submitKey();
     },
-    'keydown .sidebar #id': view.forward('.sidebar #vcode', function () {
+    'keydown .left #id': view.forward('.left #vcode', function () {
       return view.util.validateId();
     }),
-    'keydown .sidebar #vcode': function (e) {
+    'keydown .left #vcode': function (e) {
       if (e.keyCode === 13) {
         view.util.submitKey();
       }
     },
-    'click .sidebar .char-list .card': function () {
+    'click .left .char-list .card': function () {
       var key = Session.get('addApiKey.Adding');
       var id = this.id;
       var char = _.find(key.characters, function (i) {
@@ -81,7 +81,7 @@
       char.selected = !char.selected;
       Session.set('addApiKey.Adding', key);
     },
-    'click .sidebar #submit': function () {
+    'click .left #submit': function () {
       view.util.submit();
       Session.set('addApiKey.ShowLoading', false);
       view.Sidebar.resize('left', '0', function () {
@@ -144,13 +144,13 @@
   /* UI Utility Functions */
   view.util({
     'reset': function () {
-      $('.ui-textbox', view.side()).removeClass('ui-textbox-error').val('');
-      view.Step.reset(view.side());
-      view.showError(view.side(), null);
+      $('.ui-textbox', view.left()).removeClass('ui-textbox-error').val('');
+      view.Step.reset(view.left());
+      view.showError(view.left(), null);
     },
     'submitKey': function () {
-      var $id = $('#id', view.side()),
-        $code = $('#vcode', view.side()),
+      var $id = $('#id', view.left()),
+        $code = $('#vcode', view.left()),
         id = Number($id.val()),
         vcode = $code.val();
 
@@ -159,14 +159,14 @@
         Session.set('addApiKey.Adding', null);
         Meteor.call('getApiKeyInfo', id, vcode, function (err, result) {
           if (err) {
-            view.showError(view.side(), '<b class="accented">Error ' + err.error + ': </b>' + err.reason, true);
-            view.Step.prev(view.side());
+            view.showError(view.left(), '<b class="accented">Error ' + err.error + ': </b>' + err.reason, true);
+            view.Step.prev(view.left());
             return;
           } else {
             Session.set('addApiKey.Adding', result);
           }
         });
-        view.Step.next(view.side());
+        view.Step.next(view.left());
       }
     },
     'submit': function () {
@@ -207,31 +207,31 @@
       Session.set('addApiKey.Adding', null);
     },
     'validateId': function () {
-      var $id = $('#id', view.side()),
+      var $id = $('#id', view.left()),
         id = Number($id.removeClass('ui-textbox-error').val());
       if (_.isNaN(id) || id === 0) {
         $id.addClass('ui-textbox-error').focus();
-        view.showError(view.side(), '<b class="accented">API Key ID</b> should be a number!');
+        view.showError(view.left(), '<b class="accented">API Key ID</b> should be a number!');
         return false;
       }
-      view.showError(view.side(), null);
+      view.showError(view.left(), null);
       return true;
     },
     'validateVcode': function () {
-      var $code = $('#vcode', view.side()),
+      var $code = $('#vcode', view.left()),
         vcode = $code.removeClass('ui-textbox-error').val();
       if (vcode.length !== 64) {
         $code.addClass('ui-textbox-error').focus();
-        view.showError(view.side(), '<b class="accented">Verification Code</b> should be a 64-character string!');
+        view.showError(view.left(), '<b class="accented">Verification Code</b> should be a 64-character string!');
         return false;
       }
-      view.showError(view.side(), null);
+      view.showError(view.left(), null);
       return true;
     }
   });
   /* Rendered Callback */
   view.rendered = function () {
-    view.Step.init(view.side());
+    view.Step.init(view.left());
     $('.character-grid').sortable({
       cancel: '.new',
       containment: 'parent'

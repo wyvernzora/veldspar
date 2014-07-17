@@ -25,22 +25,22 @@
     },
     'click .main #signup': function () {
       view.Sidebar.resize('left-scale', '30%', function () {
-        $('#email', view.side()).focus();
+        $('#email', view.left()).focus();
       });
     },
-    'keydown .sidebar #email': view.forward('.sidebar #pwd1', function () {
+    'keydown .left #email': view.forward('.left #pwd1', function () {
       return view.util.validateEmail();
     }),
-    'keydown .sidebar #pwd1': view.forward('.sidebar #pwd2'),
-    'keydown .sidebar #pwd2': function (e) {
+    'keydown .left #pwd1': view.forward('.left #pwd2'),
+    'keydown .left #pwd2': function (e) {
       if (e.keyCode === 13 && view.util.validatePassword(true)) {
         view.util.signup();
       }
     },
-    'click .sidebar .cancel': function () {
+    'click .left .cancel': function () {
       view.Sidebar.resize('left-scale', '0', view.util.resetSidebar);
     },
-    'click .sidebar .ui-button-submit': function () {
+    'click .left .ui-button-submit': function () {
       view.util.signup();
     }
   });
@@ -87,58 +87,58 @@
     'signup': function () {
       if (view.util.validateEmail() && view.util.validatePassword(true)) {
         Session.set('signup.ShowLoading', true);
-        view.Step.next(view.side());
+        view.Step.next(view.left());
         Accounts.createUser({
-          email: $('#email', view.side()).val(),
-          password: $('#pwd1', view.side()).val()
+          email: $('#email', view.left()).val(),
+          password: $('#pwd1', view.left()).val()
         }, function (err) {
           if (err) {
-            view.showError(view.side(), err.reason);
-            view.Step.prev(view.side(), function () {
+            view.showError(view.left(), err.reason);
+            view.Step.prev(view.left(), function () {
               Session.set('signup.ShowLoading', false);
-              $('#email', view.side()).focus();
+              $('#email', view.left()).focus();
             });
           }
         });
       }
     },
     'resetSidebar': function () {
-      $('.ui-textbox', view.side()).val('').removeClass('ui-textbox-error');
-      view.Step.reset(view.side());
-      view.showError(view.side(), null);
+      $('.ui-textbox', view.left()).val('').removeClass('ui-textbox-error');
+      view.Step.reset(view.left());
+      view.showError(view.left(), null);
     },
     'validateEmail': function () {
-      var $email = $('#email', view.side()).removeClass('ui-textbox-error');
+      var $email = $('#email', view.left()).removeClass('ui-textbox-error');
       if (!view.util.isEmailAddress($email.val())) {
-        view.showError(view.side(), 'Your <b class="accented">email address</b> doesn\'t look right.');
+        view.showError(view.left(), 'Your <b class="accented">email address</b> doesn\'t look right.');
         $email.addClass('ui-textbox-error');
         return false;
       }
-      view.showError(view.side(), null);
+      view.showError(view.left(), null);
       return true;
     },
     'validatePassword': function (match) {
-      var $pwd1 = $('#pwd1', view.side()).removeClass('ui-textbox-error'),
-        $pwd2 = $('#pwd2', view.side()).removeClass('ui-textbox-error'),
+      var $pwd1 = $('#pwd1', view.left()).removeClass('ui-textbox-error'),
+        $pwd2 = $('#pwd2', view.left()).removeClass('ui-textbox-error'),
         pwd1 = $pwd1.val(),
         pwd2 = $pwd2.val();
 
       /* Validate for length */
       if (pwd1.length < 8) {
-        view.showError(view.side(), 'Your <b class="accented">password</b> should be at least 8 characters long!');
+        view.showError(view.left(), 'Your <b class="accented">password</b> should be at least 8 characters long!');
         $pwd1.addClass('ui-textbox-error').val('').focus();
         return false;
       }
 
       /* Validate verification */
       if (match && pwd1 !== pwd2) {
-        view.showError(view.side(), 'Your <b class="accented">password</b> and <b class="accented">verification</b> do not match!');
+        view.showError(view.left(), 'Your <b class="accented">password</b> and <b class="accented">verification</b> do not match!');
         $pwd1.addClass('ui-textbox-error').val('').focus();
         $pwd2.addClass('ui-textbox-error').val('');
         return false;
       }
 
-      view.showError(view.side(), null);
+      view.showError(view.left(), null);
       return true;
     },
     'validateLoginEmail': function () {
@@ -157,7 +157,7 @@
   });
   /* Rendered Callback */
   view.rendered = function () {
-    view.Step.init(view.side());
+    view.Step.init(view.left());
     $('#uname', view.main()).focus()
   }
   

@@ -12,14 +12,14 @@ view = Veldspar.UI.view = function () {
   # DOM Helpers 
   #
   # These functions help with caching of the most frequently
-  # used view components: .main and .sidebar
+  # used view components: .main and .left
   # These also serve as contexts for the jQuery method.
   #*/
   this.main = function () {
       return $('.main');
   };
-  this.side = function () { 
-    return $('.sidebar');
+  this.left = function () { 
+    return $('.left');
   };
   
   /* Sidebar */
