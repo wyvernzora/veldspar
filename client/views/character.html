@@ -62,17 +62,25 @@
         </ul>
       </nav>
     </div>
-    <div class="main" style="margin-left: 250px">
-      {{> subCharacterSheet}}
-    </div>
+    {{#with currentCharacter}}
+    {{#if fragmentIs "character-sheet"}} {{> fragCharacterSheet}} {{/if}}
+    {{/with}}
   </div>
 </template>
 
 <!-- Character: CharacterSheet -->
-<template name="subCharacterSheet">
-  <div class="portrait" style="background-image: url({{portraitUri}}), url(/character.png);"></div>
-  <div class="info">
-    <h1 class="char-name">{{currentCharacter.name}}</h1>
+<template name="fragCharacterSheet">
+  <div id="character-sheet" class="main">
+    <div class="content">
+      <div class="info">
+        <div class="portrait" style="background-image: url({{charPortraitUri 256}}), url(/character.png);"></div>
+        <h1 class="char-name">
+          {{name}}
+          <span class="char-id">(<a href="#">#{{id}}</a>)</span>
+        </h1>
+      </div>
+      <hr>
+    </div>
+
   </div>
-  <hr>
 </template>

@@ -31,7 +31,7 @@
         <div class="char-list">
           {{#each keyCharacters}}
           <div class="box card">
-            <div class="portrait" style="background-image: url({{portraitUri}})">
+            <div class="portrait" style="background-image: url({{charPortraitUri 64}})">
               <div>
                 <i class="icon {{selIconClass}}"></i>
               </div>
@@ -125,7 +125,7 @@
 <template name="userHomeCharCard">
   <li class="card">
     <!-- Character Portrait -->
-    <div class="portrait" style="background-image: url({{portraitUri}}), url(/character.png);">
+    <div class="portrait" style="background-image: url({{charPortraitUri 256}}), url(/character.png);">
       {{#if editMode}}
       <!-- Edit/Delete -->
       <div class="ui-widget-overlay">

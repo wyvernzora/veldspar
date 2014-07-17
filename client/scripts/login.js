@@ -47,7 +47,7 @@
   /* Template Helper Functions */
   view.helpers({
     'showLoading': function () {
-      return Session.get('signup_ShowLoading');
+      return Session.get('signup.ShowLoading');
     }
   });
   /* UI Utility Functions */
@@ -86,7 +86,7 @@
     },
     'signup': function () {
       if (view.util.validateEmail() && view.util.validatePassword(true)) {
-        Session.set('signup_ShowLoading', true);
+        Session.set('signup.ShowLoading', true);
         view.Step.next(view.side());
         Accounts.createUser({
           email: $('#email', view.side()).val(),
@@ -95,7 +95,7 @@
           if (err) {
             view.showError(view.side(), err.reason);
             view.Step.prev(view.side(), function () {
-              Session.set('signup_ShowLoading', false);
+              Session.set('signup.ShowLoading', false);
               $('#email', view.side()).focus();
             });
           }

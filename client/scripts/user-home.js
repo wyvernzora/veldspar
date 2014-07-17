@@ -17,20 +17,20 @@
       e.stopPropagation();
     },
     'click .main .edit': function () {
-      var editMode = Session.get('userHome_Edit');
+      var editMode = Session.get('userHome.Edit');
       if (editMode) {
         $('.edit', view.main()).val('Edit');
         $('.delete', view.main()).hide('fade', 'fast');
-        Session.set('userHome_Edit', false);
-        Session.set('userHome_SelectedIDs', null);
+        Session.set('userHome.Edit', false);
+        Session.set('userHome.SelectedIDs', null);
       } else {
         $('.edit', view.main()).val('Cancel');
         $('.delete', view.main()).show('fade', 'fast');
-        Session.set('userHome_Edit', true);
+        Session.set('userHome.Edit', true);
       }
     },
     'click .main .delete': function () {
-      var ids = Session.get('userHome_SelectedIDs');
+      var ids = Session.get('userHome.SelectedIDs');
       _.each(ids, function (i) {
         Veldspar.UserData.characters.remove({
           _id: i
@@ -38,25 +38,25 @@
       });
       $('.edit', view.main()).val('Edit');
       $('.delete', view.main()).hide('fade', 'fast');
-      Session.set('userHome_Edit', false);
-      Session.set('userHome_SelectedIDs', null);
+      Session.set('userHome.Edit', false);
+      Session.set('userHome.SelectedIDs', null);
     },
     'click .main .portrait:not(.new .portrait)': function () {
-      if (Session.get('userHome_Edit')) {
-        var selection = Session.get('userHome_SelectedIDs');
+      if (Session.get('userHome.Edit')) {
+        var selection = Session.get('userHome.SelectedIDs');
         if (!selection) selection = [];
         if (_.indexOf(selection, this._id) === -1)
           selection.push(this._id);
         else
           selection = _.without(selection, this._id);
-        Session.set('userHome_SelectedIDs', selection);
+        Session.set('userHome.SelectedIDs', selection);
       } else {
         Session.set('CurrentCharacter', this);
       }
     },
 
     'click .sidebar .cancel': function () {
-      Session.set('addApiKey_ShowLoading', false);
+      Session.set('addApiKey.ShowLoading', false);
       view.Sidebar.resize('left', '0', function () {
         view.util.reset();
       });
@@ -73,17 +73,17 @@
       }
     },
     'click .sidebar .char-list .card': function () {
-      var key = Session.get('addApiKey_Adding');
+      var key = Session.get('addApiKey.Adding');
       var id = this.id;
       var char = _.find(key.characters, function (i) {
         return i.id === id;
       });
       char.selected = !char.selected;
-      Session.set('addApiKey_Adding', key);
+      Session.set('addApiKey.Adding', key);
     },
     'click .sidebar #submit': function () {
       view.util.submit();
-      Session.set('addApiKey_ShowLoading', false);
+      Session.set('addApiKey.ShowLoading', false);
       view.Sidebar.resize('left', '0', function () {
         view.util.reset();
       });
@@ -97,13 +97,13 @@
       });
     },
     'editMode': function () {
-      return Session.get('userHome_Edit');
+      return Session.get('userHome.Edit');
     },
     'loading': function () {
-      return Session.get('userHome_Loading');
+      return Session.get('userHome.Loading');
     },
     'expirationMsg': function () {
-      var key = Session.get('addApiKey_Adding');
+      var key = Session.get('addApiKey.Adding');
       if (key) {
         if (!key.expires) {
           return 'never expires';
@@ -115,16 +115,13 @@
       }
     },
     'keyCharacters': function () {
-      var key = Session.get('addApiKey_Adding');
+      var key = Session.get('addApiKey.Adding');
       if (key) {
         return key.characters;
       }
     },
     'apiKeyInfo': function () {
-      return Session.get('addApiKey_Adding');
-    },
-    'portraitUri': function () {
-      return view.util.getCharPortraitUri(this.id, 64);
+      return Session.get('addApiKey.Adding');
     },
     'allianceName': function () {
       if (this.alliance.name === '') {
@@ -141,7 +138,7 @@
       }
     },
     'showLoading': function () {
-      return Session.get('addApiKey_ShowLoading');
+      return Session.get('addApiKey.ShowLoading');
     }
   });
   /* UI Utility Functions */
@@ -158,22 +155,22 @@
         vcode = $code.val();
 
       if (view.util.validateId() && view.util.validateVcode()) {
-        Session.set('addApiKey_ShowLoading', true);
-        Session.set('addApiKey_Adding', null);
+        Session.set('addApiKey.ShowLoading', true);
+        Session.set('addApiKey.Adding', null);
         Meteor.call('getApiKeyInfo', id, vcode, function (err, result) {
           if (err) {
             view.showError(view.side(), '<b class="accented">Error ' + err.error + ': </b>' + err.reason, true);
             view.Step.prev(view.side());
             return;
           } else {
-            Session.set('addApiKey_Adding', result);
+            Session.set('addApiKey.Adding', result);
           }
         });
         view.Step.next(view.side());
       }
     },
     'submit': function () {
-      var key = Session.get('addApiKey_Adding');
+      var key = Session.get('addApiKey.Adding');
       var characters = _(key.characters)
         .filter(function (i) {
           return i.selected;
@@ -207,7 +204,7 @@
           Veldspar.UserData.characters.insert(i);
       });
 
-      Session.set('addApiKey_Adding', null);
+      Session.set('addApiKey.Adding', null);
     },
     'validateId': function () {
       var $id = $('#id', view.side()),
@@ -254,10 +251,10 @@
       return 'Work In Progress'
     },
     'editMode': function () {
-      return Session.get('userHome_Edit');
+      return Session.get('userHome.Edit');
     },
     'selIconClass': function () {
-      var chars = Session.get('userHome_SelectedIDs');
+      var chars = Session.get('userHome.SelectedIDs');
       if (_.indexOf(chars, this._id) !== -1) return 'ion-ios7-close-outline selected';
       else return ''; //'ion-ios7-circle-outline';
     }

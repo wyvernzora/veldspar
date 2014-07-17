@@ -3,6 +3,7 @@
 # character.js - Interaction logic for views/character.html
 # Copyright © Denis Luchkin-Zhou
 */
+
 /* Character view frame & navigation */
 (function (view) {
   view = Veldspar.UI.init(view);
@@ -21,6 +22,10 @@
   view.helpers({
     'character': function () {
       return Session.get('CurrentCharacter');
+    },
+    'fragmentIs': function (name) {
+      var frag = Session.get('character.fragment');
+      return frag === name;
     }
   });
 
@@ -29,6 +34,10 @@
   });
 
   view.rendered = function () {
+    /* Set default fragment: character-sheet */
+    Session.set('character.fragment', 'character-sheet');
+    
+    /* Make the navigation bar sortable */
     $('nav ul', view.side).sortable({
       containment: 'parent'
     });
@@ -36,24 +45,21 @@
   };
   
 })(Template.character);
-/* Character sheet view */
-(function (view) {
-  view = Veldspar.UI.init(view);
+
+/* Character sheet fragment */
+(function (fragment, view) {
   
-  view.events({
+  fragment = Veldspar.UI.init(fragment);
+  
+  fragment.events({
     
   });
   
-  view.helpers({
-    'portraitUri': function () {
-      var char = Session.get('CurrentCharacter');
-      if (char) { return view.util.getCharPortraitUri(char.id, 256); }
-      else return null;
-    }
+  fragment.helpers({
   });
   
-  view.util({
+  fragment.util({
     
   });
   
-})(Template.subCharacterSheet);
+})(Template.fragCharacterSheet, Template.character);
