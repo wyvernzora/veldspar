@@ -5,7 +5,7 @@ Veldspar = (exports ? this).Veldspar
 UserData = Veldspar.UserData
 
 # Publish Character Data
-Meteor.publish 'user_Characters', ->
+Meteor.publish 'user.Characters', ->
   if this.userId
     return UserData.characters.find({owner: this.userId})
   else

@@ -8,10 +8,10 @@ root = (exports ? this).Veldspar ?= { }
 root.StaticData ?= { }
 
 # Skills & Certificates
-root.StaticData.skillCategories = new Meteor.Collection 'static_SkillCategories'
-root.StaticData.skillTree = new Meteor.Collection 'static_SkillTree'
+root.StaticData.skillCategories = new Meteor.Collection 'static.SkillCategories'
+root.StaticData.skillTree = new Meteor.Collection 'static.SkillTree'
 
 # Subscribe to data on clients
 if Meteor.isClient
-  Meteor.subscribe 'static_SkillCategories'
-  Meteor.subscribe 'static_SkillTree'
+  Meteor.subscribe 'static.SkillCategories'
+  Meteor.subscribe 'static.SkillTree'
