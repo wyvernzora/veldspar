@@ -63,13 +63,16 @@
       </nav>
     </div>
     <div class="main" style="margin-left: 250px">
-      <div class="portrait" style="background-image: url({{portraitUri}}), url(/character.png);"></div>
-      <div class="info">
-        <h1 class="char-name">{{character.name}}</h1>
-      </div>
-      
-      
-      <hr>
+      {{> subCharacterSheet}}
     </div>
   </div>
+</template>
+
+<!-- Character: CharacterSheet -->
+<template name="subCharacterSheet">
+  <div class="portrait" style="background-image: url({{portraitUri}}), url(/character.png);"></div>
+  <div class="info">
+    <h1 class="char-name">{{currentCharacter.name}}</h1>
+  </div>
+  <hr>
 </template>

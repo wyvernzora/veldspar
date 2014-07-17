@@ -99,11 +99,28 @@ view = Veldspar.UI.view = function () {
   # helper methods and other utility methods very clear.
   */
   this.util = function (helpers) {
+    if (helpers) {
     $.extend(this.util, helpers);
+    } else return this.util;
   };
   this.util.isEmailAddress = function (str) {
     var rgx = /^\w+(\.\w+|)*@\w+\.\w+$/;
     return str.match(rgx) !== null;
+  };
+  this.util.getCharPortraitUri = function (id, size) {
+    /* Normalize the size to one of the officially supported resolutions */
+    size = Math.pow(2, (function (x) {
+      var exponent = Math.ceil(Math.LOG2E * Math.log(x));
+      if (exponent < 5) { exponent = 5; }
+      else if (exponent > 9) { exponent = 9; }
+      return exponent;
+    })(size));
+    /* Construct the uri */
+    return _.template('<%= host %>/Character/<%= id %>_<%= size %>.jpg', {
+      host: Veldspar.Config.imageHost,
+      id: id,
+      size: size
+    });
   };
   
   /* Step */
@@ -125,12 +142,6 @@ view = Veldspar.UI.view = function () {
   this.Step.reset = function (context) {
     var $step = $('.step', context);
     $step.removeAttr('style');
-  };
-  
-  /* Un-cache on destruction */
-  this.destroyed = function () {
-    this.$main = null;
-    this.$side = null;
   };
 };
 
