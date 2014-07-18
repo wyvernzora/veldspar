@@ -42,6 +42,17 @@ Meteor.methods {
     apiKey.code = vcode
     return apiKey
   
+  # Update Characters of a User
+  updateCharacters: (id) ->
+    if id
+      UserData.updateCharacterSheet id
+    else
+      chars = UserData.characters.find({owner: Meteor.userId});
+      _.each chars, (i) ->
+        UserData.updateCharacterSheet i._id
+        
+      
+    
   
   # Debug Methods
   test: ->

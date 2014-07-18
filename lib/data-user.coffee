@@ -7,7 +7,7 @@ root = (exports ? this).Veldspar ?= { }
 # User data namespace
 root.UserData ?= { }
 
-# User metadata
+# Character Registry
 root.UserData.characters = new Meteor.Collection 'user.Characters'
 
 if Meteor.isClient

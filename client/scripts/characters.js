@@ -5,9 +5,13 @@
 */
 
 /* Character view frame & navigation */
-(function (view) {
+var main = (function (view) {
   view = Veldspar.UI.init(view);
-
+  
+  /* Private variables */
+  var scrolling = false;
+  
+  /* Meteor.js implementation */
   view.events({
     'click .left nav li': function (e) {
       var $li = $('nav li', view.left()),
@@ -15,6 +19,7 @@
       if (!$sel.hasClass('selected')) {
         $li.removeClass('selected');
         $sel.addClass('selected');
+        Session.set('character.fragment', $sel.attr('frag'));
       }
     }
   });
@@ -25,6 +30,9 @@
     },
     'fragmentIs': function (name) {
       var frag = Session.get('character.fragment');
+      if (_.isUndefined(frag) && name === '') {
+        return true;
+      }
       return frag === name;
     }
   });
@@ -42,6 +50,29 @@
       containment: 'parent'
     });
     
+    var current = Session.get('CurrentCharacter');
+    Meteor.call('updateCharacters', current._id, function (err, result) {
+      if (err) alert(err.reason);
+      else {
+        var char = Veldspar.UserData.characters.findOne({_id: current._id});
+        Session.set('CurrentCharacter', char);
+        console.log('updated!');
+      }
+    });
+    
+    /* Set up the scroll effect */
+    $('.view .main .content').scroll(function () {
+      var $content = $('.view .main .content'),
+          $bar = $('.view .main .char-bar');
+      if ($content.scrollTop() > 5) {
+        if (scrolling) return;
+        scrolling = true;
+        $bar.addClass('scroll');
+      } else {
+        $bar.removeClass('scroll');
+        scrolling = false;
+      }
+    });
   };
   
 })(Template.character);
@@ -49,17 +80,37 @@
 /* Character sheet fragment */
 (function (fragment, view) {
   
-  fragment = Veldspar.UI.init(fragment);
+  fragment = Veldspar.UI.frag(fragment);
   
   fragment.events({
     
   });
   
   fragment.helpers({
+    
   });
   
   fragment.util({
     
   });
   
-})(Template.fragCharacterSheet, Template.character);
+  fragment.rendered = function () {
+    
+  };
+  
+})(Template.fragCharacterSheet, main);
+
+/* Skills fragment */
+(function (fragment, view) {
+  
+  fragment = Veldspar.UI.frag(fragment);
+  
+  fragment.helpers({
+    'name': function () {
+      var skill = Veldspar.StaticData.skillTree.findOne({'id': this.id});
+      if (skill) { return skill.name; }
+      else { return 'UNKNOWN'; }
+    }
+  });
+  
+})(Template.fragSkills, main)

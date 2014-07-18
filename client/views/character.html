@@ -1,13 +1,13 @@
 <template name="character">
   <div class="view" id="character">
-    <div class="left">
+    <aside class="left">
       <nav>
         <ul>
-          <li class="selected">
+          <li frag="character-sheet" class="selected">
             <div class="nav-icon icon-character-sheet"></div>
             Character Sheet
           </li>
-          <li>
+          <li frag="skills">
             <div class="nav-icon icon-skillbook"></div>
             Skills
           </li>
@@ -61,26 +61,166 @@
           </li>
         </ul>
       </nav>
-    </div>
+    </aside>
     {{#with currentCharacter}}
-    {{#if fragmentIs "character-sheet"}} {{> fragCharacterSheet}} {{/if}}
+    <div class="main">
+      <section class="char-bar">
+        <div class="portrait" style="background-image: url({{charPortraitUri 256}}), url(/character.jpg);"></div>
+        <h1 class="char-name">{{name}}</h1>
+      </section>
+      <section class="content">
+        {{#if fragmentIs ""}} {{> fragWorkInProgress}} {{/if}}
+        {{#if fragmentIs "character-sheet"}} {{> fragCharacterSheet}} {{/if}}
+        {{#if fragmentIs "skills"}} {{> fragSkills}} {{/if}}
+      </section>
+    </div>
     {{/with}}
   </div>
 </template>
 
-<!-- Character: CharacterSheet -->
+<!-- Fragment: CharacterSheet -->
 <template name="fragCharacterSheet">
-  <div id="character-sheet" class="main">
-    <div class="content">
-      <div class="info">
-        <div class="portrait" style="background-image: url({{charPortraitUri 256}}), url(/character.png);"></div>
-        <h1 class="char-name">
-          {{name}}
-          <span class="char-id">(<a href="#">#{{id}}</a>)</span>
-        </h1>
-      </div>
-      <hr>
+  <div id="character-sheet">
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
     </div>
+</template>
 
+<!-- Fragment: Skills -->
+<template name="fragSkills">
+  <div id="skills">
+    <h1>Skills</h1>
+    <hr>
+    {{#each skills}}
+      {{name}}|{{level}}|{{sp}} <br>
+    {{/each}}
+  </div>
+</template>
+
+<!-- Fragment: WIP -->
+<template name="fragWorkInProgress">
+  <div class="main ui-widget-overlay"></div>
+  <div class="main" style="background: none; color: white">
+    <div class="content">
+      <h1>Work In Progress</h1>
+    </div>
   </div>
 </template>

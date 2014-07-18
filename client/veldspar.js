@@ -33,5 +33,8 @@ Template.root.showDebugView = function () { Session.get('showDebugView'); };
 
 UI.registerHelper('currentCharacter', function () { return Session.get('CurrentCharacter'); });
 UI.registerHelper('charPortraitUri', function (size) {
-  return (new Veldspar.UI.view).util.getCharPortraitUri(this.id, size);
+  return (new Veldspar.UI.fragment()).util.getCharPortraitUri(this.id, size);
+});
+UI.registerHelper('corpPortraitUri', function (size) {
+  return (new Veldspar.UI.fragment()).util.getCorpPortraitUri(this.id, size);
 });
