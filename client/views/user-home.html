@@ -7,7 +7,7 @@
 <template name="userHome">
   <div class="view" id="user-home">
     <div class="left">
-      <div id="step-one" class="step">
+      <div id="step-one" class="step content">
         <h1>Add new</h1>
         <div class="ui-state-error error-box" id="error"></div>
         <div class="ui-textbox-group">
@@ -25,7 +25,7 @@
           If you add an <b class="accented">API Key</b> that already exists on your account, its details will be updated. You may want to do this if you have regenerated the <b class="accented">Verification Code</b>.
         </p>
       </div>
-      <div id="step-two" class="step">
+      <div id="step-two" class="step content">
         {{#if apiKeyInfo}}
         <h1>Characters</h1>
         <div class="char-list">

@@ -5,26 +5,62 @@
 */
 @import "util.less";
 header {
-  width: 100%;
+  .absolute-position(0; 0; 0; auto);
   height: 55px;
-  background-image: url("/banner.png");
-  background-color: @bg-color-dark;
-  z-index: 0;
+  z-index: 4;
+  color: @fg-color-dark;
+  background-color: fadeout(@bg-color-lite, 10%);
   
-  & > * {
-    display: inline-block;
-    color: white;
+  &.scroll {
+    //border-bottom: 1px solid @bg-color-dark;
+    //box-shadow: 0px 0px 4px @bg-color-dark;
+    border-bottom: 1px solid darken(@bg-color-lite, 15%);
+    box-shadow: 0px 0px 4px darken(@bg-color-lite, 25%);
+    
+  }
+  .char {
+    .absolute-position(auto; 0; 0; auto);
+    height: 47px;
+    padding: 4px 10px;
+    padding-right: 60px;
+    cursor: pointer;
+    
+    span { 
+      display: block;
+      text-align: right;
+    }
+    .char-name {
+      font-weight: normal;
+      font-size: 1.2em;
+    }
+    .corp-name {
+      font-size: 0.9em;
+    }
+    .portrait {
+      .absolute-position(auto; 0; 0; auto);
+      height: 55px;
+      width: 55px;
+      float: right;
+      background-size: cover;
+    }
+    
+    &:hover {
+      background-color: fadeout(darken(@bg-color-lite, 15%), 50%);
+    }
   }
   .logo {
+    .disable-selection;
+    cursor: default;
     margin: 0 auto;
     padding: 0px 20px 5px 20px;
     font-size: 2.2em;
     font-weight: normal;
     text-align: center;
     display: block;
+    z-index: 4;
   }
   nav {
-    .absolute-position(auto; 0; 20px; auto);
+    .absolute-position(20px; 0; auto; auto);
     font-size: 2.0em;
     ul {
       margin: 0;
@@ -36,7 +72,8 @@ header {
         cursor: pointer;
         line-height: 55px;
         &:hover {
-          background-color: rgba(114, 119, 119, 0.63);
+          background-color: fadeout(@bg-color-liter, 50%);
+          color: @fg-color-accent;
         }
       }
       #nav-logout:hover {

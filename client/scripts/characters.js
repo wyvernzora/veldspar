@@ -42,6 +42,9 @@ var main = (function (view) {
   });
 
   view.rendered = function () {
+    
+    view.init();
+    
     /* Set default fragment: character-sheet */
     Session.set('character.fragment', 'character-sheet');
     
@@ -50,6 +53,7 @@ var main = (function (view) {
       containment: 'parent'
     });
     
+    /*
     var current = Session.get('CurrentCharacter');
     Meteor.call('updateCharacters', current._id, function (err, result) {
       if (err) alert(err.reason);
@@ -59,6 +63,7 @@ var main = (function (view) {
         console.log('updated!');
       }
     });
+    */
     
     /* Set up the scroll effect */
     $('.view .main .content').scroll(function () {

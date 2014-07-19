@@ -157,6 +157,7 @@
   });
   /* Rendered Callback */
   view.rendered = function () {
+    view.init();
     view.Step.init(view.left());
     $('#uname', view.main()).focus()
   }

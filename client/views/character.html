@@ -1,7 +1,7 @@
 <template name="character">
   <div class="view" id="character">
     <aside class="left">
-      <nav>
+      <nav class="content">
         <ul>
           <li frag="character-sheet" class="selected">
             <div class="nav-icon icon-character-sheet"></div>
@@ -64,10 +64,7 @@
     </aside>
     {{#with currentCharacter}}
     <div class="main">
-      <section class="char-bar">
-        <div class="portrait" style="background-image: url({{charPortraitUri 256}}), url(/character.jpg);"></div>
-        <h1 class="char-name">{{name}}</h1>
-      </section>
+      
       <section class="content">
         {{#if fragmentIs ""}} {{> fragWorkInProgress}} {{/if}}
         {{#if fragmentIs "character-sheet"}} {{> fragCharacterSheet}} {{/if}}
@@ -217,10 +214,10 @@
 
 <!-- Fragment: WIP -->
 <template name="fragWorkInProgress">
-  <div class="main ui-widget-overlay"></div>
-  <div class="main" style="background: none; color: white">
-    <div class="content">
-      <h1>Work In Progress</h1>
+    <div class="ui-widget-overlay"></div>
+    <div style="background: none; color: white">
+      <div class="content">
+        <h1>Work In Progress</h1>
+      </div>
     </div>
-  </div>
 </template>

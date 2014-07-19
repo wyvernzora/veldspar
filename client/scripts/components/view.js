@@ -101,6 +101,19 @@ fragment = Veldspar.UI.fragment = function () {
 /* Base class for all views */
 view = Veldspar.UI.view = function () {
   
+  this.init = function() {
+    $('.view .main').scroll(function () {
+      if ($('.view .main').scrollTop() > 5) {
+        if (scrolling) return;
+        scrolling = true;
+        $('header').addClass('scroll');
+      } else {
+        $('header').removeClass('scroll');
+        scrolling = false;
+      }
+    });
+  }
+  
   /* 
   # DOM Helpers 
   #

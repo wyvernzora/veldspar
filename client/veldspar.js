@@ -28,9 +28,6 @@ Template.debug.events({
   }
 });
 
-Template.root.showDebugView = function () { Session.get('showDebugView'); };
-
-
 UI.registerHelper('currentCharacter', function () { return Session.get('CurrentCharacter'); });
 UI.registerHelper('charPortraitUri', function (size) {
   return (new Veldspar.UI.fragment()).util.getCharPortraitUri(this.id, size);
@@ -38,3 +35,15 @@ UI.registerHelper('charPortraitUri', function (size) {
 UI.registerHelper('corpPortraitUri', function (size) {
   return (new Veldspar.UI.fragment()).util.getCorpPortraitUri(this.id, size);
 });
+
+
+
+(function (view) {
+  
+  var scrolling = false;
+  
+  view.rendered = function () {
+    
+  };
+  
+})(Template.root);
