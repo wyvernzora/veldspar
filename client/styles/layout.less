@@ -1,0 +1,117 @@
+/*!
+ *
+ */
+
+@import "imports/mixin";
+@import "imports/colors";
+
+@header-height: 5.5rem;
+@sideview-width: 45rem;
+
+/* Sizing Fix */
+* {
+  .vendors(box-sizing; border-box);
+}
+
+/* Change Min-Size */
+html, body {
+  min-width: 320px;
+}
+
+/* Disable default margin */
+body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  overflow-x: hidden; // Disable iphone scroll
+  
+  &.show-left {
+    #gaia {
+      .abs-pos(30%;0;-30%;0);
+    }
+    #left {
+      .abs-pos(0;0;30%;0);
+    }
+  }
+}
+
+/* Content area */
+.stage {
+  .abs-pos-fill;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  .content { margin: auto; }
+}
+
+/* 'Camera' or 'Viewport' */
+#gaia {
+  .abs-pos-fill;
+  overflow: hidden;
+  #main-stage { padding-top: @header-height; }
+  #overlay { z-index: 65536;  }
+}
+
+/* Left Sideview */
+#left {
+  overflow: hidden;
+  &.show-left { .abs-pos(0;0;auto;0); }
+  .content { margin: auto; }
+}
+
+/* Header */
+header {
+  .abs-pos(0; 0; 0);
+  z-index: 65535;
+  height: @header-height;
+}
+
+/* Media Overrides */
+/* Common Monitor */
+@media all and (min-width: 481px) {
+  /* 'Camera' or 'Viewport' */
+  #gaia {
+    &.show-left {
+      .abs-pos(@sideview-width;0;-@sideview-width;0);
+    }
+  }
+
+  /* Left Sideview */
+  #left {
+    .abs-pos(-@sideview-width;0;auto;0);
+    width: @sideview-width;
+    &.show-left { .abs-pos(0;0;auto;0); }
+  }
+
+}
+/* HD Smartphone */
+@media all and (min-width: 321px) and (max-width: 481px) {
+  /* 'Camera' or 'Viewport' */
+  #gaia {
+    &.show-left {
+      .abs-pos(100%;0;-100%;0);
+    }
+  }
+
+  /* Left Sideview */
+  #left {
+    .abs-pos(-100%;0;auto;0);
+    width: 100%;
+    &.show-left { .abs-pos(0;0;auto;0); }
+  }
+}
+/* More constrained smartphones */
+@media all and (max-width: 321px) {
+    /* 'Camera' or 'Viewport' */
+  #gaia {
+    &.show-left {
+      .abs-pos(100%;0;-100%;0);
+    }
+  }
+
+  /* Left Sideview */
+  #left {
+    .abs-pos(-100%;0;auto;0);
+    width: 100%;
+    &.show-left { .abs-pos(0;0;auto;0); }
+  }
+}

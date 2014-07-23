@@ -1,0 +1,64 @@
+<!-- LI: Login View -->
+<template name="login">
+  <div id="login" class="login-html">
+    <div class="content">
+      <hgroup>
+        <h1><i class="icon ion-planet"></i><span class="accent">Veld</span>spar</h1>
+        <h2>Your window into the <span class="accent">New Eden</span>.</h2>
+      </hgroup>
+      <div class="textbox-group" id="li-shaky">
+        <div class="error-box">
+          Capsuleer, you do have an email don't you?
+        </div>
+        <input class="textbox" id="li-email" placeholder="email" type="email" />
+        <input class="textbox" id="li-password" placeholder="password" type="password" />
+        <a id="li-forgot" href="#">Forgot your password?</a>
+      </div>
+      <div class="button-group">
+        <div class="button" id="li-signup">
+          <i class="icon ion-ios7-arrow-back"></i> Signup
+        </div>
+        <div class="button submit" id="li-login">
+          {{#if loading}} <i class="icon ion-loading-a loading-indicator"></i>
+          {{else}} Login {{/if}}
+        </div>
+      </div>
+      <footer>
+        Powered by <a href="#" id="li-powered-by">Veldspar 1.0</a>
+        <br/>Copyright © 2014 Denis Luchkin-Zhou
+      </footer>
+    </div>
+  </div>
+</template>
+<!-- SU: Signup Sideview -->
+<template name="signup">
+  <aside id="signup" class="login-html">
+    <hgroup>
+      <h1><span class="accent">Sign</span>up</h1>
+      <h2>We've been waiting for you!</h2>
+    </hgroup>
+    <div class="error-box stripe"></div>
+    <div class="textbox-group">
+      <input type="email" class="textbox" id="su-email" placeholder="email" />
+    </div>
+    <p id="su-password-quality"></p>
+    <div class="textbox-group">
+      <input type="password" class="textbox" id="su-password" placeholder="password" />
+      <input type="password" class="textbox" id="su-verify" placeholder="verify" />
+    </div>
+    <p id="su-password-quality"></p>
+    <div class="button-group">
+      <div class="button" id="su-cancel">Cancel</div>
+      <div class="button submit" id="su-submit">
+        {{#if loading}}
+        <i class="icon ion-loading-a loading-indicator"></i>
+        {{else}} Continue <i class="icon ion-ios7-arrow-forward"></i>
+        {{/if}}
+      </div>
+    </div>
+    <p>
+      <strong class="accent">Note: </strong>
+      Please rest assured that we will not give your email address to any third party, unless it is required by law.
+    </p>
+  </aside>
+</template>

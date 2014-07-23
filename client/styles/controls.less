@@ -1,0 +1,126 @@
+@import "imports/colors";
+@import "imports/mixin";
+
+/* Error Indicator */
+.error-box {
+  .hidden;
+  .centered;
+	color: white;
+  padding: 1rem;
+  margin: 1rem auto;
+	border: 0.5rem solid fadeout(darken(@color-background, 25%), 25%);
+  border: 1px solid @color-border;
+	background: #b81900 url("/images/ui-bg_diagonals-thick_18_b81900_40x40.png") 50% 50% repeat;
+  .vendors(box-shadow; 0px 0px 4px darken(@color-background, 25%));
+}
+.error-box.stripe {
+  width: 100%;
+  border-left: none;
+  border-right: none;
+  .vendors(box-shadow; none);
+}
+/* Textbox */
+.textbox,
+input[type="text"], input[type="password"] {
+  display: block;
+  border: 1px solid @color-border;
+  
+  &.error {
+    background-color: @color-error;
+    outline: none;
+  }
+  &:focus:not(.error) {
+    background-color: @color-focus;
+    outline: 0;
+    outline: none;
+  }
+}
+/* Textbox Group */
+.textbox-group .textbox {
+  margin: auto;
+  padding: 0.3rem 0.8rem;
+  &:not(:first-of-type) {
+    border-top: none;
+  }
+  &:first-of-type {
+    .border-radius(4px; 4px);
+  }
+  &:last-of-type {
+    .border-radius(@se:4px; @sw:4px);
+  }
+  &:first-of-type:last-of-type {
+    .border-radius(4px;4px;4px;4px);
+  }
+}
+/* Button */
+.button,
+input[type="button"] {
+  .unselectable;
+  .border-radius(1px);
+  cursor: default;
+  font-size: 1.4rem;
+  margin: 0 0.5rem;
+  min-width: 6.5rem;
+  min-height: 2.9rem;
+  padding: 0.8rem 1rem;
+  display: inline-block;
+  color: @color-btn-fg;
+  text-shadow: 0 1px 0 #F0F0F0;
+  border: 1px solid fadeout(black, 75%);
+  background-image: linear-gradient(#EDEDED, #EDEDED 38%, #DEDEDE);
+  box-shadow: 0 1px 0 fadeout(black, 92%), inset 0 1px 2px fadeout(white, 25%);
+  &.submit {
+    color: white;
+    border: 1px solid #C2672E;
+    background-image: linear-gradient(#FF9A5C, #FF9A5C 38%, #F09156);
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15), inset 0 1px 2px rgba(255, 255, 255, 0.2);
+  }
+  &.danger {
+    color: white;
+    text-shadow: none;
+    background-image: linear-gradient(#FF5D5D, #FF5D5D 38%, #F05858);
+    box-shadow: 0 1px 0 fadeout(black, 92%), inset 0 1px 2px fadeout(white, 50%);
+    border: 1px solid #C32D2D;
+  }
+  &.flat {
+    color: fadeout(black, 0.75);
+    background: none;
+    text-shadow: none;
+    box-shadow: none;
+    &:hover {
+      border-color: fadeout(black, 0.5);
+      color: fadeout(black, 0.5);
+    }
+    &:active:extend(&:hover) {
+      box-shadow: inset 0 1px 2px fadeout(black, 0.5);
+    }
+  }
+  &:focus {
+    outline: 0;
+    outline: none;
+  }
+  &:active {
+    box-shadow: inset 0 1px 2px fadeout(black, 50%);
+  }
+}
+
+
+/* Media Overrides */
+/* Common Monitor */
+@media all and (min-width: 481px) {
+  
+} 
+/* HD Smartphone */
+@media all and (min-width: 321px) and (max-width: 481px) {
+  .error-box {
+    width: 100%;
+    border-left: none;
+    border-right: none;
+    .vendors(box-shadow; none);
+  }
+}
+/* More constrained smartphones */
+@media all and (max-width: 321px) {
+  
+}

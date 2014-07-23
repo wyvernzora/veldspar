@@ -1,0 +1,133 @@
+@import "imports/colors";
+@import "imports/mixin";
+
+/* File-wide styles */
+.login-html {
+  .centered;
+  
+  h1, h2 { white-space: nowrap; }
+  h1 {
+    margin-bottom: 0;
+  }
+  h2 {
+    margin-top: 0;
+    margin-bottom: 3.6rem;
+  }
+  
+  .textbox {
+    height: 4.5rem;
+    font-size: 2.2rem;
+  }
+  .loading-indicator {
+    text-shadow: none;
+  }
+  .button-group .button {
+     width: 45%;
+     margin: auto 2%;
+   }
+}
+
+#login {
+  .unselectable;  
+  margin-top: -4rem;
+  
+  footer {
+    font-size: 1rem;
+  }
+  
+  #li-shaky {
+    position: relative;
+    #li-forgot {
+      .hidden;
+      color: @color-foreground;
+    }
+  }
+  #li-powered-by { font-size: 1.2rem; }
+  .button-group {
+    margin: 2.8rem auto;
+  }
+}
+
+#signup {
+  margin-top: 5.5rem-4rem;
+  
+  p { 
+    width: 80%;
+    max-width: 34rem;
+    margin: 2rem auto;
+    text-align: justify; 
+  }
+  
+  .textbox-group {
+    margin-bottom: 2.8rem;
+  }
+  .button-group {
+    margin: auto;
+  }
+  
+  .pwd-good, .pwd-weak, .pwd-invalid { font-weight: bold; }
+  .pwd-good { color: @color-yes!important; }
+  .pwd-weak { color: @color-maybe!important; }
+  .pwd-invalid { color: @color-no!important; }
+  
+  #su-password-quality {
+    .hidden;
+    text-align: center;
+  }
+}
+
+/* Media Overrides */
+@media all and (min-width: 481px) {
+  .login-html {
+    h2 { font-size: 2.2rem; }
+    p { font-size: 1.6rem; }
+    .textbox { width: 34rem; }
+    .button-group { width: 34rem; }
+  }
+  #login {
+    margin-top: 10rem;
+    .content { min-width: 42rem; }
+    .error-box { width: 42rem; } 
+  }
+  #signup #su-password-quality { font-size: 1.6rem; }
+}
+
+@media all and (max-width: 481px) {
+  .login-html {
+    h2 { font-size: 2rem; }
+    p { font-size: 1.2rem; }
+    .textbox {
+      width: 80%;
+    }
+    .button-group {
+      width: 80%;
+    }
+  }
+  #login .content { min-width: 32rem; }
+  #login .error-box {
+    width: 100%;
+  }
+  #signup #su-password-quality {
+    font-size: 1.2rem;
+  }
+}
+
+@media all and (max-width: 321px) {
+  .login-html {
+    h2 { font-size: 1.6rem; }
+    p { font-size: 1.2rem; }
+    .textbox {
+      width: 80%;
+    }
+    .button-group {
+      width: 80%;
+    }
+  }
+  #login .content { min-width: 28rem; }
+  #login .error-box {
+    width: 100%;
+  }
+  #signup #su-password-quality {
+    font-size: 1.2rem;
+  }
+}

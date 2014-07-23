@@ -1,0 +1,137 @@
+<head>
+  <title>Veldspar Eve Online Manager</title>
+  <meta name="viewport" content="initial-scale=1.0;max-scale=1.0;width=device-width;user-scalable=no" />
+</head>
+
+<body>
+  {{> root}}
+</body>
+
+<template name="root">
+
+  <!-- Left Sideview -->
+  <section id="left">
+    <div id="left-stage" class="stage">
+      {{#if sideviewIs "signup"}} {{> signup}} {{/if}} {{#if sideviewIs "credits"}} {{> credits}} {{/if}}
+    </div>
+    {{#if showLeftClose}}
+    <i id="close" class="icon ion-ios7-close"></i>
+    {{/if}}
+  </section>
+
+  <!-- Main View -->
+  <section id="gaia">
+    {{> header}}
+    <section id="main-stage" class="stage">
+      {{#if currentUser}}
+      <h1>Hello Veldspar!</h1>
+      <input type="button" class="button danger" value="Log Out" id="dbg-logout" />
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      <p>Lorem Ipsum</p>
+      {{else}} {{> login}} {{/if}}
+    </section>
+    <div id="overlay"></div>
+  </section>
+
+</template>
+
+<template name="header">
+  {{#if currentUser}}
+  <header>
+    <!-- Logo -->
+    <section id="veldspar">
+      <span class="accent">Veld</span>spar
+    </section>
+
+    <!-- Back button -->
+    <section id="back" class="navlink">
+      <i class="icon ion-ios7-arrow-back"></i>
+      Back
+    </section>
+  </header>
+  {{/if}}
+</template>
+
+<template name="credits">
+  <aside id="credits">
+    <h1><span class="accent">Cred</span>its</h1>
+    <h2>Veldspar<span class="version">v1.0</span></h2>
+    <p class="copyright">Copyright © 2014 Denis Luchkin-Zhou</p>
+    <p>
+      <a href="https://github.com/jluchiji/veldspar">Fork me on GitHub!</a>
+    </p>
+    <h3>The MIT License (MIT)</h3>
+    <section class="license">
+      <p>
+        Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+      </p>
+      <ul>
+        <li>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</li>
+        <li>Any software utilizing a substantial portion of code from this software must bear the &quot;powered by Veldspar{version}&quot; link on the home page. This link should open a dialog/sidebar, where the original authors of Veldspar and authors of modules included in valdspar must be attributed.</li>
+      </ul>
+      <p>
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+      </p>
+    </section>
+    <h2>ionicons<span class="version">v1.5.2</span></h2>
+    <p class="copyright">Copyright © 2014 Drifty (http://drifty.com/)</p>
+    <p>
+      Created by <a href="https://twitter.com/benjsperry">Ben Sperry</a> for the <a href="http://ionicons.com/">Ionic Framework</a> 
+      <a href="https://twitter.com/ionicframework">(Twitter)</a>. Released under MIT License: <a href="https://github.com/driftyco/ionicons">Github Repository</a>
+    </p>
+
+    <h3>The MIT License (MIT)</h3>
+    <section class="license">
+      <p>
+        Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+      </p>
+      <ul>
+        <li>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</li>
+      </ul>
+      <p>
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+      </p>
+    </section>
+
+    <h2>jQuery.UI<span class="version">v1.11.0</span></h2>
+    <p class="copyright">Copyright © 2014 jQuery Foundation and other contributors</p>
+    <p><a href="http://jqueryui.com">jQuery.UI Official Site</a>
+    </p>
+    <h3>The MIT License (MIT)</h3>
+    <section class="license">
+      <p>
+        Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+      </p>
+      <ul>
+        <li>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</li>
+      </ul>
+      <p>
+        THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+      </p>
+    </section>
+    <h2>PrettyJSON<span class="version"></span></h2>
+    <p>/* add attribution */</p>
+  </aside>
+</template>

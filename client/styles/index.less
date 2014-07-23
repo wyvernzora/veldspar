@@ -1,0 +1,121 @@
+@import "imports/colors";
+@import "imports/mixin";
+
+/* Global */
+html {
+  color: @color-foreground;
+  /* Disable heading selection */
+  h1, h2, h3, h4, h5, h6 {
+    .unselectable;
+    cursor: default;
+  }
+  /* Link colors */
+  a {
+    color: @color-accent;
+    &:visited { color: darken(@color-accent, 10%); }
+  }
+}
+
+/* Header Bar */
+header {
+  .unselectable;
+  background-color: fadeout(@color-background, 10%);  
+  line-height: 5.5rem;
+  
+  &.scroll {
+    border-bottom: 1px solid darken(@color-background, 15%);
+    .vendors(box-shadow; 0px 0px 4px darken(@color-background, 25%));
+  }
+  .navlink {
+    font-size: 2.2rem;
+    &:hover {
+      color: @color-accent;
+    }
+    &:active {
+      color: darken(@color-accent, 10%);
+    }
+  }
+  
+  #veldspar {
+    font-size: 3.6rem;
+    text-align: center;
+  }
+  #back {
+    .abs-pos(2%;0);
+    cursor: pointer;
+  }
+}
+
+/* Content Area */
+.stage {
+  background: @color-background;
+}
+
+/* Main view */
+#gaia {
+  #overlay {
+    .hidden;
+    .abs-pos-fill;
+    background: @color-border-dark url("/images/ui-bg_diagonals-thick_20_666666_40x40.png") 50% 50% repeat;
+    opacity: .7;
+    filter: Alpha(Opacity=50);
+  }
+}
+
+/* Side view */
+#left {
+  background: @color-background;
+    
+  #close {
+    @size: 4rem;
+    
+    .centered;
+    .abs-pos(auto;1rem;1rem;auto);
+    height: @size;
+    width: @size;
+    font-size: @size;
+    line-height: @size;
+    vertical-align: middle;
+    
+    color: fadeout(@color-foreground, 50%);
+    background-color: fadeout(@color-background, 30%);
+    
+    &:hover { 
+      color: fadeout(@color-no, 50%); 
+    }
+    &:active {
+      color: fadeout(darken(@color-no, 30%), 50%);
+    }
+  }
+}
+
+/* Credits */
+#credits {
+  padding: 10%;
+  padding-top: 1.5rem;
+  
+  h2 { margin-top: 3.6rem; }
+  
+  .version, .copyright { 
+    font-size: 1.6rem; 
+    color: lighten(@color-foreground, 10%);
+  }
+  .version { margin-left: 1rem; }
+  .license { font-size: 1rem; }
+}
+
+
+/* Media Overrides */
+/* Common Monitor */
+@media all and (min-width: 481px) {
+  #gaia.show-left { border-left: 1px solid lighten(@color-border-dark, 50%); }
+  #left { border-right: 1px solid @color-border-dark; }
+} 
+/* HD Smartphone */
+@media all and (min-width: 321px) and (max-width: 481px) {
+  
+}
+/* More constrained smartphones */
+@media all and (max-width: 321px) {
+  
+}
