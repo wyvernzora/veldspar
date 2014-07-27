@@ -1,6 +1,6 @@
 <head>
   <title>Veldspar Eve Online Manager</title>
-  <meta name="viewport" content="initial-scale=1.0;max-scale=1.0;width=device-width;user-scalable=no" />
+  <meta name="viewport" content="initial-scale=1.0, min-scale=1, max-scale=1, width=device-width, user-scalable=no" />
 </head>
 
 <body>
@@ -10,13 +10,11 @@
 <template name="root">
 
   <!-- Left Sideview -->
-  <section id="left">
+  <section id="left" class="sideview">
     <div id="left-stage" class="stage">
-      {{#if sideviewIs "signup"}} {{> signup}} {{/if}} {{#if sideviewIs "credits"}} {{> credits}} {{/if}}
+      {{#if sideviewIs "signup"}} {{> signup}} {{/if}} 
+      {{#if sideviewIs "credits"}} {{> credits}} {{/if}}
     </div>
-    {{#if showLeftClose}}
-    <i id="close" class="icon ion-ios7-close"></i>
-    {{/if}}
   </section>
 
   <!-- Main View -->
@@ -24,37 +22,20 @@
     {{> header}}
     <section id="main-stage" class="stage">
       {{#if currentUser}}
-      <h1>Hello Veldspar!</h1>
-      <input type="button" class="button danger" value="Log Out" id="dbg-logout" />
-      <p>Lorem Ipsum</p>
-      <p>Lorem Ipsum</p>
-      <p>Lorem Ipsum</p>
-      <p>Lorem Ipsum</p>
-      <p>Lorem Ipsum</p>
-      <p>Lorem Ipsum</p>
-      <p>Lorem Ipsum</p>
-      <p>Lorem Ipsum</p>
-      <p>Lorem Ipsum</p>
-      <p>Lorem Ipsum</p>
-      <p>Lorem Ipsum</p>
-      <p>Lorem Ipsum</p>
-      <p>Lorem Ipsum</p>
-      <p>Lorem Ipsum</p>
-      <p>Lorem Ipsum</p>
-      <p>Lorem Ipsum</p>
-      <p>Lorem Ipsum</p>
-      <p>Lorem Ipsum</p>
-      <p>Lorem Ipsum</p>
-      <p>Lorem Ipsum</p>
-      <p>Lorem Ipsum</p>
-      <p>Lorem Ipsum</p>
-      <p>Lorem Ipsum</p>
-      <p>Lorem Ipsum</p>
+      {{> user}}
       {{else}} {{> login}} {{/if}}
     </section>
     <div id="overlay"></div>
   </section>
 
+  <!-- Right Sideview -->
+  <!--<section id="right" class="sideview">
+    <div id="left-stage" class="stage">
+      {{#if sideviewIs "signup"}} {{> signup}} {{/if}} 
+      {{#if sideviewIs "credits"}} {{> credits}} {{/if}}
+    </div>
+  </section>-->
+  
 </template>
 
 <template name="header">

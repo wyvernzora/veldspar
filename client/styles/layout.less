@@ -4,9 +4,12 @@
 
 @import "imports/mixin";
 @import "imports/colors";
+@import "imports/platforms";
 
 @header-height: 5.5rem;
 @sideview-width: 45rem;
+
+@gaia-offset: 5rem;
 
 /* Sizing Fix */
 * {
@@ -16,6 +19,7 @@
 /* Change Min-Size */
 html, body {
   min-width: 320px;
+  overflow-x: hidden;
 }
 
 /* Disable default margin */
@@ -46,6 +50,7 @@ body {
 /* 'Camera' or 'Viewport' */
 #gaia {
   .abs-pos-fill;
+  width: 100%;
   overflow: hidden;
   #main-stage { padding-top: @header-height; }
   #overlay { z-index: 65536;  }
@@ -54,8 +59,12 @@ body {
 /* Left Sideview */
 #left {
   overflow: hidden;
+  z-index: 65537;
+  padding-top: @gaia-offset;
   &.show-left { .abs-pos(0;0;auto;0); }
-  .content { margin: auto; }
+  .stage { 
+    -ms-overflow-style: none;
+  }
 }
 
 /* Header */
@@ -67,11 +76,12 @@ header {
 
 /* Media Overrides */
 /* Common Monitor */
-@media all and (min-width: 481px) {
+@media all and (min-width: @hi-res-min) {
   /* 'Camera' or 'Viewport' */
   #gaia {
+        z-index: 65538;
     &.show-left {
-      .abs-pos(@sideview-width;0;-@sideview-width;0);
+      .abs-pos(@sideview-width;0;auto;0);
     }
   }
 
@@ -84,34 +94,38 @@ header {
 
 }
 /* HD Smartphone */
-@media all and (min-width: 321px) and (max-width: 481px) {
+@media all and (min-width: @mobile-min) and (max-width: @mobile-max) {
   /* 'Camera' or 'Viewport' */
   #gaia {
+    border-right: 1px solid lighten(@color-foreground, 20%);
+    
     &.show-left {
-      .abs-pos(100%;0;-100%;0);
+      .abs-pos(50%;0;auto;0);
     }
   }
 
   /* Left Sideview */
   #left {
     .abs-pos(-100%;0;auto;0);
-    width: 100%;
+    width: 90%;
     &.show-left { .abs-pos(0;0;auto;0); }
   }
 }
 /* More constrained smartphones */
-@media all and (max-width: 321px) {
+@media all and (max-width: @lo-res-max) {
     /* 'Camera' or 'Viewport' */
   #gaia {
+    border-right: 1px solid lighten(@color-foreground, 20%);
     &.show-left {
-      .abs-pos(100%;0;-100%;0);
+      .abs-pos(50%;0;auto;0);
     }
+    
   }
 
   /* Left Sideview */
   #left {
     .abs-pos(-100%;0;auto;0);
-    width: 100%;
+    width: 90%;
     &.show-left { .abs-pos(0;0;auto;0); }
   }
 }

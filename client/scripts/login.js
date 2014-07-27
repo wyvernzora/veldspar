@@ -10,13 +10,21 @@
       view.util.login();
     }),
     'click #li-signup.button': function () {
-      view.left.open('signup', false);
+      view.left.open('signup');
     },
     'click #li-login.button': function () {
       view.util.login();
     },
     'click #li-powered-by': function () {
-      view.left.open('credits', true);
+      view.left.open('credits');
+    },
+    'click #li-dev-mode': function () {
+      $('html').toggleClass('beta');
+      if ($('html').hasClass('beta')) {
+        $('#li-dev-mode').addClass('danger');
+      } else {
+        $('#li-dev-mode').removeClass('danger');
+      }
     }
   });
 
@@ -85,6 +93,14 @@
     $('#li-email').focus();
   });
 
+  view.onRender(function () {
+          if ($('html').hasClass('beta')) {
+        $('#li-dev-mode').addClass('danger');
+      } else {
+        $('#li-dev-mode').removeClass('danger');
+      }
+  });
+  
   return view;
 })(Template.login);
 
@@ -114,7 +130,7 @@
   /* Meteor.js stuff */
   view.events({
     'click #su-cancel.button': function () {
-      $('#li-email').focus();
+      //$('#li-email').focus();
       view.left.close();
     },
     'click #su-submit.button': function () {

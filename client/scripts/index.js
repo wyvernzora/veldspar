@@ -8,12 +8,11 @@
     'click #dbg-logout': function () {
       Meteor.logout();
     },
-    'click #left #close': function () { view.left.close(); }
+    
   });
   
   view.helpers({
-    'sideviewIs': function (val) { return val === Session.get('sideview'); },
-    'showLeftClose': function () { return Session.get('left.showCloseButton'); }
+    'sideviewIs': function (val) { return val === Session.get('sideview'); }
   });
   
   view.onRender(function () {
@@ -28,6 +27,13 @@
         $('header').removeClass('scroll');
         scrolling = false;
       }
+    });
+    /* This event has to be attached via jQuery to work on iOS */
+    $('#gaia #overlay').click(function () {
+      view.left.close();
+    });
+    $('#left #close').click(function () {
+      view.left.close();
     });
   });
 

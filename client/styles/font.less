@@ -5,6 +5,7 @@
 
 @import "imports/colors";
 @import "imports/mixin";
+@import "imports/platforms";
 
 HTML {
   font-family: 'Open Sans', 'Helvetica Neue', 'Helvetica', Arial, sans-serif;
@@ -22,25 +23,27 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: lighter;
 }
 
-
 .accent {
   color: @color-accent;
 }
 
-@media all and (min-width: 481px) {
+
+/* reactive overrides */
+/* Large Screen Devices */
+@media all and (min-width: @hi-res-min) {
   h1 { font-size: 6rem; }
   h2 { font-size: 3.6rem; }
   h3 { font-size: 2.4rem; }
 }
-
-@media all and (max-width: 481px) {
+/* Hi-res Mobile Devices */
+@media all and (min-width: @mobile-min) and (max-width: @mobile-max) {
   h1 { font-size: 6rem; }
   h2 { font-size: 3.6rem; }
   h3 { font-size: 2.4rem; }
 }
-
-@media all and (max-width: 321px) {
-  h1 { font-size: 4rem; }
-  h2 { font-size: 2.4rem; }
-  h3 { font-size: 1.6rem; }
+/* Lo-res Mobile Devices & iPhones */
+@media all and (max-width: @lo-res-max) {
+  h1 { font-size: 5rem; }
+  h2 { font-size: 3rem; }
+  h3 { font-size: 2.2rem; }
 }

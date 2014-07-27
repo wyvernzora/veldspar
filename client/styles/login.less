@@ -1,5 +1,6 @@
 @import "imports/colors";
 @import "imports/mixin";
+@import "imports/platforms";
 
 /* File-wide styles */
 .login-html {
@@ -43,13 +44,15 @@
     }
   }
   #li-powered-by { font-size: 1.2rem; }
+  #li-dev-mode {
+    margin: 1rem;
+  }
   .button-group {
     margin: 2.8rem auto;
   }
 }
 
 #signup {
-  margin-top: 5.5rem-4rem;
   
   p { 
     width: 80%;
@@ -76,26 +79,27 @@
   }
 }
 
-/* Media Overrides */
-@media all and (min-width: 481px) {
+@media all and (min-width: @hi-res-min) {
   .login-html {
-    h2 { font-size: 2.2rem; }
+    h2 { font-size: 2rem; }
     p { font-size: 1.6rem; }
     .textbox { width: 34rem; }
     .button-group { width: 34rem; }
   }
   #login {
-    margin-top: 10rem;
+    margin-top: 5%;
     .content { min-width: 42rem; }
     .error-box { width: 42rem; } 
+    #signup #su-password-quality {
+      font-size: 1.4rem;
+    }
   }
-  #signup #su-password-quality { font-size: 1.6rem; }
 }
 
-@media all and (max-width: 481px) {
+@media all and (min-width: @mobile-min) and (max-width: @mobile-max) {
   .login-html {
     h2 { font-size: 2rem; }
-    p { font-size: 1.2rem; }
+    p { font-size: 1.6rem; }
     .textbox {
       width: 80%;
     }
@@ -112,7 +116,7 @@
   }
 }
 
-@media all and (max-width: 321px) {
+@media all and (max-width: @lo-res-max) {
   .login-html {
     h2 { font-size: 1.6rem; }
     p { font-size: 1.2rem; }

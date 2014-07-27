@@ -1,5 +1,6 @@
 @import "imports/colors";
 @import "imports/mixin";
+@import "imports/platforms";
 
 /* Error Indicator */
 .error-box {
@@ -108,11 +109,11 @@ input[type="button"] {
 
 /* Media Overrides */
 /* Common Monitor */
-@media all and (min-width: 481px) {
+@media all and (min-width: @hi-res-min) {
   
 } 
 /* HD Smartphone */
-@media all and (min-width: 321px) and (max-width: 481px) {
+@media all and (min-width: @mobile-min) and (max-width: @mobile-max) {
   .error-box {
     width: 100%;
     border-left: none;
@@ -121,6 +122,11 @@ input[type="button"] {
   }
 }
 /* More constrained smartphones */
-@media all and (max-width: 321px) {
-  
+@media all and (max-width: @lo-res-max) {
+  .error-box {
+    width: 100%;
+    border-left: none;
+    border-right: none;
+    .vendors(box-shadow; none);
+  }
 }

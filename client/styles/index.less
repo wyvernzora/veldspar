@@ -1,8 +1,11 @@
 @import "imports/colors";
 @import "imports/mixin";
+@import "imports/platforms";
+
 
 /* Global */
 html {
+  background-color: @color-background-dark;
   color: @color-foreground;
   /* Disable heading selection */
   h1, h2, h3, h4, h5, h6 {
@@ -46,26 +49,34 @@ header {
   }
 }
 
-/* Content Area */
-.stage {
-  background: @color-background;
-}
-
 /* Main view */
 #gaia {
+  // iOS Safari Flicker Fix
+  -webkit-backface-visibility: hidden;
+  background-color: @color-background;
   #overlay {
+    @alpha: 0.4;
     .hidden;
     .abs-pos-fill;
     background: @color-border-dark url("/images/ui-bg_diagonals-thick_20_666666_40x40.png") 50% 50% repeat;
-    opacity: .7;
-    filter: Alpha(Opacity=50);
+    opacity: @alpha;
+    filter: Alpha(Opacity=40);
+  }
+  .stage {
+    background: @color-background;
+  }
+  &.show-left {
+    border-left: 1px solid @color-background;
   }
 }
 
 /* Side view */
 #left {
-  background: @color-background;
-    
+  // iOS Safari Flicker Fix
+  -webkit-backface-visibility: hidden;
+  background-color: @color-background;  
+  border-right: 1px solid darken(@color-foreground, 15%);
+  
   #close {
     @size: 4rem;
     
@@ -87,6 +98,8 @@ header {
       color: fadeout(darken(@color-no, 30%), 50%);
     }
   }
+  &.show-left {
+  }
 }
 
 /* Credits */
@@ -105,17 +118,28 @@ header {
 }
 
 
-/* Media Overrides */
-/* Common Monitor */
-@media all and (min-width: 481px) {
-  #gaia.show-left { border-left: 1px solid lighten(@color-border-dark, 50%); }
-  #left { border-right: 1px solid @color-border-dark; }
-} 
-/* HD Smartphone */
-@media all and (min-width: 321px) and (max-width: 481px) {
-  
+/* reactive overrides */
+/* Large Screen Devices */
+@media all and (min-width: @hi-res-min) {
+  #left {
+    color: @color-foreground-dark;
+    background-color: @color-background-dark;
+    #close { display: none; }
+  }  
+  #gaia {
+    #overlay { opacity: 0.3; }    
+  }
+  #credits {
+    .version, .copyright {
+      color: darken(@color-foreground-dark, 20%);
+    }
+  }
 }
-/* More constrained smartphones */
-@media all and (max-width: 321px) {
-  
+/* Hi-res Mobile Devices */
+@media all and (min-width: @mobile-min) and (max-width: @mobile-max) {
+
+}
+/* Lo-res Mobile Devices & iPhones */
+@media all and (max-width: @lo-res-max) {
+
 }

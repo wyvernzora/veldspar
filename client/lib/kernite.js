@@ -1,6 +1,7 @@
 /* Kernite UI */
 Kernite = {};
 Kernite.ui = function (view) {
+  'use strict';
   
   /* Utility Namespace */
   view.util = function (methods) {
@@ -29,28 +30,31 @@ Kernite.ui = function (view) {
     if (_.isFunction(callback)) {
       view.kern.render.push(callback);
     }
-  }
+  };
   view.rendered = function () {
-    _.each(view.kern.render, function (f) { f(); })
-  }
+    _.each(view.kern.render, function (f) { f(); });
+  };
   
   /* Sideviews */
-  view.left = function () { return $('#left'); }
-  view.left.open = function (name, showClose, callback) {
-    if (_.isUndefined(showClose)) { showClose = true; }
+  view.left = function () { return $('#left'); };
+  view.left.isOpen = false;
+  view.left.open = function (name, callback) {
     Session.set('sideview', name);
-    Session.set('left.showCloseButton', showClose);
-    $('#gaia, #left').addClass('show-left', 'normal', callback);
-    $('#overlay').show('fade', 'normal');
-  }
-  view.left.close = function (callback) {
-    $('#overlay').hide('fade', 'normal');
-    $('#gaia, #left').removeClass('show-left', 'normal', function () {
-      Session.set('sideview', null);
-      Session.set('left.showCloseButton', true);
+    $('#gaia, #left').addClass('show-left', 'normal', function () {
+      view.left.isOpen = true;
       if (_.isFunction(callback)) { callback(); }
     });
-  }
+    $('#overlay').show('fade', 'normal');
+  };
+  view.left.close = function (callback) {
+    $('#overlay').hide('fade', 'normal', function () {
+      Session.set('sideview', null);
+      Session.set('left.showCloseButton', true);
+      view.left.isOpen = false;
+      if (_.isFunction(callback)) { callback(); }
+    });
+    $('#gaia, #left').removeClass('show-left', 'normal');
+  };
   
   return view;
 };
