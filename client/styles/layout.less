@@ -43,7 +43,9 @@ body {
 .stage {
   .abs-pos-fill;
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: scroll; 
+  /* iOS Momentum Scroll */
+  -webkit-overflow-scrolling: touch;
   .content { margin: auto; }
 }
 
@@ -64,6 +66,7 @@ body {
   &.show-left { .abs-pos(0;0;auto;0); }
   .stage { 
     -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
   }
 }
 

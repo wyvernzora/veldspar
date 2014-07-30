@@ -33,6 +33,7 @@ header {
     font-size: 2.2rem;
     &:hover {
       color: @color-accent;
+      background-color: fadeout(@color-background-dark, 20%);
     }
     &:active {
       color: darken(@color-accent, 10%);
@@ -44,8 +45,11 @@ header {
     text-align: center;
   }
   #back {
-    .abs-pos(2%;0);
+    .abs-pos(0;0);
+    width: 5.5rem;
+    height: 5.5rem;
     cursor: pointer;
+    text-align: center;
   }
 }
 
@@ -137,9 +141,9 @@ header {
 }
 /* Hi-res Mobile Devices */
 @media all and (min-width: @mobile-min) and (max-width: @mobile-max) {
-
+  header span { display: none; }
 }
 /* Lo-res Mobile Devices & iPhones */
 @media all and (max-width: @lo-res-max) {
-
+  header span { display: none; }
 }
