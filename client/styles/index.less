@@ -3,147 +3,87 @@
 @import "imports/platforms";
 
 
-/* Global */
-html {
-  background-color: @color-background-dark;
-  color: @color-foreground;
-  /* Disable heading selection */
-  h1, h2, h3, h4, h5, h6 {
-    .unselectable;
-    cursor: default;
-  }
-  /* Link colors */
-  a {
-    color: @color-accent;
-    &:visited { color: darken(@color-accent, 10%); }
-  }
-}
-
 /* Header Bar */
 header {
-  .unselectable;
-  background-color: fadeout(@color-background, 10%);  
-  line-height: 5.5rem;
   
   &.scroll {
-    border-bottom: 1px solid darken(@color-background, 15%);
-    .vendors(box-shadow; 0px 0px 4px darken(@color-background, 25%));
   }
+  
+  .navbar {
+    .abs-pos(0;0);
+    height: 5.5rem;
+    
+    .navlink {
+      display: inline-block;
+      width: 5.5rem;
+      height: 5.5rem;
+      cursor: pointer;
+      text-align: center;
+      font-size: 2.2rem;
+      &:hover {
+        color: @color-accent;
+        background-color: fadeout(@color-background-dark, 70%);
+      }
+      &:active {
+        color: darken(@color-accent, 10%);
+      }
+    }
+  }
+  
+  /*
   .navlink {
     font-size: 2.2rem;
     &:hover {
       color: @color-accent;
-      background-color: fadeout(@color-background-dark, 20%);
+      background-color: fadeout(@color-background-dark, 70%);
     }
     &:active {
       color: darken(@color-accent, 10%);
     }
   }
+  */
   
   #veldspar {
+    cursor: default;
     font-size: 3.6rem;
     text-align: center;
   }
-  #back {
+  /*
+  #menu {
     .abs-pos(0;0);
     width: 5.5rem;
     height: 5.5rem;
     cursor: pointer;
     text-align: center;
   }
-}
-
-/* Main view */
-#gaia {
-  // iOS Safari Flicker Fix
-  -webkit-backface-visibility: hidden;
-  background-color: @color-background;
-  #overlay {
-    @alpha: 0.4;
-    .hidden;
-    .abs-pos-fill;
-    background: @color-border-dark url("/images/ui-bg_diagonals-thick_20_666666_40x40.png") 50% 50% repeat;
-    opacity: @alpha;
-    filter: Alpha(Opacity=40);
-  }
-  .stage {
-    background: @color-background;
-  }
-  &.show-left {
-    border-left: 1px solid @color-background;
-  }
-}
-
-/* Side view */
-#left {
-  // iOS Safari Flicker Fix
-  -webkit-backface-visibility: hidden;
-  background-color: @color-background;  
-  border-right: 1px solid darken(@color-foreground, 15%);
-  
-  #close {
-    @size: 4rem;
-    
-    .centered;
-    .abs-pos(auto;1rem;1rem;auto);
-    height: @size;
-    width: @size;
-    font-size: @size;
-    line-height: @size;
-    vertical-align: middle;
-    
-    color: fadeout(@color-foreground, 50%);
-    background-color: fadeout(@color-background, 30%);
-    
-    &:hover { 
-      color: fadeout(@color-no, 50%); 
-    }
-    &:active {
-      color: fadeout(darken(@color-no, 30%), 50%);
-    }
-  }
-  &.show-left {
-  }
+  */
 }
 
 /* Credits */
 #credits {
+  * { text-align: left; }
+  
   padding: 10%;
   padding-top: 1.5rem;
   
+  
   h2 { margin-top: 3.6rem; }
   
-  .version, .copyright { 
+  small, .copyright { 
     font-size: 1.6rem; 
     color: lighten(@color-foreground, 10%);
   }
-  .version { margin-left: 1rem; }
-  .license { font-size: 1rem; }
+  small { margin-left: 1rem; }
+  .license * { font-size: 1rem; }
 }
 
 
 /* reactive overrides */
 /* Large Screen Devices */
 @media all and (min-width: @hi-res-min) {
-  #left {
-    color: @color-foreground-dark;
-    background-color: @color-background-dark;
-    #close { display: none; }
-  }  
-  #gaia {
-    #overlay { opacity: 0.3; }    
-  }
   #credits {
-    .version, .copyright {
+    small, .copyright {
       color: darken(@color-foreground-dark, 20%);
     }
   }
-}
-/* Hi-res Mobile Devices */
-@media all and (min-width: @mobile-min) and (max-width: @mobile-max) {
-  header span { display: none; }
-}
-/* Lo-res Mobile Devices & iPhones */
-@media all and (max-width: @lo-res-max) {
-  header span { display: none; }
 }

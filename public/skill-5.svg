@@ -1,0 +1,10 @@
+<svg class="level-indicator" width="48" height="8" viewBox="0 0 48 8" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g>
+    <rect class="frame" stroke-width="1" stroke="#818184" fill="#030303" height="6.5" width="46.5" x="0.75" y="0.75" />
+    <rect class="lv lv_1" stroke-width="0" fill="#818184" width="8" height="4" x="2" y="2" />
+    <rect class="lv lv_2" stroke-width="0" fill="#818184" width="8" height="4" x="11" y="2" />
+    <rect class="lv lv_3" stroke-width="0" fill="#818184" width="8" height="4" x="20" y="2" />
+    <rect class="lv lv_4" stroke-width="0" fill="#818184" width="8" height="4" x="29" y="2" />
+    <rect class="lv lv_5" stroke-width="0" fill="#818184" width="8" height="4" x="38" y="2" />
+  </g>
+</svg>

@@ -1,35 +1,51 @@
 <!-- LI: Login View -->
 <template name="login">
   <div id="login" class="login-html">
-    <div class="content">
       <hgroup>
         <h1><i class="icon ion-planet"></i><span class="accent">Veld</span>spar</h1>
         <h2>Your window into the <span class="accent">New Eden</span>.</h2>
       </hgroup>
-      <div class="textbox-group" id="li-shaky">
-        <div class="error-box">
-          Capsuleer, you do have an email don't you?
-        </div>
-        <input class="textbox" id="li-email" placeholder="email" type="email" />
-        <input class="textbox" id="li-password" placeholder="password" type="password" />
+      <!--<div class="textbox-group" id="li-shaky">
+        <div id="li-error-box" class="alert alert-danger"></div>
+        <input class="textbox" id="li-email" placeholder="email" type="email" tabindex="1" />
+        <input class="textbox" id="li-password" placeholder="password" type="password" tabindex="2" />
         <a id="li-forgot" href="#">Forgot your password?</a>
-      </div>
-      <div class="button-group">
-        <div class="button" id="li-signup">
+      </div>-->
+      <form id="li-form">
+        <div id="li-error-box" class="alert alert-danger"></div>
+        
+        
+        <input class="first field form-control" id="li-email" placeholder="email" type="email" required autofocus />
+        <input class="last field form-control" id="li-password" placeholder="password" type="password" required />
+        
+        
+        <div class="button-group">
+        <button class="btn btn-lg btn-default" id="li-signup" type="button" >
           <i class="icon ion-ios7-arrow-back"></i> Signup
-        </div>
-        <div class="button submit" id="li-login">
+        </button>
+        <button class="btn btn-lg btn-primary" id="li-login" type="submit">
           {{#if loading}} <i class="icon ion-loading-a loading-indicator"></i>
           {{else}} Login {{/if}}
-        </div>
+        </button>
       </div>
+        
+      </form>
+      <!--<div class="button-group">
+        <button class="btn btn-lg btn-default" id="li-signup" tabindex="3">
+          <i class="icon ion-ios7-arrow-back"></i> Signup
+        </button>
+        <button class="btn btn-lg btn-primary" id="li-login" tabindex="4">
+          {{#if loading}} <i class="icon ion-loading-a loading-indicator"></i>
+          {{else}} Login {{/if}}
+        </button>
+      </div>-->
       <footer>
         Powered by <a href="#" id="li-powered-by">Veldspar 1.0</a>
         <br/>Copyright © 2014 Denis Luchkin-Zhou
-        <br/><div class="button {{devmode}}" id="li-dev-mode">Beta Features</div>
+        <br/><div class="button {{devmode}}" id="li-dev-mode">{{> skillLevel require=0 level=3 queued=5 training=4}}</div>
       </footer>
+      
     </div>
-  </div>
 </template>
 <!-- SU: Signup Sideview -->
 <template name="signup">
@@ -38,7 +54,7 @@
       <h1><span class="accent">Sign</span>up</h1>
       <h2>We've been waiting for you!</h2>
     </hgroup>
-    <div class="error-box stripe"></div>
+    <div id="su-error-box" class="alert alert-danger"></div>
     <div class="textbox-group">
       <input type="email" class="textbox" id="su-email" placeholder="email" />
     </div>
@@ -49,13 +65,13 @@
     </div>
     <p id="su-password-quality"></p>
     <div class="button-group">
-      <div class="button" id="su-cancel">Cancel</div>
-      <div class="button submit" id="su-submit">
+      <button class="btn btn-default" id="su-cancel">Cancel</button>
+      <button class="btn btn-primary" id="su-submit">
         {{#if loading}}
         <i class="icon ion-loading-a loading-indicator"></i>
         {{else}} Continue <i class="icon ion-ios7-arrow-forward"></i>
         {{/if}}
-      </div>
+      </button>
     </div>
     <p>
       <strong class="accent">Note: </strong>

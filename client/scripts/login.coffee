@@ -6,12 +6,13 @@ Kernite = (this ? exports).Kernite
   Kernite.ui view
   
   # Login Form
+  ###
   view.form = new Kernite.Form 
     '#li-email':
       'validate': (v) ->
         if not Kernite.Util.isEmailAddress v
-          return 'Your <b class="accent">email address</b> doesn\'t look right.'
-      'error': '#login .error-box'
+          return 'Your <b>email address</b> doesn\'t look right.'
+      'error': '#li-error-box'
       'success': (v) ->
         $('#li-email').removeClass('error');
         $('#login .error-box').hide('fade');
@@ -19,8 +20,8 @@ Kernite = (this ? exports).Kernite
     '#li-password':
       'validate': (v) ->
         if v is '' 
-          return '<b class="accent">Empty password?</b> Are you sure?!'
-      'error': '#login .error-box'
+          return '<b>Empty password?</b> Are you sure?!'
+      'error': '#li-error-box'
       'success': (v) ->
         email = $('#li-email').val()
         Session.set 'login.loading', yes  # Start loading animation
@@ -36,12 +37,13 @@ Kernite = (this ? exports).Kernite
               .animate(left:0, 80)
             $('#li-forgot').show 'fade'
   
+  
   # Meteor.js events
   view.events 
     'keydown #li-email': (e) -> view.form.validate '#li-email' if e.keyCode is 13
     'keydown #li-password': (e) -> view.form.validate null if e.keyCode is 13
-    'click #li-login.button': -> view.form.validate null
-    'click #li-signup.button': -> view.left.open 'signup'
+    'click #li-login.btn': -> view.form.validate null
+    'click #li-signup.btn': -> view.left.open 'signup'
     'click #li-powered-by': -> view.left.open 'credits'
     'click #li-dev-mode': ->
       $('html').toggleClass 'beta'
@@ -49,7 +51,7 @@ Kernite = (this ? exports).Kernite
         $('#li-dev-mode').addClass 'danger'
       else
         $('#li-dev-mode').removeClass 'danger'
-      
+      ###
   # Meteor.js helpers
   view.helpers
     'loading': -> Session.get 'login.loading'
@@ -77,8 +79,8 @@ Kernite = (this ? exports).Kernite
     '#su-email':
       validate: (v) ->
         if not Kernite.Util.isEmailAddress v
-          return 'Your <b class="accent">email address</b> doesn\'t look right.'
-      error: '#signup .error-box'
+          return 'Your <b>email address</b> doesn\'t look right.'
+      error: '#su-error-box'
       success: ->
         suppressPasswordQlty = yes
         $('#su-password').focus()
@@ -125,8 +127,8 @@ Kernite = (this ? exports).Kernite
     'keydown #su-password': (e) -> view.form.validate '#su-password' if e.keyCode is 13
     'keyup #su-password': -> view.util.updatePasswordQuality()
     'keydown #su-verify': (e) -> view.form.validate null if e.keyCode is 13
-    'click #su-submit.button': -> view.form.validate null
-    'click #su-cancel.button': -> view.left.close()
+    'click #su-submit.btn': -> view.form.validate null
+    'click #su-cancel.btn': -> view.left.close()
   
   # Meteor.js helpers
   view.helpers

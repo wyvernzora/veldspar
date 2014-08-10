@@ -2,30 +2,53 @@
 @import "imports/mixin";
 @import "imports/platforms";
 
-/* Error Indicator */
-.error-box {
-  .hidden;
+/* Alerts */
+.alert {
   .centered;
-	color: white;
-  padding: 1rem;
-  margin: 1rem auto;
-	border: 0.5rem solid fadeout(darken(@color-background, 25%), 25%);
-  border: 1px solid @color-border;
-	background: #b81900 url("/images/ui-bg_diagonals-thick_18_b81900_40x40.png") 50% 50% repeat;
-  .vendors(box-shadow; 0px 0px 4px darken(@color-background, 25%));
+  .border-radius(0);
+  margin-left: auto;
+  margin-right: auto;
 }
-.error-box.stripe {
+.alert-danger { display: none; }
+.sideview .alert {
   width: 100%;
   border-left: none;
   border-right: none;
-  .vendors(box-shadow; none);
 }
+
+/* Form */
+form {
+  margin: auto;
+  padding: 0.3rem 0.8rem;
+  
+  .field {
+    display: block;
+    width: 100%;
+    height: 4.5rem;
+    font-size: 2.2rem;
+    position: relative;
+    
+    &.error {
+      background-color: @color-error;
+      outline: none;
+    }
+    &:focus:not(.error) {
+      background-color: @color-focus;
+    }
+    
+    &:focus { z-index: 2; }
+    &:not(.last) { margin-bottom: -1px; }
+    &.first { .border-radius(4px; 4px); }
+    &.last { .border-radius(@se:4px; @sw:4px); }
+    &.first.last { .border-radius(4px;4px;4px;4px); }
+  }
+}
+
 /* Textbox */
 .textbox,
-input[type="text"], input[type="password"] {
+input[type="text"], input[type="password"], input[type="email"] {
   display: block;
-  border: 1px solid @color-border;
-  
+  //border: 1px solid @color-border;
   &.error {
     background-color: @color-error;
     outline: none;
@@ -39,94 +62,34 @@ input[type="text"], input[type="password"] {
 /* Textbox Group */
 .textbox-group .textbox {
   margin: auto;
+  position: relative;
   padding: 0.3rem 0.8rem;
-  &:not(:first-of-type) {
-    border-top: none;
-  }
-  &:first-of-type {
-    .border-radius(4px; 4px);
-  }
-  &:last-of-type {
-    .border-radius(@se:4px; @sw:4px);
-  }
-  &:first-of-type:last-of-type {
-    .border-radius(4px;4px;4px;4px);
-  }
+  &:focus { z-index: 2; }
+  &:not(:last-of-type) { margin-bottom: -1px; }
+  &:first-of-type { .border-radius(4px; 4px); }
+  &:last-of-type { .border-radius(@se:4px; @sw:4px); }
+  &:first-of-type:last-of-type { .border-radius(4px;4px;4px;4px); }
 }
+
+
 /* Button */
-.button,
-input[type="button"] {
+.btn { 
   .unselectable;
-  .border-radius(1px);
-  cursor: default;
-  font-size: 1.4rem;
-  margin: 0 0.5rem;
-  min-width: 6.5rem;
-  min-height: 2.9rem;
-  padding: 0.8rem 1rem;
-  display: inline-block;
-  color: @color-btn-fg;
-  text-shadow: 0 1px 0 #F0F0F0;
-  border: 1px solid fadeout(black, 75%);
-  background-image: linear-gradient(#EDEDED, #EDEDED 38%, #DEDEDE);
-  box-shadow: 0 1px 0 fadeout(black, 92%), inset 0 1px 2px fadeout(white, 25%);
-  &.submit {
-    color: white;
-    border: 1px solid #C2672E;
-    background-image: linear-gradient(#FF9A5C, #FF9A5C 38%, #F09156);
-    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.5);
-    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.15), inset 0 1px 2px rgba(255, 255, 255, 0.2);
-  }
-  &.danger {
-    color: white;
-    text-shadow: none;
-    background-image: linear-gradient(#FF5D5D, #FF5D5D 38%, #F05858);
-    box-shadow: 0 1px 0 fadeout(black, 92%), inset 0 1px 2px fadeout(white, 50%);
-    border: 1px solid #C32D2D;
-  }
-  &.flat {
-    color: fadeout(black, 0.75);
-    background: none;
-    text-shadow: none;
-    box-shadow: none;
-    &:hover {
-      border-color: fadeout(black, 0.5);
-      color: fadeout(black, 0.5);
-    }
-    &:active:extend(&:hover) {
-      box-shadow: inset 0 1px 2px fadeout(black, 0.5);
-    }
-  }
-  &:focus {
-    outline: 0;
-    outline: none;
-  }
-  &:active {
-    box-shadow: inset 0 1px 2px fadeout(black, 50%);
-  }
+  .border-radius(0);
+  padding: 0.8rem 3rem;
 }
-
-
-/* Media Overrides */
-/* Common Monitor */
-@media all and (min-width: @hi-res-min) {
+/* Link Button */
+a.button {
+  font-weight: bold; 
+  padding: 0.5rem 1rem;
+  &:visited { color: @color-accent; }
+  &:hover { 
+    background-color: fadeout(@color-background-dark, 90%); 
+    text-decoration: none;
+  }
   
-} 
-/* HD Smartphone */
-@media all and (min-width: @mobile-min) and (max-width: @mobile-max) {
-  .error-box {
-    width: 100%;
-    border-left: none;
-    border-right: none;
-    .vendors(box-shadow; none);
-  }
-}
-/* More constrained smartphones */
-@media all and (max-width: @lo-res-max) {
-  .error-box {
-    width: 100%;
-    border-left: none;
-    border-right: none;
-    .vendors(box-shadow; none);
+  &.danger {
+    color: @color-danger;
+    &:visited { color: @color-danger; }
   }
 }

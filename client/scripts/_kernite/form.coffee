@@ -4,42 +4,17 @@
 Kernite = (this ? exports).Kernite ?= { }
 
 ###
+Example form data:
 
-{
-  '#email': {
-    'validate': function (value) {
-      
-    },
-    'error': function (error) {
-      
-    },
-    'success': function (value) {
-      
-    }
-  },
-  '#password': {
-    'validate': function (value) {
-      
-    },
-    'onError': function (error) {
-      
-    }
-  }
-
-}
+'#email':
+  'validate': (v) -> isEmail v
+  'error': (e) -> showErr e
+  'success': (v) -> submitEmail v
 
 ###
 
-
 # Form validation handling
 class Kernite.Form
-  
-  # Utility Functions
-  @c = (f) ->
-    return f() if _.isFunction f
-  
-  # Class Members
-  
   # Public: creates a new instance of the Kernite.Form
   constructor: (inputs) ->
     @inputs = { }
@@ -61,20 +36,27 @@ class Kernite.Form
         $(meta.error).hide()
       # Check for errors
       err = meta.validate value if _.isFunction meta.validate
-      # Call the correct callback when needed
-      if err
+      # Error action
+      errAction = (e) ->
         $input.addClass('error').focus()
         if _.isFunction meta.error
           meta.error err # Function callback, call it
         else if _.isString meta.error
           $err = $ meta.error # String arg, this is an error box
-          $err.html(err).clearQueue().show().effect('pulsate', times: 2)
+          $err.html(e).clearQueue().show().effect('pulsate', times: 2)
         return err
+      # Call the correct callback when needed
+      if err
+        return errAction err
       else
         $input.removeClass 'error'
         if _.isString meta.error
           $(meta.error).hide 'fade'
-        meta.success value if meta.success
+        try
+          meta.success value if meta.success
+        catch x
+          return errAction x.reason
+          
         return undefined;
     # Validate all inputs
     else

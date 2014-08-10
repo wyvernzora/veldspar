@@ -22,4 +22,4 @@ config.imageHost = 'http://localhost:8888'
 config.verbose = yes
 
 # Indicates whether to hide unpublished entities from clients
-config.hideUnpublished = yes
+config.hideUnpublished = no

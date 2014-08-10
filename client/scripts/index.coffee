@@ -7,8 +7,19 @@ Kernite = (this ? exports).Kernite
   
   scrolling = no
   
+  view.events
+    'click #menu': ->
+      view.left.open 'menu'
+    'click #logout': ->
+      Meteor.logout()
+  
   view.helpers
-    'sideviewIs': (name) -> Session.get 'sideview' is name
+    'sideview': ->
+      return switch Session.get('sideview')
+        when 'signup' then Template.signup
+        when 'credits' then Template.credits
+        when 'add-key' then Template.addKey
+        else null
     
   view.onRender ->
     $('#main-stage').scroll ->

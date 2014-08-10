@@ -4,13 +4,13 @@
 Veldspar = (exports ? this).Veldspar
 UserData = Veldspar.UserData
 
-
+# Server Data
 UserData.callLog = new Meteor.Collection 'user.CallLog'
 
 # Publish Character Data
 Meteor.publish 'user.Characters', ->
   if this.userId
-    return UserData.characters.find({owner: this.userId})
+    return UserData.characters.find({owner: this.userId}, {fields: {apiKey: 0}})
   else
     this.ready()
     

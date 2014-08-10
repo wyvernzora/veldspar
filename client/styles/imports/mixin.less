@@ -1,6 +1,5 @@
 /*  */
 
-
 /* Absolute Position */
 .abs-pos(@l:auto;@t:auto;@r:auto;@b:auto) {
   position: absolute;
@@ -24,6 +23,19 @@
 /* Hide element */
 .hidden() {
   display: none;
+}
+/* Hide Overflow */
+.no-overflow() {
+  overflow-x: hidden;
+  overflow-y: hidden;
+  overflow: hidden;
+}
+/* Opacity */
+.opacity(@opacity) {
+  opacity: @opacity;
+  // IE8 filter
+  @opacity-ie: (@opacity * 100);
+  filter: ~"alpha(opacity=@{opacity-ie})";
 }
 /* Disable user selection */
 .unselectable() {
