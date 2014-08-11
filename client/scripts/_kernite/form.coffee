@@ -30,14 +30,14 @@ Kernite = (this ? exports).Kernite ?= {}
 # Kernite.Form class
 # Simplifies complex form validation and submission.
 class Kernite.Form
-  
+
   constructor: (options) ->
     # No options, no form
     return if not options
     # Copy callbacks
-    @success = _.bind options.success, @
-    @error = _.bind options.error, @
-    @_submit = _.bind options.submit, @
+    @_success = _.bind options.success, @ if _.isFunction options.success
+    @_error = _.bind options.error, @ if _.isFunction options.error
+    @_submit = _.bind options.submit, @ if _.isFunction options.submit
     # Copy field data
     @fields = options.fields ? {}
     # Bind all callbacks to the form
@@ -56,16 +56,16 @@ class Kernite.Form
     if error
       if _.isFunction(meta.error)
         meta.error error
-      else if _.isFunction(@error)
+      else if _.isFunction(@_error)
         error.id = id
-        @error [error]
+        @_error [error]
     else
       if _.isFunction(meta.success)
         meta.success value
-      else if _.isFunction(@success)
+      else if _.isFunction(@_success)
         data = {}
         data[id] = value
-        @success data
+        @_success data
 
       if _.isString(meta.next)
         $(meta.next).focus()
@@ -99,12 +99,18 @@ class Kernite.Form
         err.id = id
         error.push err
       else
-        data[id] = value
+        data[meta.name ? id] = value
     # Call appropriate callback
     if error.length isnt 0
-      @error error, null if _.isFunction @error
+      @_error error, null if _.isFunction @_error
     else
       @_submit data
+
+  error: (id, type, reason) ->
+    if _.isFunction(@fields[id]?.error)
+      @fields[id].error id:id, type:type, reason:reason
+    else if _.isFunction(@_error)
+      @_error [id:id, type:type, reason:reason]
 
   attach: (events) ->
     map = { } # Temporary event map
