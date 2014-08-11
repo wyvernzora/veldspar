@@ -1,4 +1,4 @@
-###
+###!
 Veldspar.io - Meteor.js based EveMon alternative
 Copyright © 2014 Denis Luchkin-Zhou
 -------------------------------------------------------------------------------
@@ -9,13 +9,13 @@ Kernite = (this ? exports).Kernite
 
 # LI: Login View
 ((view) ->
-  Kernite.ui view  # Attach Kernite functionality to the Meteor.js template
-
+  # Attach Kernite functionality to the Meteor.js template
+  Kernite.ui view
   # Login Form
   view.form = new Kernite.Form
     error: (errors) ->
       # Failed login attempt (incorrect password)
-      if errors[0].type is 'authentication-failure'
+      if errors[0].type is 'server-error'
         $('#li-login-form .form-group')
           .animate(left:20, 80)
           .animate(left:-20, 80)
@@ -32,66 +32,106 @@ Kernite = (this ? exports).Kernite
       form = @
       Meteor.loginWithPassword email:data.email, data.password, (error) ->
         if error
-          form.error null, 'authentication-failure', error.reason
+          form.error null, 'server-error', error.reason
         Session.set 'login.loading', no
     fields:
       '#li-email':
         name: 'email'
         validate: (value) ->
           if not /^\w+(\.\w+|)*@\w+\.\w+$/.test(value)
-            return type: 'error', reason: 'Your <b>email address</b> doesn\'t look right!'
-          return null;
+            return type: 'error', reason: 'Your <b>email address</b> doesn\'t look right!', critical:yes
         update: (result, reason) ->
-          $input = $('#li-email-group');
-          if result is 'ok'
-            $input.removeClass('has-error').addClass 'has-success has-feedback'
-          else if (not $input.hasClass('has-error'))
-            $input.removeClass 'has-success has-error has-feedback'
+          view.util.applyValidationStyle '#li-email-group', result
         error: (error) ->
-          $('#li-email-group').removeClass('has-success').addClass('has-feedback has-error')
+          view.util.applyValidationStyle '#li-email-group', 'error'
           $('#li-email-group i').effect('pulsate', times:2)
           $('#li-email').focus().select()
-        success: (value) -> $('#li-email-group').removeClass('has-error').addClass('has-feedback has-success')
+        success: (value) -> view.util.applyValidationStyle '#li-email-group', 'ok'
         next: '#li-password'
       '#li-password':
         name: 'password'
         success: ->
-
+  # Meteor.js event handlers
   view.events view.form.attach
     'click #li-no-account': ->
-      Session.set 'modal', 'signup'
-      $('#rt-modal-view').modal 'show'
-
+      view.modal.show 'signup'
+    'click #li-login': ->
+      view.form.submit()
 )(Template.login)
 
 # SU : Signup View
 ((view) ->
-
-  #Meteor.js events
-  view.events
-    'keyup #su-email': ->
-      val = $('#su-email').val()
-      if /^\w+(\.\w+|)*@\w+\.\w+$/.test(val)
-        $('#su-email-group').addClass 'has-success has-feedback'
+  # Attach Kernite functionality to the Meteor.js template
+  Kernite.ui view
+  # Signup Form
+  view.form = new Kernite.Form
+    error: (error) ->
+      if error[0].type is 'server-error'
+        Session.set 'signup.error', error[0].reason
+        $('#su-error-box').effect 'pulsate', times: 2
+        $('#su-email').focus().select()
       else
-        $('#su-email-group').removeClass 'has-success has-feedback'
-    'keyup #su-password': ->
-      val = $('#su-password').val()
-      strength = passwordStrength(val)
-      $('#su-password-group')
-        .removeClass('has-success has-warning has-error has-feedback')
-        .addClass switch strength
-          when 'ok' then 'has-success has-feedback'
-          when 'medium' then 'has-warning has-feedback'
-          else 'has-error has-feedback'
-    'keyup #su-verify': ->
-      password = $('#su-password').val()
-      verify = $('#su-verify').val()
-
-      $('#su-verify-group')
-        .removeClass('has-success has-warning has-error has-feedback')
-        .addClass if password is verify then 'has-success has-feedback' else 'has-error has-feedback'
-
+        for i,err of error.reverse()
+          meta = view.form.fields[err.id]
+          meta.error err if _.isFunction(meta.error)
+    submit: (data) ->
+      Session.set 'signup.loading', yes
+      Accounts.createUser email:data.email, password:data.password, (error) ->
+        if error
+          view.form.error null, 'server-error', error.reason
+        else
+          $('#rt-modal-view').modal 'hide'
+        Session.set 'signup.loading', no
+    fields:
+      '#su-email':
+        name: 'email'
+        next: '#su-password'
+        validate: (value) ->
+          if not /^\w+(\.\w+|)*@\w+\.\w+$/.test(value)
+            return type: 'error', reason: 'Your <b>email address</b> doesn\'t look right!', critical:yes
+        update: (result, reason) -> view.util.applyValidationStyle '#su-email-group', result
+        error: (error) ->
+          view.util.applyValidationStyle '#su-email-group', 'error'
+          $('#su-email-group i').effect('pulsate', times:2)
+          $('#su-email').focus().select()
+        success: (value) -> view.util.applyValidationStyle '#su-email-group', null
+      '#su-password':
+        name: 'password'
+        next: '#su-verify'
+        validate: (value) ->
+          strength = passwordStrength value
+          if strength is 'weak' or strength is 'invalid'
+            return type:'error', reason:'Your password is too weak!', critical:yes
+          if strength is 'medium'
+            return type:'warning', reason:'Your password may be vulnerable!', critical:no
+          if strength is 'ok'
+            return type:'ok', reason:'Your password is excellent!', critical:no
+        update: (result, reason) -> view.util.applyValidationStyle '#su-password-group', result
+        error: (error) ->
+          view.util.applyValidationStyle '#su-password-group', 'error'
+          $('#su-password-group i').effect('pulsate', times:2)
+          $('#su-password').focus().select()
+        success: (value) -> # Avoid form-wide callback
+      '#su-verify':
+        name: 'verify'
+        validate: (value) ->
+          password = $('#su-password').val()
+          if value isnt password
+            return type:'error', reason:'Password and verificatio do not match!'
+        update: (result, reason) ->
+          # Don't update if password is empty
+          view.util.applyValidationStyle '#su-verify-group', result if $('#su-password').val() isnt ''
+        error: (error) ->
+          view.util.applyValidationStyle '#su-verify-group', 'error'
+          $('#su-verify-group i').effect('pulsate', times:2)
+          $('#su-verify').focus().select()
+        success: (value) -> # Avoid form-wide callback
+  # Meteor.js events
+  view.events view.form.attach
+    'click #su-submit': -> view.form.submit()
+  # Meteor.js callback extension
+  view.onRender ->
+    Session.set 'signup.error', null
   # Utilities
   passwordStrength = (str) ->
     s = new RegExp '^(?=.{8,})(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\\W).*$', 'g'

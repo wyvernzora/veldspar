@@ -1,0 +1,48 @@
+@import "imports/variables.less";
+
+#user {
+
+  .char-item {
+    .caption {
+      margin-bottom: 0;
+      &>p, &>div { margin-bottom: 3px; }
+      h3 {
+        margin-top: 0;
+        margin-bottom: 3px;
+      }
+    }
+    .skill-info {
+      .progress { position: relative; }
+      .skill-progress {
+        display: block;
+        position: absolute;
+        left: 0;
+        right: 0;
+        text-shadow: 0px 0px 3px white;
+      }
+    }
+    .actions {
+      position: relative;
+      text-align: right;
+      &>.btn, &>.btn-group { width: 48%; }
+      & .btn-group .btn { width: 100%; }
+    }
+    & .thumbnail hr { margin: 0; }
+
+    /* Alternate layout for extra-small devices */
+    @media (max-width: (@screen-sm-min - 1)) {
+      .thumbnail img {
+        float: left;
+        width: 64px;
+        height: 64px;
+      }
+      .char-info {
+        margin-left: 70px;
+      }
+      .actions { clear: both; }
+    }
+
+  }
+
+  &>hr { margin-top: 80px;}
+}

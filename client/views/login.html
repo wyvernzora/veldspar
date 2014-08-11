@@ -3,7 +3,7 @@
     <!-- Login Form -->
     <div id="li-login-form" role="form">
       <header>
-        <h1 class="font-light"><i class="icon ion-planet"></i><span class="text-primary">Veld</span>spar</h1>
+        <h1 class="text-light"><i class="icon ion-planet"></i><span class="text-primary">Veld</span>spar</h1>
         <p class="lead">Your window into the <span class="text-primary">new eden.</span></p>
       </header>
       <div id="li-email-group" class="form-group">
@@ -35,29 +35,37 @@
     </button>
     <h1 class="modal-title"><span class="text-primary">Sign</span>up</h1>
   </div>
-  <form id="su-signup-form" role="form">
-    <div class="modal-body">
-      <p class="text-center lead">Welcome to the <span class="text-primary">Veld</span>spar! We have been waining for you.</p>
-      <p class="text-danger text-center">Unknown Error</p>
+  <div class="modal-body">
+    <div id="su-signup-form" role="form">
+      <p class="text-center lead">Welcome to the
+        <span class="text-primary">Veld</span>spar!
+        We have been waining for you.
+      </p>
+      {{#if session "signup.error"}}
+        <div id="su-error-box" class="alert alert-danger">
+          {{session "signup.error"}}
+        </div>
+      {{/if}}
       <div id="su-email-group" class="form-group">
         <label for="su-email" class="sr-only">Email</label>
         <input id="su-email" type="email" class="input-lg first last form-control" placeholder="Email" required autofocus />
         <i class="icon ion-alert form-control-feedback"></i>
       </div>
+      <p class="text-center">Password strength indicator here.</p>
       <div id="su-password-group" class="form-group">
         <label for="su-password" class="sr-only">Password</label>
         <input id="su-password" type="password" class="input-lg first form-control" placeholder="Password" required />
         <i class="icon ion-alert form-control-feedback"></i>
       </div>
       <div id="su-verify-group" class="form-group">
-          <label for="su-verify" class="sr-only">Verify Password</label>
-          <input id="su-verify" type="password" class="input-lg last form-control" placeholder="Verify password" required />
-          <i class="icon ion-alert form-control-feedback"></i>
-        </div>
+        <label for="su-verify" class="sr-only">Verify Password</label>
+        <input id="su-verify" type="password" class="input-lg last form-control" placeholder="Verify password" required />
+        <i class="icon ion-alert form-control-feedback"></i>
+      </div>
     </div>
-    <div class="modal-footer">
-      <button id="su-cancel" type="button" class="btn btn-default">Cancel</button>
-      <button id="su-submit" type="submit" class="btn btn-primary">Submit</button>
-    </div>
-  </form>
+  </div>
+  <div class="modal-footer">
+    <button id="su-cancel" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+    <button id="su-submit" type="submit" class="btn btn-primary">Submit</button>
+  </div>
 </template>

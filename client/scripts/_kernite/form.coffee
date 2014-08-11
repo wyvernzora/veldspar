@@ -53,11 +53,11 @@ class Kernite.Form
     value = if _.isFunction(meta.value) then meta.value() else $(id).val()
     # Check for errors
     error = meta.validate value if _.isFunction meta.validate
-    if error
+    error.id = id if error
+    if error and (error.critical isnt no)
       if _.isFunction(meta.error)
         meta.error error
       else if _.isFunction(@_error)
-        error.id = id
         @_error [error]
     else
       if _.isFunction(meta.success)
@@ -91,6 +91,7 @@ class Kernite.Form
     # Gather data and validate
     data = { }
     error = []
+    critical = no
     _.each @fields, (meta, id) ->
       # Get the value and validate it
       value = if _.isFunction(meta.value) then meta.value() else $(id).val()
@@ -98,10 +99,10 @@ class Kernite.Form
       if err
         err.id = id
         error.push err
-      else
-        data[meta.name ? id] = value
+        critical = yes if (err.critical isnt no) # Abort submission
+      data[meta.name ? id] = value
     # Call appropriate callback
-    if error.length isnt 0
+    if critical
       @_error error, null if _.isFunction @_error
     else
       @_submit data
