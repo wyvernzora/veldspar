@@ -2,66 +2,71 @@
 Veldspar.io - Meteor.js based EveMon alternative
 Copyright © 2014 Denis Luchkin-Zhou
 -------------------------------------------------------------------------------
-login.coffee - This file contains interaction logic for login and signup 
+login.coffee - This file contains interaction logic for login and signup
 related processes.
 ###
 Kernite = (this ? exports).Kernite
 
 # LI: Login View
-((view) -> 
- 
+((view) ->
+  Kernite.ui view  # Attach Kernite functionality to the Meteor.js template
+
+  # Login Form
   view.form = new Kernite.Form
-    'success': (data) -> console.log data
-    'error': (errors) -> console.log errors
-    'submit': (data) -> console.log data
-    'fields':
+    error: (errors) ->
+      # Failed login attempt (incorrect password)
+      if errors[0].type is 'authentication-failure'
+        $('#li-login-form .form-group')
+          .animate(left:20, 80)
+          .animate(left:-20, 80)
+          .animate(left:20, 80)
+          .animate(left:0, 80)
+        $('#li-forgot-password').show 'fade'
+        $('#li-password').focus().select()
+      # ...otherwise handle the first error
+      else if errors[0].id
+        meta = @fields[errors[0].id]
+        meta.error errors[0] if _.isFunction(meta.error)
+    submit: (data) ->
+      Session.set 'login.loading', yes
+      form = @
+      Meteor.loginWithPassword email:data.email, data.password, (error) ->
+        if error
+          form.error null, 'authentication-failure', error.reason
+        Session.set 'login.loading', no
+    fields:
       '#li-email':
-        'validate': (value) ->
+        name: 'email'
+        validate: (value) ->
           if not /^\w+(\.\w+|)*@\w+\.\w+$/.test(value)
             return type: 'error', reason: 'Your <b>email address</b> doesn\'t look right!'
           return null;
-        'update': (result, reason) ->
+        update: (result, reason) ->
           $input = $('#li-email-group');
           if result is 'ok'
-            $('#li-email-group').removeClass('has-error').addClass 'has-success has-feedback'
+            $input.removeClass('has-error').addClass 'has-success has-feedback'
           else if (not $input.hasClass('has-error'))
-            $('#li-email-group').removeClass 'has-success has-error has-feedback'
-        'error': (error) -> $('#li-email-group').removeClass('has-success').addClass('has-feedback has-error')
-        'success': (value) -> $('#li-email-group').removeClass('has-error').addClass('has-feedback has-success')
-        'next': '#li-password'
+            $input.removeClass 'has-success has-error has-feedback'
+        error: (error) ->
+          $('#li-email-group').removeClass('has-success').addClass('has-feedback has-error')
+          $('#li-email-group i').effect('pulsate', times:2)
+          $('#li-email').focus().select()
+        success: (value) -> $('#li-email-group').removeClass('has-error').addClass('has-feedback has-success')
+        next: '#li-password'
       '#li-password':
-        'success': ->
-        
+        name: 'password'
+        success: ->
+
   view.events view.form.attach
-    'submit #li-login-form': ->
-      email = $('#li-email').val();
-      password = $('#li-password').val();
-      Session.set 'login.loading', yes
-      Meteor.loginWithPassword email:email, password, (error) ->
-        if error
-          $('#li-login-form .form-group')
-            .animate(left:20, 80)
-            .animate(left:-20, 80)
-            .animate(left:20, 80)
-            .animate(left:0, 80)
-          $('#li-forgot-password').show 'fade'
-          $('#li-password').focus().select()
-          Session.set 'login.loading', no
-    
-  # Meteor.js helpers
-  
-  
     'click #li-no-account': ->
       Session.set 'modal', 'signup'
       $('#rt-modal-view').modal 'show'
-      
-  # Utility functions
 
 )(Template.login)
 
 # SU : Signup View
 ((view) ->
-  
+
   #Meteor.js events
   view.events
     'keyup #su-email': ->
@@ -82,11 +87,11 @@ Kernite = (this ? exports).Kernite
     'keyup #su-verify': ->
       password = $('#su-password').val()
       verify = $('#su-verify').val()
-      
+
       $('#su-verify-group')
         .removeClass('has-success has-warning has-error has-feedback')
         .addClass if password is verify then 'has-success has-feedback' else 'has-error has-feedback'
-      
+
   # Utilities
   passwordStrength = (str) ->
     s = new RegExp '^(?=.{8,})(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\\W).*$', 'g'
@@ -96,6 +101,6 @@ Kernite = (this ? exports).Kernite
     return 'ok' if s.test str
     return 'medium' if m.test str
     return 'weak'
-  
-  
+
+
 )(Template.signup)
