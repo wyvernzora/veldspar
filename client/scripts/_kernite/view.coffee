@@ -1,6 +1,9 @@
-# Kernite UI - UI framework for Veldspar.io
-# view.coffee
-# Copyright © 2014 Denis Luchkin-Zhou <https://github.com/jluchiji>
+###
+Veldspar.io - Meteor.js based EveMon alternative
+Copyright © 2014 Denis Luchkin-Zhou <https://github.com/jluchiji>
+-------------------------------------------------------------------------------
+kernite/view.coffee - This file contains the base class for all kernite views.
+###
 Kernite = (this ? exports).Kernite ?= {}
 
 Kernite.ui = (v) ->
@@ -16,21 +19,3 @@ Kernite.ui = (v) ->
     v._kern.render.push f if _.isFunction f
   v.rendered = ->
     _.each v._kern.render, (f) -> f()
-    
-  # Sideviews
-  v.left = -> $ '#left'
-  v.left.isOpen = no
-  v.left.open = (sideview, callback) ->
-    Session.set 'sideview', sideview
-    $('#gaia, #left').addClass 'show-left', 'normal', ->
-      v.left.isOpen = yes
-      callback() if _.isFunction callback
-    $('#overlay').show 'fade', 'normal'
-  v.left.close = (callback) ->
-    $('#overlay').hide 'fade', 'normal', ->
-      Session.set 'sideview', null
-      v.left.isOpen = no
-      callback() if _.isFunction callback
-    $('#gaia, #left').removeClass 'show-left', 'normal'
-
-  v

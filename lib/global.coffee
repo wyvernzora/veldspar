@@ -23,3 +23,8 @@ config.verbose = yes
 
 # Indicates whether to hide unpublished entities from clients
 config.hideUnpublished = no
+
+
+# Client-side helpers
+if Meteor.isClient
+  UI.registerHelper 'session', (name) -> Session.get name

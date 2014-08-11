@@ -1,87 +1,30 @@
-@import "imports/colors";
-@import "imports/mixin";
-@import "imports/platforms";
-
-/* File-wide styles */
-.login-html {
-  .centered;
-  
-  h1, h2 { white-space: nowrap; }
-  h1 {
-    margin-bottom: 0;
-  }
-  h2 {
-    margin-top: 0;
-    margin-bottom: 1.6rem;
-    .font-size(inherit; 2rem; 2.4rem; 2rem);
-  }
-  P { 
-    .font-size(1.2rem; 1.6rem; 1.6rem; 1.6rem);
-  }
-  
-  .textbox {
-    height: 4.5rem;
-    font-size: 2.2rem;
-  }
-  .loading-indicator { text-shadow: none; }
-  .button-group {
-    .btn {
-     width: 45%;
-     margin: auto 2%;
-   }
-  }
-}
-
 #login {
-  .unselectable;  
-  margin-top: -4rem;
   
-  footer { font-size: 1rem; }
-  
-  #li-shaky {
-    position: relative;
-    #li-forgot {
-      .hidden;
-      color: @color-foreground;
-    }
-  }
-  #li-powered-by { font-size: 1.2rem; }
-  #li-dev-mode {
-    margin: 1rem;
-  }
-  form  { .platforms(width; 80%; 60%; 32rem; 32rem;); }
-  #li-error-box {
-    display: none;
-    width: 100%; 
-  }
-  .button-group { margin: 2.8rem auto; }
-  
-    /* Reactive Overrides */
-  @media (min-width: @screen-md-min) {
-    margin-top: 5%;
-    #li-error-box { width: 42rem; } 
-    #signup #su-password-quality { font-size: 1.4rem; }
-  }
-}
-
-#signup {
-  
-  .pwd-good, .pwd-weak, .pwd-invalid { font-weight: bold; }
-  .pwd-good { color: @color-success!important; }
-  .pwd-weak { color: @color-warning!important; }
-  .pwd-invalid { color: @color-danger!important; }
-  
-  #su-password-quality {
-    .hidden;
+  #li-login-form {
+    padding: 15px;
+    margin: 0 auto;
+    max-width: 420px;
     text-align: center;
-    font-size: 1.2rem;
-    .font-size(1.2rem; 1.6rem; 1.6rem; 1.6rem);
+    
+    HEADER {
+      margin: 20px;
+      //H1 { font-size: 46px; }
+    }
+    
+    #li-forgot-password { display: none; }
   }
+  
 }
 
 
-.skill-level {
-  margin: auto;
-  width: 9.6rem;
-  height: 1.6rem;
+#su-signup-form {
+  .form-group {
+    max-width: 420px;
+    text-align: center;
+    margin: auto;
+  }
+  .modal-footer P { 
+    display: inline-block; 
+    margin: 0 10px;
+  }
 }

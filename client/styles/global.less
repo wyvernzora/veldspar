@@ -1,0 +1,60 @@
+@import "imports/variables";
+
+BODY {
+  /* Override bootstrap's defaults */
+  font-family: 'Open Sans', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  color: @gray;
+  background-color: #FBFBFB;
+  
+  /* Force containers in BODY to have a top padding */
+  & > .container, 
+  & > .container-fluid { padding-top: 55px; }
+}
+
+.font-light { font-weight: lighter; }
+
+
+/* Form field types */
+@border-radius: 4px;
+form .btn-group { 
+  display: block; 
+  position: relative;
+  margin-top: 36px;
+  .btn { width: 50%; }
+}
+.form-group { 
+  margin-bottom: 0;
+  position: relative;
+  
+  I { display: none; }
+  
+  &.has-success, 
+  &.has-warning, 
+  &.has-error { 
+    z-index: 2; 
+    I { display: inline-block; }
+  }
+  
+  &.has-success I:before { content: "\f122"; }
+  &.has-warning I:before { content: "\f101"; }
+  &.has-error I:before { content: "\f12a"; }
+}
+.form-control {
+  position: relative;
+  border-radius: 0;
+  
+  &.first { 
+    margin-top: 7px;
+    border-top-left-radius: @border-radius;
+    border-top-right-radius: @border-radius;
+  }
+  &.last {  
+    margin-bottom: 7px;
+    border-bottom-left-radius: @border-radius;
+    border-bottom-right-radius: @border-radius;
+  }
+  &:not(.last) { margin-bottom: -1px; }
+  &:focus { z-index: 2; }
+}
+
+/* Utility */

@@ -8,7 +8,6 @@ Kernite = (this ? exports).Kernite
 #   queued: maximum level found in the skill queue
 #   training: any value other than 0 will show the training animation
 ((view) ->
-  Kernite.ui view
   
   # Kernite utilities
   view.helpers
@@ -38,7 +37,6 @@ Kernite = (this ? exports).Kernite
       return 'no'
   
   # Meteor.js callback extension
-  view.onRender ->
     
   
   

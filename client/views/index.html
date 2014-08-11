@@ -1,159 +1,42 @@
 <head>
-  <title>Veldspar Eve Online Manager</title>
-  <meta name="viewport" content="initial-scale=1.0, min-scale=1, max-scale=1, width=device-width, user-scalable=no" />
+  <title>Veldspar</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 </head>
 
-<body>
-  {{> root}}
-</body>
+<body>{{> root}}</body>
 
+<!-- RT: Root Template -->
 <template name="root">
+  <!-- Navbar -->
+  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+      <!-- Mobile version -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#rt-navbar-content">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#"><span class="text-primary"><i class="icon ion-planet"></i>Veld</span>spar</a>
+      </div>
 
-  <!-- Left Sideview -->
-  <section id="left" class="sidebar">
-    <div id="left-stage" class="stage">
-      {{> sideview}}
+      <!-- Contents of the navbar -->
+      <div class="collapse navbar-collapse" id="rt-navbar-content">
+        <ul class="nav navbar-nav navbar-right">
+          {{#if currentUser}}<li><a id="rt-nav-logout" href="#">Log Out</a></li>{{/if}}
+        </ul>
+      </div>
     </div>
-  </section>
-
-  <!-- Main View -->
-  <section id="gaia">
-    {{> header}}
-    <section id="main-stage" class="stage">
-      {{#if currentUser}} {{> user}} {{else}} {{> login}} {{/if}}
-    </section>
-    <div id="overlay"></div>
-  </section>
-
-  <!-- Right Sideview -->
-  <!--<section id="right" class="sideview">
-    <div id="left-stage" class="stage">
-      {{#if sideviewIs "signup"}} {{> signup}} {{/if}} 
-      {{#if sideviewIs "credits"}} {{> credits}} {{/if}}
+  </nav>
+  <!-- View -->
+  {{> view}}
+  <!-- Modal -->
+  <div id="rt-modal-view" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        {{> modal}}
+      </div>
     </div>
-  </section>-->
-
-</template>
-
-<template name="header">
-  {{#if currentUser}}
-  <header>
-    <!-- Logo -->
-    <section id="veldspar">
-      <span class="accent">Veld</span>spar
-    </section>
-
-    <!-- Back button -->
-    <!--<section id="menu" class="navlink">
-      <i class="icon ion-drag"></i>
-    </section>-->
-    
-    <!-- Navbar -->
-    <section class="navbar">
-      
-      <div id="menu" class="navlink">
-        <i class="icon ion-drag"></i>
-      </div>
-      <div id="logout" class="navlink">
-        <i class="icon ion-log-out"></i>
-      </div>
-      
-    </section>
-    
-  </header>
-  {{/if}}
-</template>
-
-<template name="credits">
-  <aside id="credits">
-    <h1><span class="accent">Ab</span>out</h1>
-    <!-- Veldspar -->
-    <section>
-      <h2>Veldspar<small>v1.0</small></h2>
-      <p class="copyright">Copyright © 2014 Denis Luchkin-Zhou</p>
-      <p>
-        <span class="accent">Veldspar</span> is an EVE Online account management tool 
-        based on the <a href="http://meteor.com">Meteor.js</a>.
-      </p>
-      <div class="button" href="https://github.com/jluchiji/veldspar">
-        <i class="icon ion-social-github"></i> Fork me on GitHub!
-      </div>
-      <h3>The MIT License (MIT)</h3>
-      <section class="license">
-        <p>
-          Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-        </p>
-        <ul>
-          <li>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</li>
-          <li>Any software utilizing a substantial portion of code from this software must bear the &quot;powered by Veldspar{version}&quot; link on the home page. This link should open a dialog/sidebar, where the original authors of Veldspar and authors of modules included in valdspar must be attributed.</li>
-        </ul>
-        <p>
-          THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-        </p>
-      </section>
-    </section>
-    <!-- ionicons -->
-    <section>
-      <h2>ionicons<small>v1.5.2</small></h2>
-      <p class="copyright">Copyright © 2014 Drifty (http://drifty.com/)</p>
-      <p>
-        Created by <a href="https://twitter.com/benjsperry">Ben Sperry</a> for the <a href="http://ionicons.com/">Ionic Framework</a> 
-        <a href="https://twitter.com/ionicframework">(Twitter)</a>. Released under MIT License: <a href="https://github.com/driftyco/ionicons">Github Repository</a>
-      </p>
-
-      <h3>The MIT License (MIT)</h3>
-      <section class="license">
-        <p>
-          Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-        </p>
-        <ul>
-          <li>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</li>
-        </ul>
-        <p>
-          THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-        </p>
-      </section>
-    </section>
-    <!-- jQuery -->
-    <section>
-      <h2>jQuery.UI<small>v1.11.0</small></h2>
-      <p class="copyright">Copyright © 2014 jQuery Foundation and other contributors</p>
-      <p><a href="http://jqueryui.com">jQuery.UI Official Site</a>
-      </p>
-      <h3>The MIT License (MIT)</h3>
-      <section class="license">
-        <p>
-          Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-        </p>
-        <ul>
-          <li>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</li>
-        </ul>
-        <p>
-          THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-        </p>
-      </section>
-    </section>
-    <!-- Bootstrap -->
-    <section>
-      <h2>bootstrap<small>/* add */</small></h2>
-      <p class="copyright">Copyright © 2014 Twitter</p>
-      <h3>The MIT License (MIT)</h3>
-      <section class="license">
-        <p>
-          Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-        </p>
-        <ul>
-          <li>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</li>
-        </ul>
-        <p>
-          THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-        </p>
-      </section>
-    </section>
-    <!-- PrettyJSON -->
-    <section>
-      <h2>PrettyJSON<small></small></h2>
-      <p>/* add attribution */</p>
-    </section>
-  </aside>
+  </div>
 </template>

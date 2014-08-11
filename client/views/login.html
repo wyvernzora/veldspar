@@ -1,81 +1,63 @@
-<!-- LI: Login View -->
 <template name="login">
-  <div id="login" class="login-html">
-      <hgroup>
-        <h1><i class="icon ion-planet"></i><span class="accent">Veld</span>spar</h1>
-        <h2>Your window into the <span class="accent">New Eden</span>.</h2>
-      </hgroup>
-      <!--<div class="textbox-group" id="li-shaky">
-        <div id="li-error-box" class="alert alert-danger"></div>
-        <input class="textbox" id="li-email" placeholder="email" type="email" tabindex="1" />
-        <input class="textbox" id="li-password" placeholder="password" type="password" tabindex="2" />
-        <a id="li-forgot" href="#">Forgot your password?</a>
-      </div>-->
-      <form id="li-form">
-        <div id="li-error-box" class="alert alert-danger"></div>
-        
-        
-        <input class="first field form-control" id="li-email" placeholder="email" type="email" required autofocus />
-        <input class="last field form-control" id="li-password" placeholder="password" type="password" required />
-        
-        
-        <div class="button-group">
-        <button class="btn btn-lg btn-default" id="li-signup" type="button" >
-          <i class="icon ion-ios7-arrow-back"></i> Signup
-        </button>
-        <button class="btn btn-lg btn-primary" id="li-login" type="submit">
-          {{#if loading}} <i class="icon ion-loading-a loading-indicator"></i>
-          {{else}} Login {{/if}}
-        </button>
+  <div id="login" class="container-fluid">
+    <!-- Login Form -->
+    <div id="li-login-form" role="form">
+      <header>
+        <h1 class="font-light"><i class="icon ion-planet"></i><span class="text-primary">Veld</span>spar</h1>
+        <p class="lead">Your window into the <span class="text-primary">new eden.</span></p>
+      </header>
+      <div id="li-email-group" class="form-group">
+        <label for="li-email" class="sr-only">Email</label>
+        <input id="li-email" type="email" class="input-lg first form-control" placeholder="Email" required autofocus />
+        <i class="icon ion-alert form-control-feedback"></i>
       </div>
-        
-      </form>
-      <!--<div class="button-group">
-        <button class="btn btn-lg btn-default" id="li-signup" tabindex="3">
-          <i class="icon ion-ios7-arrow-back"></i> Signup
-        </button>
-        <button class="btn btn-lg btn-primary" id="li-login" tabindex="4">
-          {{#if loading}} <i class="icon ion-loading-a loading-indicator"></i>
-          {{else}} Login {{/if}}
-        </button>
-      </div>-->
-      <footer>
-        Powered by <a href="#" id="li-powered-by">Veldspar 1.0</a>
-        <br/>Copyright © 2014 Denis Luchkin-Zhou
-        <br/><div class="button {{devmode}}" id="li-dev-mode">{{> skillLevel require=0 level=3 queued=5 training=4}}</div>
-      </footer>
-      
-    </div>
-</template>
-<!-- SU: Signup Sideview -->
-<template name="signup">
-  <aside id="signup" class="login-html">
-    <hgroup>
-      <h1><span class="accent">Sign</span>up</h1>
-      <h2>We've been waiting for you!</h2>
-    </hgroup>
-    <div id="su-error-box" class="alert alert-danger"></div>
-    <div class="textbox-group">
-      <input type="email" class="textbox" id="su-email" placeholder="email" />
-    </div>
-    <p id="su-password-quality"></p>
-    <div class="textbox-group">
-      <input type="password" class="textbox" id="su-password" placeholder="password" />
-      <input type="password" class="textbox" id="su-verify" placeholder="verify" />
-    </div>
-    <p id="su-password-quality"></p>
-    <div class="button-group">
-      <button class="btn btn-default" id="su-cancel">Cancel</button>
-      <button class="btn btn-primary" id="su-submit">
-        {{#if loading}}
-        <i class="icon ion-loading-a loading-indicator"></i>
-        {{else}} Continue <i class="icon ion-ios7-arrow-forward"></i>
-        {{/if}}
+      <div id="li-password-group" class="form-group">
+        <label for="li-password" class="sr-only">Password</label>
+        <input id="li-password" type="password" class="input-lg last form-control" placeholder="Password" required />
+        <i class="icon ion-alert form-control-feedback"></i>
+      </div>
+      <button id="li-forgot-password" class="btn btn-link btn-block" type="button">Forgot your password?</button>
+      <hr>
+      <button id="li-login" class="btn btn-primary btn-lg btn-block" type="submit">
+        {{#if session "login.loading"}}<i class="icon ion-loading-c"></i>
+        {{else}}Log In{{/if}}
       </button>
+      <button id="li-no-account" class="btn btn-link btn-block" type="button">Don't have an account?</button>
     </div>
-    <p>
-      <strong class="accent">Note: </strong>
-      Please rest assured that we will not give your email address to any third party, unless it is required by law.
-    </p>
-  </aside>
+  </div>
+</template>
+
+<template name="signup">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">
+      <span aria-hidden="true">&times;</span>
+      <span class="sr-only">Close</span>
+    </button>
+    <h1 class="modal-title"><span class="text-primary">Sign</span>up</h1>
+  </div>
+  <form id="su-signup-form" role="form">
+    <div class="modal-body">
+      <p class="text-center lead">Welcome to the <span class="text-primary">Veld</span>spar! We have been waining for you.</p>
+      <p class="text-danger text-center">Unknown Error</p>
+      <div id="su-email-group" class="form-group">
+        <label for="su-email" class="sr-only">Email</label>
+        <input id="su-email" type="email" class="input-lg first last form-control" placeholder="Email" required autofocus />
+        <i class="icon ion-alert form-control-feedback"></i>
+      </div>
+      <div id="su-password-group" class="form-group">
+        <label for="su-password" class="sr-only">Password</label>
+        <input id="su-password" type="password" class="input-lg first form-control" placeholder="Password" required />
+        <i class="icon ion-alert form-control-feedback"></i>
+      </div>
+      <div id="su-verify-group" class="form-group">
+          <label for="su-verify" class="sr-only">Verify Password</label>
+          <input id="su-verify" type="password" class="input-lg last form-control" placeholder="Verify password" required />
+          <i class="icon ion-alert form-control-feedback"></i>
+        </div>
+    </div>
+    <div class="modal-footer">
+      <button id="su-cancel" type="button" class="btn btn-default">Cancel</button>
+      <button id="su-submit" type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </form>
 </template>

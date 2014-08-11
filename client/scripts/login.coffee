@@ -1,156 +1,101 @@
-Veldspar = (this ? exports).Veldspar
+###
+Veldspar.io - Meteor.js based EveMon alternative
+Copyright © 2014 Denis Luchkin-Zhou
+-------------------------------------------------------------------------------
+login.coffee - This file contains interaction logic for login and signup 
+related processes.
+###
 Kernite = (this ? exports).Kernite
 
 # LI: Login View
-((view) ->
-  Kernite.ui view
-  
-  # Login Form
-  ###
-  view.form = new Kernite.Form 
-    '#li-email':
-      'validate': (v) ->
-        if not Kernite.Util.isEmailAddress v
-          return 'Your <b>email address</b> doesn\'t look right.'
-      'error': '#li-error-box'
-      'success': (v) ->
-        $('#li-email').removeClass('error');
-        $('#login .error-box').hide('fade');
-        $('#li-password').focus();
-    '#li-password':
-      'validate': (v) ->
-        if v is '' 
-          return '<b>Empty password?</b> Are you sure?!'
-      'error': '#li-error-box'
-      'success': (v) ->
-        email = $('#li-email').val()
-        Session.set 'login.loading', yes  # Start loading animation
-        Meteor.loginWithPassword email:email, v, (err) ->
-          Session.set 'login.loading', no # Stop loading animation
-          if err
-            $box = $ '#li-shaky'
-            $pwd = $ '#li-password'
-            $pwd.val ''
-            $box.animate(left:20, 80)
-              .animate(left:-20, 80)
-              .animate(left:20, 80)
-              .animate(left:0, 80)
-            $('#li-forgot').show 'fade'
-  
-  
-  # Meteor.js events
-  view.events 
-    'keydown #li-email': (e) -> view.form.validate '#li-email' if e.keyCode is 13
-    'keydown #li-password': (e) -> view.form.validate null if e.keyCode is 13
-    'click #li-login.btn': -> view.form.validate null
-    'click #li-signup.btn': -> view.left.open 'signup'
-    'click #li-powered-by': -> view.left.open 'credits'
-    'click #li-dev-mode': ->
-      $('html').toggleClass 'beta'
-      if $('html').hasClass 'beta'
-        $('#li-dev-mode').addClass 'danger'
-      else
-        $('#li-dev-mode').removeClass 'danger'
-      ###
-  # Meteor.js helpers
-  view.helpers
-    'loading': -> Session.get 'login.loading'
-  
-  # Callbacks
-  view.onRender ->
-    $('#li-email').focus()
-    Session.set 'login.loading', no
+((view) -> 
+ 
+  view.form = new Kernite.Form
+    'success': (data) -> console.log data
+    'error': (errors) -> console.log errors
+    'submit': (data) -> console.log data
+    'fields':
+      '#li-email':
+        'validate': (value) ->
+          if not /^\w+(\.\w+|)*@\w+\.\w+$/.test(value)
+            return type: 'error', reason: 'Your <b>email address</b> doesn\'t look right!'
+          return null;
+        'update': (result, reason) ->
+          $input = $('#li-email-group');
+          if result is 'ok'
+            $('#li-email-group').removeClass('has-error').addClass 'has-success has-feedback'
+          else if (not $input.hasClass('has-error'))
+            $('#li-email-group').removeClass 'has-success has-error has-feedback'
+        'error': (error) -> $('#li-email-group').removeClass('has-success').addClass('has-feedback has-error')
+        'success': (value) -> $('#li-email-group').removeClass('has-error').addClass('has-feedback has-success')
+        'next': '#li-password'
+      '#li-password':
+        'success': ->
+        
+  view.events view.form.attach
+    'submit #li-login-form': ->
+      email = $('#li-email').val();
+      password = $('#li-password').val();
+      Session.set 'login.loading', yes
+      Meteor.loginWithPassword email:email, password, (error) ->
+        if error
+          $('#li-login-form .form-group')
+            .animate(left:20, 80)
+            .animate(left:-20, 80)
+            .animate(left:20, 80)
+            .animate(left:0, 80)
+          $('#li-forgot-password').show 'fade'
+          $('#li-password').focus().select()
+          Session.set 'login.loading', no
     
-  view.onRender ->
-    if $('html').hasClass 'beta'
-      $('#li-dev-mode').addClass 'danger'
-    else
-      $('#li-dev-mode').removeClass 'danger'
+  # Meteor.js helpers
   
-  view
+  
+    'click #li-no-account': ->
+      Session.set 'modal', 'signup'
+      $('#rt-modal-view').modal 'show'
+      
+  # Utility functions
+
 )(Template.login)
 
-# SU: Signup View
+# SU : Signup View
 ((view) ->
-  Kernite.ui view
   
-  # Signup Form
-  view.form = new Kernite.Form
-    '#su-email':
-      validate: (v) ->
-        if not Kernite.Util.isEmailAddress v
-          return 'Your <b>email address</b> doesn\'t look right.'
-      error: '#su-error-box'
-      success: ->
-        suppressPasswordQlty = yes
-        $('#su-password').focus()
-    '#su-password':
-      validate: (v) ->
-        quality = Kernite.Util.passwordStrength v
-        if quality is 'invalid' or quality is 'weak'
-          return 'invalid password'
-      error: (e) ->
-        view.util.updatePasswordQuality();
-        $('#su-password').addClass 'error' ;
-        $('#su-password-quality').clearQueue().effect 'pulsate', times: 2
-      success: ->
-        $('#su-password, #su-verify').removeClass 'error'
-        $('#su-password-quality').hide 'fade'
-        $('#su-verify').focus()
-    '#su-verify':
-      validate: (v) ->
-        password = $('#su-password').val()
-        if password isnt v
-          return 'Your <b class="accent">password</b> and <b class="accent">verification</b> don\'t match!'
-      error: (e) ->
-        $('#su-password, #su-verify').addClass('error').val ''
-        $('#su-password-quality').html(e).clearQueue().effect 'pulsate', times: 2
-        suppressPasswordQlty = yes
-        $('#su-password').focus()
-      success: (v) ->
-        $('#su-password, #su-verify').removeClass 'error'
-        $('#su-password-quality').hide 'fade'
-        $('#signup .textbox').prop 'disabled', yes
-        Session.set 'signup.loading', yes  
-        Accounts.createUser email: $('#su-email').val(), password: $('#su-password').val(), (err) ->
-          if err
-            $('#signup .textbox').prop 'disabled', no
-            $('#su-cancel.button').show 'fade', 'fast'
-            $('#signup .error-box').html(err.reason).show().clearQueue().effect 'pulsate', times: 2
-            Session.set 'signup.loading', no
-          else
-            view.left.close()
-          
-  # Meteor.js events
-  view.events 
-    'keydown #su-email': (e) -> view.form.validate '#su-email' if e.keyCode is 13
-    'keydown #su-password': (e) -> view.form.validate '#su-password' if e.keyCode is 13
-    'keyup #su-password': -> view.util.updatePasswordQuality()
-    'keydown #su-verify': (e) -> view.form.validate null if e.keyCode is 13
-    'click #su-submit.btn': -> view.form.validate null
-    'click #su-cancel.btn': -> view.left.close()
-  
-  # Meteor.js helpers
-  view.helpers
-    'loading': -> Session.get 'signup.loading'
-  
-  # Kernite.UI utilities
-  view.util
-    'updatePasswordQuality': ->
-      quality = Kernite.Util.passwordStrength $('#su-password').val()
-      if suppressPasswordQlty
-        suppressPasswordQlty = no
-        return
-      message = switch quality
-        when 'ok' then 'This password is <span class="pwd-good">excellent.</span><br>Great job, casuleer!'
-        when 'medium' then 'This password is <span class="pwd-weak">not bad.</span><br>Maybe add a symbol or two?'
-        when 'weak' then 'This password is <span class="pwd-invalid">too weak.</span><br>Try adding some capital letters and numbers.'
-        when 'invalid' then 'This password is <span class="pwd-invalid">too short.</span><br>Let\'s start with some digits and letters.'        
-      $('#su-password-quality').html(message).show 'fade'
-
-  # Kernite.UI callback extensions
-  view.onRender ->
-    $('#su-email').focus()
+  #Meteor.js events
+  view.events
+    'keyup #su-email': ->
+      val = $('#su-email').val()
+      if /^\w+(\.\w+|)*@\w+\.\w+$/.test(val)
+        $('#su-email-group').addClass 'has-success has-feedback'
+      else
+        $('#su-email-group').removeClass 'has-success has-feedback'
+    'keyup #su-password': ->
+      val = $('#su-password').val()
+      strength = passwordStrength(val)
+      $('#su-password-group')
+        .removeClass('has-success has-warning has-error has-feedback')
+        .addClass switch strength
+          when 'ok' then 'has-success has-feedback'
+          when 'medium' then 'has-warning has-feedback'
+          else 'has-error has-feedback'
+    'keyup #su-verify': ->
+      password = $('#su-password').val()
+      verify = $('#su-verify').val()
       
-  view
+      $('#su-verify-group')
+        .removeClass('has-success has-warning has-error has-feedback')
+        .addClass if password is verify then 'has-success has-feedback' else 'has-error has-feedback'
+      
+  # Utilities
+  passwordStrength = (str) ->
+    s = new RegExp '^(?=.{8,})(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*\\W).*$', 'g'
+    m = new RegExp '^(?=.{7,})(((?=.*[A-Z])(?=.*[a-z]))|((?=.*[A-Z])(?=.*[0-9]))|((?=.*[a-z])(?=.*[0-9]))).*$', 'g'
+    e = new RegExp '(?=.{6,}).*', 'g'
+    return 'invalid' if not e.test str
+    return 'ok' if s.test str
+    return 'medium' if m.test str
+    return 'weak'
+  
+  
 )(Template.signup)
