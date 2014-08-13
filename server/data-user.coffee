@@ -43,8 +43,8 @@ UserData.updateCharacterSheet = (id) ->
       charSheet.skills.sort (a, b) -> a.id - b.id
       char.skillPoints = _(charSheet.skills).pluck('sp').reduce(((memo, num) -> memo + num), 0)
       # Update character info from the character sheet
-      _.extend char, _.omit charSheet, '_currentTime', '_cachedUntil', 'id', 'name'
-      UserData.characters.update({'_id': id}, char)
+      #_.extend char, _.omit charSheet, '_currentTime', '_cachedUntil', 'id', 'name'
+      UserData.characters.update({'_id': id}, {$set: _.omit charSheet, '_currentTime', '_cachedUntil', 'id', 'name' })
       UserData.callLog.upsert({'char': id, 'method': 'get-char-sheet'}, {$set: {'cachedUntil': char._cachedUntil}})
 
 UserData.updateSkillInTraining = (id) ->
@@ -76,13 +76,8 @@ UserData.updateSkillQueue = (id) ->
   else
     char = UserData.characters.findOne({'owner': userid, '_id': id})
     if char
-      skillQueue = Veldspar.API.Character.getCharacterSheet char.apiKey, char.id
-      # Update character info from the character sheet
-      _.extend char, _.omit charSheet, '_currentTime', '_cachedUntil', 'id', 'name', 'skills'
-      UserData.characters.update({'owner': userid, '_id': id}, char)
-      UserData.callLog.update({'char': id, 'method': 'get-char-sheet'}, {'cachedUntil': char._cachedUntil}, true)
-      # Update skill information from the character sheet
-      _.each charSheet.skills, (skill) ->
-        _.extend skill, owner: userid, char: id
-        UserData.skills.upsert({'owner': userid, 'char': char.id, 'id': skill.id},
-          skill)
+      response = Veldspar.API.Character.getSkillQueue char.apiKey, char.id
+      # Sort skill queue for faster lookup
+      response.skillQueue.sort (a, b) -> a.skill.id - b.skill.id
+      UserData.callLog.update({'char': id, 'method': 'get-skill-queue'}, {'cachedUntil': char._cachedUntil}, true)
+      UserData.characters.update({'_id': id}, {$set: {'skillQueue': response.skillQueue}})

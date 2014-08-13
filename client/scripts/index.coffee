@@ -22,7 +22,9 @@ Kernite = (this ? exports).Kernite
     'view': ->
       if Meteor.user()
         if Session.get('app.character')
-           return Template.character
+          return switch Session.get('character.view')
+            when 'skills' then Template.ch_skills
+            else Template.character
         else
           return Template.user
       else return Template.login

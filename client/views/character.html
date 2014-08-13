@@ -1,22 +1,17 @@
 <!-- CH: Character View -->
 <template name="character">
-  {{#with session "app.character"}}
+  {{#with character}}
   <div id="character" class="container">
-
-
-    <!--<ol class="breadcrumb">
-      <li><a id="ch-nav-back" href="#">Characters</a></li>
-      <li class="active">{{name}}</li>
-    </ol>-->
-
     <div class="page-header">
       <ul class="nav nav-pills" role="tablist">
-        <li id="ch-nav-back"><a><i class="icon ion-ios7-arrow-back"></i> Back <span class="badge"></span></a></li>
+        <li id="ch-nav-back" class="pill-back"><a><i class="icon ion-ios7-arrow-back"></i> Back</a></li>
         <li class="pull-right"><a id="ur-refresh">
           <i class="icon {{refreshIconStyle}}"></i>
           <span class="hidden-xs"> Refresh</span></a></li>
       </ul>
     </div>
+
+    <div class="alert alert-danger hidden"></div>
 
     <div class="panel panel-default">
       <div class="panel-body container-fluid">
@@ -30,31 +25,24 @@
           <h3 class="no-margin text-light">{{corp/name}}</h3>
           <hr>
           <div class="row">
-
             <b class="col-xs-4 col-sm-2 text-right">Gender</b>
             <span class="col-xs-8 col-sm-4 text-muted">{{gender}}</span>
-
             <b class="col-xs-4 col-sm-2 text-right">
               <span class="hidden-sm hidden-xs">Date of Birth</span>
               <span class="visible-sm visible-xs">DOB</span>
             </b>
             <span class="col-xs-8 col-sm-4 text-muted">{{dob}}</span>
-
             <b class="col-xs-4 col-sm-2 text-right">Wealth</b>
             <span class="col-xs-8 col-sm-4 text-muted">{{millionize balance 2}} ISK</span>
-
             <b class="col-xs-4 col-sm-2 text-right">
               <span class="hidden-sm hidden-xs">Skill Points</span>
               <span class="visible-sm visible-xs">SP</span>
             </b>
             <span class="col-xs-8 col-sm-4 text-muted">{{millionize skillPoints}} ({{skills/length}} Skills)</span>
-
             <b class="col-xs-4 col-sm-2 text-right">Bloodline</b>
             <span class="col-xs-8 col-sm-4 text-muted text-nowrap">{{race}}/{{bloodLine}}/{{ancestry}}</span>
-
             <b class="col-xs-4 col-sm-2 text-right">Clone</b>
             <span class="col-xs-8 col-sm-4 text-muted">{{clone/name}} ({{millionize clone/skillPoints}})</span>
-
           </div>
         </div>
       </div>
@@ -82,12 +70,13 @@
   {{/with}}
 </template>
 
+<!-- CH-NAV: Character Navigation -->
 <template name="nav_character">
-  {{#with session "app.character"}}
+  {{#with character}}
   <li class="hidden-sm">
     <a><b>{{name}}</b></a>
   </li>
-  <li class="hidden-sm"><a>Skills</a></li>
+  <li id="ch-nav-skills" class="hidden-sm"><a>Skills</a></li>
   <li class="hidden-sm"><a>Combat</a></li>
   <li class="hidden-sm"><a>Social</a></li>
   <li class="hidden-sm"><a>Finance</a></li>
@@ -95,12 +84,59 @@
   <li class="visible-sm dropdown">
     <a class="dropdown-toggle" data-toggle="dropdown"><b>{{name}}</b> <span class="caret"></span></a>
     <ul class="dropdown-menu" role="menu">
-      <li><a>Skills</a></li>
+      <li id="ch-nav-char"><a>Character Sheet</a></li>
+      <li id="ch-nav-skills"><a>Skills</a></li>
       <li><a>Combat</a></li>
       <li><a>Social</a></li>
       <li><a>Finance</a></li>
       <li><a>Industry</a></li>
     </ul>
   </li>
+  {{/with}}
+</template>
+
+<!-- CH-SKL: Character Skills -->
+<template name="ch_skills">
+  {{#with character}}
+  <div id="ch-skills" class="container">
+    <div class="page-header">
+      <ul class="nav nav-pills" role="tablist">
+        <li id="ch-skl-back" class="pill-back"><a><i class="icon ion-ios7-arrow-back"></i> Back</a></li>
+
+        <li class="active">
+          <a href="#ch-skl-queue" role="tab" data-toggle="pill">Skill Queue <span class="badge">3</span></a>
+        </li>
+        <li><a href="#ch-skl-my" role="tab" data-toggle="pill">My Skills</a></li>
+        <li><a href="#ch-skl-cert" role="tab" data-toggle="pill">Certificates</a></li>
+        <li><a href="#ch-skl-plans" role="tab" data-toggle="pill">Skill Plans</a></li>
+
+        <li class="pull-right"><a id="ch-skl-refresh">
+          <i class="icon ion-refresh"></i>
+          <span class="hidden-xs"> Refresh</span></a></li>
+      </ul>
+    </div>
+    <div class="tab-content">
+      <div id="ch-skl-queue" class="tab-pane fade in active">
+        <table class="table">
+          <tbody>
+            {{#each skillQueue}}
+              <tr>
+                <td>{{skillInfo.name}}</td>
+              </tr>
+            {{/each}}
+          </tbody>
+        </table>
+      </div>
+      <div id="ch-skl-my" class="tab-pane fade">
+        {{> wip}}
+      </div>
+      <div id="ch-skl-cert" class="tab-pane fade">
+        {{> wip}}
+      </div>
+      <div id="ch-skl-plans" class="tab-pane fade">
+        {{> wip}}
+      </div>
+    </div>
+  </div>
   {{/with}}
 </template>

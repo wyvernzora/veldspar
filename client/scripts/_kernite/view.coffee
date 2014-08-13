@@ -30,6 +30,8 @@ Kernite.ui = (v) ->
   v.rendered = ->
     _.each v._kern.render, (f) -> f()
 
+  v.onRender -> $('body').scrollTop 0
+
   # Modal control
   v.modal =
     show: (name) ->

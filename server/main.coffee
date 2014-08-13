@@ -52,7 +52,9 @@ Meteor.methods {
   updateSkillInTraining: (id) ->
     @unblock()
     applyToChar id, UserData.updateSkillInTraining
-
+  updateSkillQueue: (id) ->
+    @unblock()
+    applyToChar id, UserData.updateSkillQueue
 
   # View-specific updates
   updateUserView: ->

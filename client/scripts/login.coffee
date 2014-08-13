@@ -11,6 +11,16 @@ Kernite = (this ? exports).Kernite
 ((view) ->
   # Attach Kernite functionality to the Meteor.js template
   Kernite.ui view
+  # Multistate Components
+  view.ms =
+    email: (new Kernite.MultiState('#li-email-group')
+      .addState('ok', 'has-feedback', 'has-success', null)
+      .addState('error', 'has-feedback', 'has-error', ->
+        $('#li-email-group i').clearQueue().effect('pulsate', times:2)
+        $('#li-email').focus().select()))
+    error: (new Kernite.MultiState('#li-error-box')
+      .addState('hidden', 'hidden', null)
+      .addState('shown', '', null))
   # Login Form
   view.form = new Kernite.Form
     error: (errors) ->
@@ -41,11 +51,13 @@ Kernite = (this ? exports).Kernite
           if not /^\w+(\.\w+|)*@\w+\.\w+$/.test(value)
             return type: 'error', reason: 'Your <b>email address</b> doesn\'t look right!', critical:yes
         update: (result, reason) ->
-          view.util.applyValidationStyle '#li-email-group', result
+          if result is 'ok'
+            view.ms.email.state 'ok'
+          else if view.ms.email.current isnt 'error'
+            view.ms.email.state 'default'
         error: (error) ->
-          view.util.applyValidationStyle '#li-email-group', 'error'
-          $('#li-email-group i').effect('pulsate', times:2)
-          $('#li-email').focus().select()
+          view.ms.email.state 'error'
+
         success: (value) -> view.util.applyValidationStyle '#li-email-group', 'ok'
         next: '#li-password'
       '#li-password':
