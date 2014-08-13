@@ -113,29 +113,29 @@ Character.getCharacterSheet       = (key, charID) ->
     'attributes.intelligence.value': 'number:eveapi.result.attributes.intelligence'
     'attributes.intelligence.implant': 'eveapi.result.attributeEnhancers.intelligenceBonus.augmentatorName'
     'attributes.intelligence.bonus': 'number:eveapi.result.attributeEnhancers.intelligenceBonus.augmentatorValue'
-    'skills': 
+    'skills':
       '$path': 'eveapi.result.skills'
       'id': 'number:typeID'
       'sp': 'number:skillpoints'
       'level': 'number:level'
       'published': 'bool:published'
-    'corporationRoles.generic': 
+    'corporationRoles.generic':
       '$path': 'eveapi.result.corporationRoles'
       'id': 'number:roleID'
       'name': 'roleName'
-    'corporationRoles.atHQ': 
+    'corporationRoles.atHQ':
       '$path': 'eveapi.result.corporationRolesAtHQ'
       'id': 'number:roleID'
       'name': 'roleName'
-    'corporationRoles.atBase': 
+    'corporationRoles.atBase':
       '$path': 'eveapi.result.corporationRolesAtBase'
       'id': 'number:roleID'
       'name': 'roleName'
-    'corporationRoles.atOther': 
+    'corporationRoles.atOther':
       '$path': 'eveapi.result.corporationRolesAtOther'
       'id': 'number:roleID'
       'name': 'roleName'
-    'corporationTitles': 
+    'corporationTitles':
       '$path': 'eveapi.result.corporationTitles'
   return client
     .key(key)
@@ -149,19 +149,19 @@ Character.getContactList          = (key, charID) ->
   transform =
     '_currentTime': 'date:eveapi.currentTime'
     '_cachedUntil': 'date:eveapi.cachedUntil'
-    'contacts.character': 
+    'contacts.character':
       '$path': 'eveapi.result.contactList'
       'id': 'number:contactID'
       'name': 'contactName'
       'standing': 'number:standing'
       'typeID': 'number:contactTypeID'
-    'contacts.corporation': 
+    'contacts.corporation':
       '$path': 'eveapi.result.corporateContactList'
       'id': 'number;contactID'
       'name': 'contactName'
       'standing': 'number:standing'
       'typeID': 'number:contactTypeID'
-    'contacts.alliance': 
+    'contacts.alliance':
       '$path': 'eveapi.result.allianceContactList'
       'id': 'number:contactID'
       'name': 'contactName'
@@ -176,7 +176,7 @@ Character.getContactList          = (key, charID) ->
 
 Character.getContactNotifications = (key, charID) ->
   client = new Veldspar.ApiClient '/char/ContactNotifications.xml.aspx'
-  transform = 
+  transform =
     '_currentTime': 'date:eveapi.currentTime'
     '_cachedUntil': 'date:eveapi.cachedUntil'
     'notifications':
@@ -201,13 +201,13 @@ Character.getContactNotifications = (key, charID) ->
     n.data = undefined
     n.level = Number(n.level) if n.level
   return raw
-  
+
 Character.getContracts            = (key, charID, contractID) ->
   client = new Veldspar.ApiClient '/char/Contracts.xml.aspx'
   transform =
     '_currentTime': 'date:eveapi.currentTime'
     '_cachedUntil': 'date:eveapi.cachedUntil'
-    'contracts': 
+    'contracts':
       '$path': 'eveapi.result.contractList'
       'id': 'number:contractID'
       'type': 'type'
@@ -280,7 +280,7 @@ Character.getContractBids         = (key, charID, contractID) ->
     .params('characterID': charID, 'contractID': contractID)
     .transform(transform)
     .request()
-  
+
 Character.getFacWarStats          = (key, charID) ->
   client = new Veldspar.ApiClient '/char/FacWarStats.xml.aspx'
   transform =
@@ -303,7 +303,7 @@ Character.getFacWarStats          = (key, charID) ->
     .params('characterID': charID)
     .transform(transform, no) # No need to unwrap
     .request()
-    
+
 Character.getIndustryJobs         = (key, charID) ->
   throw new Meteor.Error 0, 'Method call not implemented.'
 
@@ -356,7 +356,7 @@ Character.getKillLog              = (key, charID, beforeKillID) ->
     .params('characterID': charID, 'beforeKillID': beforeKillID)
     .transform(transform)
     .request()
-    
+
 Character.getLocations            = (key, charID, IDs) ->
   client = new Veldspar.ApiClient '/char/Locations.xml.aspx'
   transform =
@@ -379,7 +379,7 @@ Character.getLocations            = (key, charID, IDs) ->
 
 Character.getMailBodies           = (key, charID, IDs) ->
   client = new Veldspar.ApiClient '/char/MailBodies.xml.aspx'
-  transform = 
+  transform =
     '_currentTime': 'date:eveapi.currentTime'
     '_cachedUntil': 'date:eveapi.cachedUntil'
     'messages':
@@ -537,7 +537,7 @@ Character.getNotificationTexts    = (key, charID, IDs) ->
     '_currentTime': 'date:eveapi.currentTime'
     '_cachedUntil': 'date:eveapi.cachedUntil'
   throw new Meteor.Error 0, 'API method not implemented.'
-  
+
 Character.getResearch             = (key, charID) ->
   client = new Veldspar.ApiClient '/char/Research.xml.aspx'
   transform =
@@ -556,13 +556,13 @@ Character.getResearch             = (key, charID) ->
     .params('characterID': charID)
     .transform(transform)
     .request()
-    
+
 Character.getSkillInTraining      = (key, charID) ->
   client = new Veldspar.ApiClient '/char/SkillInTraining.xml.aspx'
   transform =
     '_currentTime': 'date:eveapi.currentTime'
     '_cachedUntil': 'date:eveapi.cachedUntil'
-    'active': 'bool:skillInTraining'
+    'active': (obj) -> Number(obj.eveapi.result.skillInTraining) isnt 0
     'now': 'date:eveapi.result.currentTQTime._'
     'start.date': 'date:eveapi.result.trainingStartTime'
     'start.skillPoints': 'number:eveapi.result.trainingStartSP'
@@ -576,7 +576,7 @@ Character.getSkillInTraining      = (key, charID) ->
     .params('characterID': charID)
     .transform(transform)
     .request()
-    
+
 Character.getSkillQueue           = (key, charID) ->
   client = new Veldspar.ApiClient '/char/SkillQueue.xml.aspx'
   transform =
@@ -629,7 +629,7 @@ Character.getNpcStandings         = (key, charID) ->
     .params('characterID': charID)
     .transform(transform)
     .request()
-    
+
 Character.getCalendarEvents       = (key, charID) ->
   client = new Veldspar.ApiClient '/char/UpcomingCalendarEvents.xml.aspx'
   transform =
@@ -657,6 +657,6 @@ Character.getCalendarEvents       = (key, charID) ->
 
 Character.getWalletJournal        = (key, charID, fromID) ->
   throw new Meteor.Error 0, 'API method not implemented.'
-  
+
 Character.getWalletTransactions   = (key, charID, fromID, rowCount) ->
   throw new Meteor.Error 0, 'API method not implemented.'

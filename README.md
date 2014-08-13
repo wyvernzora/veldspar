@@ -34,11 +34,12 @@ Veldspar also uses the following, which is included with Meteor.js by default:
  - `underscore.js`
  - `less`
  - `coffeescript`
- 
+
 A copy of the following has been included in the `lib` or `client/lib` directory:
 
  - `jQuery UI (*)`
  - `ionicons`
  - `pretty-json (*)`
+ - `bootstrap (*)`
 
 **Note:** Since Veldspar is still in active development, the list of dependencies may change at any moment. Packages with `(*)` have been slightly modified to work with Veldspar, therefore their original versions may or may not work.

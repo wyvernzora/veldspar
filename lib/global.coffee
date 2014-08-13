@@ -40,3 +40,12 @@ if Meteor.isClient
     # Construct the URI
     return _.template '<%= host %>/<%= type %>/<%= id %>_<%= size %>.<%= ext %>',
       host: Veldspar.Config.imageHost, id: @id, size: size, type: @type, ext: format
+  UI.registerHelper 'userEmail', -> Meteor.user().emails[0].address
+  UI.registerHelper 'skill', (id) -> Veldspar.StaticData.skillTree.findOne({_id:String(id)})
+  UI.registerHelper 'millionize', (number, decimals) ->
+    decimals = 1 if not _.isNumber decimals
+    c = Math.pow(10, decimals)
+    return Math.floor(number / 1000000000 * c) / c + 'B' if number >= 1000000000
+    return Math.floor(number / 1000000 * c) / c + 'M' if number >= 1000000
+    return Math.floor(number / 1000 * c) / c + 'K' if number >= 1000
+    return number

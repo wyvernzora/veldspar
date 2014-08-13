@@ -1,12 +1,11 @@
-@import "imports/variables.less";
 
 #user {
-
   .char-item {
+
     .caption {
       margin-bottom: 0;
-      &>p, &>div { margin-bottom: 3px; }
-      h3 {
+      &>p, &>div:not(.btn-group) { margin-bottom: 3px; }
+      h3, h5 {
         margin-top: 0;
         margin-bottom: 3px;
       }
@@ -24,25 +23,26 @@
     .actions {
       position: relative;
       text-align: right;
-      &>.btn, &>.btn-group { width: 48%; }
+      &>.btn, &>.btn-group { width: 40%; }
       & .btn-group .btn { width: 100%; }
     }
+
     & .thumbnail hr { margin: 0; }
 
     /* Alternate layout for extra-small devices */
     @media (max-width: (@screen-sm-min - 1)) {
       .thumbnail img {
         float: left;
-        width: 64px;
-        height: 64px;
+        width: 72px;
+        height: 72px;
       }
       .char-info {
-        margin-left: 70px;
+        margin-left: 80px;
       }
       .actions { clear: both; }
     }
 
   }
 
-  &>hr { margin-top: 80px;}
+  &>hr { margin-top: 40px;}
 }

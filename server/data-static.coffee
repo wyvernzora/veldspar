@@ -22,7 +22,7 @@ StaticData.updateSkillTree = () ->
       'name': 'groupName'
       'skills':
         '$path': 'skills'
-        'id': 'number:typeID'
+        '_id': 'typeID'
         'name': 'typeName'
         'group.id': 'number:groupID'
         'published': 'bool:published'
@@ -32,7 +32,7 @@ StaticData.updateSkillTree = () ->
         'attributes.secondary': 'requiredAttributes.secondaryAttribute'
         'prerequisites':
           '$path': 'requiredSkills'
-          'id': 'number:typeID'
+          'id': 'typeID'
           'level': 'number:skillLevel'
         'bonus':
           '$path': 'skillBonusCollection'
@@ -46,7 +46,7 @@ StaticData.updateSkillTree = () ->
   # Replace existing skill tree data
   StaticData.skillTree.remove({})
   _.each raw.skills, (i) ->
-    StaticData.skillTree.insert i 
+    StaticData.skillTree.insert i
   # Insert skill categories
   StaticData.skillCategories.remove({})
   _.each _.uniq(raw.groups, no, (o)->o.id), (i) ->
@@ -54,14 +54,14 @@ StaticData.updateSkillTree = () ->
   # Resolve skill dependencies
   resolveDeps = (skill) ->
       _.each skill.prerequisites, (i)->
-        dep = StaticData.skillTree.findOne({id: i.id}, {fields: {name: 1, prerequisites: 1, rank:1}})
+        dep = StaticData.skillTree.findOne({_id: i.id}, {fields: {name: 1, prerequisites: 1, rank:1}})
         i.name = dep.name
         i.rank = dep.rank
         i.prerequisites = dep.prerequisites
         resolveDeps(i) if i.id isnt skill.id
   _.each StaticData.skillTree.find().fetch(), (i)->
     resolveDeps(i)
-    StaticData.skillTree.update({_id: i._id}, i)
+    #StaticData.skillTree.update({_id: i._id}, _.omit(i, '_id'))
 
 # Security policies
 StaticData.skillTree.allow {

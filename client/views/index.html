@@ -12,21 +12,48 @@
     <div class="container-fluid">
       <!-- Mobile version -->
       <div class="navbar-header">
+        {{#if currentUser}}
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#rt-navbar-content">
           <span class="sr-only">Toggle navigation</span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand text-light" href="#"><span class="text-primary"><i class="icon ion-planet"></i>Veld</span>spar</a>
+        {{/if}}
+        <a id="rt-nav-logo" class="navbar-brand text-light" href="#">
+          <span class="text-primary"><i class="icon ion-planet"></i>Veld</span>spar
+        </a>
       </div>
 
       <!-- Contents of the navbar -->
+      {{#if currentUser}}
       <div class="collapse navbar-collapse" id="rt-navbar-content">
-        <ul class="nav navbar-nav navbar-right">
-          {{#if currentUser}}<li><a id="rt-nav-logout" href="#">Log Out</a></li>{{/if}}
+        <ul id="rt-nav-dynamic" class="nav navbar-nav navbar-left">
+          {{> navbar}}
+        </ul>
+        <ul id="rt-nav-right" class="nav navbar-nav navbar-right">
+          {{#if currentUser}}
+            <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{userEmail}} <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  <li role="presentation" class="dropdown-header">Options</li>
+                  <li><a href="#">Preferences...</a></li>
+                  <li><a href="#">Change password</a></li>
+                  <li class="divider"></li>
+                  {{#if currentUser.isAdmin}}
+                    <li role="presentation" class="dropdown-header">Administrator Tools</li>
+                    <li><a id="rt-nav-admin-update-data" href="#">Update satic data</a></li>
+                    <li class="divider"></li>
+                  {{/if}}
+                  <li><a id="rt-nav-logout" href="#">Log Out</a></li>
+                </ul>
+              </li>
+            </ul>
+          {{/if}}
         </ul>
       </div>
+      {{/if}}
     </div>
   </nav>
   <!-- View -->
@@ -38,5 +65,15 @@
         {{> modal}}
       </div>
     </div>
+  </div>
+
+</template>
+
+
+<!-- Misc Templates -->
+<template name="wip">
+  <div class="panel panel-info wip">
+    <p class="text-center text-muted"><i class="icon-lg icon ion-flask"></i></p>
+    <p class="text-center lead text-muted">This section is still under development.</p>
   </div>
 </template>

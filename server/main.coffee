@@ -5,33 +5,35 @@ Veldspar = (exports ? this).Veldspar
 StaticData = Veldspar.StaticData
 UserData = Veldspar.UserData
 
+# Utility Methods
+applyToChar = (id, f) ->
+  if not Meteor.userId()
+    throw new Meteor.Error 403, 'Access denied.'
+  if id then f id
+  else
+    chars = UserData.characters.find({owner: Meteor.userId(), type: 'Character'});
+    _.each chars.fetch(), (i) -> f i._id
+
+
 # Server Methods
 Meteor.methods {
-  
+
   # Administrative Methods
-  
-  # Returns a value indicating whether current user
-  # is an administrator
-  isAdmin: () ->
-    if Meteor.user()
-      Meteor.user().isAdmin
-    else
-      no
-  
+
   # Updates the skill tree from API
   updateSkillTree: () ->
     if Meteor.user() and Meteor.user().isAdmin
       StaticData.updateSkillTree()
     else
       throw new Meteor.Error 403, 'Access denied.'
-  
+
   # OP/deOP a user
   setAdminFlag: (userId, flag) ->
     if Meteor.user() and Meteor.user().isAdmin
       Meteor.users.update({_id: userId}, {$set: {isAdmin: flag}})
     else
       throw new Meteor.Error 403, 'Access denied.'
-  
+
   # API Call Proxy Methods
   getApiKeyInfo: (id, vcode) ->
     check(id, Number)
@@ -41,25 +43,29 @@ Meteor.methods {
     apiKey.id = id
     apiKey.code = vcode
     return apiKey
-  
-  # Update Characters of a User
-  updateCharacters: (id) ->
-    if id
+
+
+  # User Info Update
+  updateCharacterSheet: (id) ->
+    @unblock()
+    applyToChar id, UserData.updateCharacterSheet
+  updateSkillInTraining: (id) ->
+    @unblock()
+    applyToChar id, UserData.updateSkillInTraining
+
+
+  # View-specific updates
+  updateUserView: ->
+    @unblock()
+    applyToChar null, (id) ->
       UserData.updateCharacterSheet id
-    else
-      chars = UserData.characters.find({owner: Meteor.userId});
-      _.each chars, (i) ->
-        UserData.updateCharacterSheet i._id
-        
-      
-    
-  
+      UserData.updateSkillInTraining id
+
   # Debug Methods
-  test: ->
-    char = JSON.parse Assets.getText 'ayase.apikey.json'
-    #charSheet = Veldspar.API.Character.getCharacterSheet char, char.characterID
-    
-    raw = Veldspar.StaticData.updateSkillTree()
-    return raw
-    # Get skill tree
+  debug: ->
+    if Meteor.user() and Meteor.user().isAdmin
+      char = JSON.parse Assets.getText 'ayase.apikey.json'
+      return Veldspar.API.Character.getCharacterSheet char, char.characterID
+    else
+      throw new Meteor.Error 403, 'Access denied.'
 }
