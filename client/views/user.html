@@ -32,7 +32,7 @@
                         <div class="progress-bar progress-bar-info progress-bar-striped"
                           role="progressbar" style="width: {{percent}}%;"></div>
                         {{#if skillInTraining.active}}
-                          <p class="skill-progress text-nowrap">{{timeLeft}} ({{percent}}%)</p>
+                          <p class="skill-progress text-nowrap">{{timespan timeLeft}} ({{percent}}%)</p>
                         {{else}}
                           <p class="skill-progress text-nowrap text-danger">Skill queue inactive</p>
                         {{/if}}
@@ -51,7 +51,7 @@
                             <li class="del-char"><a class="text-danger">Delete</a></li>
                           </ul>
                         </div>
-                      <button type="button" class="view-char btn btn-sm btn-primary">View</button>
+                      <button type="button" kern-href="/char/{{_id}}" class="kern-link view-char btn btn-sm btn-primary">View</button>
                     </div>
                 </div>
                 </div>
@@ -63,7 +63,7 @@
         </section>
       </div>
       <div class="tab-pane fade" id="ur-corporations">
-        {{> wip}}
+        {{> wip panel="panel panel-info" icon="ion-code-working"}}
       </div>
     </div>
 

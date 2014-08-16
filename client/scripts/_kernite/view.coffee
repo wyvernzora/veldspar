@@ -37,3 +37,12 @@ Kernite.ui = (v) ->
     show: (name) ->
       Session.set 'app.modal', name
       $('#rt-modal-view').modal 'show'
+
+  # Event Attachment
+  v.attach = (events) ->
+    map =
+      'click .kern-link': (e) ->
+        link = $(e.currentTarget).attr('kern-href')
+        console.log 'kern-link: ' + link
+        Veldspar.Router.navigate link, trigger:yes, replace:no
+    return _.extend events, map

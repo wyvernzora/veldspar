@@ -8,6 +8,9 @@
     background-color: @heading-bg-color;
     border-color: @heading-border;
 
+    /* Modification to add hover effect for expandable item headings */
+    &[data-toggle]:hover { background-color: darken(@heading-bg-color, 5%); }
+
     + .panel-collapse > .panel-body {
       border-top-color: @border;
     }

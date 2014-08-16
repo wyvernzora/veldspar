@@ -6,16 +6,14 @@ Kernite = (this ? exports).Kernite
   Kernite.ui view
 
   # Meteor.js events
-  view.events
-    'click #rt-nav-logout': -> Meteor.logout()
+  view.events view.attach
     'click #rt-nav-admin-update-data': ->
       Meteor.call 'updateSkillTree', (result, error) ->
         if error
           alert error.reason
         else
           alert 'success!'
-    'click #rt-nav-logo': ->
-      Session.set 'app.character', null
+
 
   # Meteor.js helpers
   view.helpers

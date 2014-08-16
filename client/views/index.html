@@ -20,7 +20,7 @@
           <span class="icon-bar"></span>
         </button>
         {{/if}}
-        <a id="rt-nav-logo" class="navbar-brand text-light" href="#">
+        <a kern-href="/" class="kern-link navbar-brand text-light">
           <span class="text-primary"><i class="icon ion-planet"></i>Veld</span>spar
         </a>
       </div>
@@ -46,7 +46,7 @@
                     <li><a id="rt-nav-admin-update-data" href="#">Update satic data</a></li>
                     <li class="divider"></li>
                   {{/if}}
-                  <li><a id="rt-nav-logout" href="#">Log Out</a></li>
+                  <li><a class="kern-link" kern-href="/logout">Log Out</a></li>
                 </ul>
               </li>
             </ul>
@@ -71,9 +71,15 @@
 
 
 <!-- Misc Templates -->
-<template name="wip">
-  <div class="panel panel-info wip">
-    <p class="text-center text-muted"><i class="icon-lg icon ion-flask"></i></p>
-    <p class="text-center lead text-muted">This section is still under development.</p>
+<template name="notify">
+  <div class="{{panel}}">
+    <p class="text-center text-muted"><i class="icon-lg icon {{#if icon}}{{icon}}{{else}}ion-planet{{/if}}"></i></p>
+    <p class="text-center lead text-muted">{{> UI.contentBlock}}</p>
   </div>
+</template>
+
+<template name="wip">
+  {{# notify panel=panel icon="ion-code-working"}}
+    This section is still under development.
+  {{/notify}}
 </template>

@@ -12,15 +12,7 @@ Kernite = (this ? exports).Kernite
   # Attach Kernite functionality to the Meteor.js template
   Kernite.ui view
   # Multistate Components
-  view.ms =
-    email: (new Kernite.MultiState('#li-email-group')
-      .addState('ok', 'has-feedback', 'has-success', null)
-      .addState('error', 'has-feedback', 'has-error', ->
-        $('#li-email-group i').clearQueue().effect('pulsate', times:2)
-        $('#li-email').focus().select()))
-    error: (new Kernite.MultiState('#li-error-box')
-      .addState('hidden', 'hidden', null)
-      .addState('shown', '', null))
+  view.ms = email: new Veldspar.FormField '#li-email-group'
   # Login Form
   view.form = new Kernite.Form
     error: (errors) ->

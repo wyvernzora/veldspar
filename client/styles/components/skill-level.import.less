@@ -3,8 +3,8 @@
 
 /* STYLES */
 .skill-level {
-  width: 4.8rem;
-  height: 0.8rem;
+  width: 72px;
+  height: 12px;
   position: relative;
 
   .skill-level-svg {
@@ -39,9 +39,9 @@
       fill: @brand-danger;
       fill-opacity: 0.5!important;
     }
-    &.queued { fill: @brand-primary; }
+    &.queued { fill: @brand-primary; fill-opacity: 0.5; }
     &.have:not(.ok .level) { fill: @color-foreground; }
-    &.training { animation: training 1s ease 0s infinite alternate; }
+    &.training { animation: training 0.7s ease 0s infinite alternate; }
     &.have { fill-opacity: 1; }
   }
 }
@@ -49,5 +49,5 @@
 /* RESOURCES */
 @keyframes training {
   0% { fill-opacity: 1; }
-  100% { fill-opacity: 0; }
+  100% { fill-opacity: 0.5; }
 }

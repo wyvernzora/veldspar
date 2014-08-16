@@ -17,10 +17,10 @@ class Kernite.App
     for name, params of @viewFactory
       @views[name] = params.factory params.template
 
-  regView: (name, template, factory) ->
+  reg: (name, template, factory) ->
     @viewFactory[name] = template:template, factory:factory
 
-  getView: (name) ->
+  get: (name) ->
     return @viewFactory[name] if @viewFactory[name]
     console.log 'Kernite.App: view not found - ' + name
     return null # Meteor expects null, not undefined

@@ -42,6 +42,11 @@ UserData.updateCharacterSheet = (id) ->
       # Sort character skills to speed up future searches
       charSheet.skills.sort (a, b) -> a.id - b.id
       char.skillPoints = _(charSheet.skills).pluck('sp').reduce(((memo, num) -> memo + num), 0)
+      # Update character skill info (name, rank)
+      _.each charSheet.skills, (s)->
+        skill = Veldspar.StaticData.skillTree.findOne({_id:String(s.id)})
+        _.extend s, _.pick skill, 'name', 'rank'
+        s.groupID = skill.group.id
       # Update character info from the character sheet
       #_.extend char, _.omit charSheet, '_currentTime', '_cachedUntil', 'id', 'name'
       UserData.characters.update({'_id': id}, {$set: _.omit charSheet, '_currentTime', '_cachedUntil', 'id', 'name' })

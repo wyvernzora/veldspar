@@ -5,30 +5,17 @@ Kernite = (this ? exports).Kernite
 ((view) ->
   Kernite.ui view
 
-  view.ms =
-    refresh: (new Kernite.MultiState('#ur-refresh i')
-      .addState('refreshing', 'ion-refreshing', null)
-      .addState('success', 'ion-checkmark text-success',
-        -> _.delay((-> view.ms.refresh.state 'default'), 3000))
-      .addState('error', 'ion-alert text-danger', null)
-      .addState('default', 'ion-refresh', null))
+  view.refresh = new Veldspar.Refresh '#ur-refresh', 'updateUserView'
 
   view.events
     # Replace broken portraits with generic ones
     'error img': (e) ->
       $(e.currentTarget).attr 'src', '/character.svg'
-    # Character Operations
-    'click .view-char': ->
-      Session.set 'app.character', @_id
     # Toolbar actions
     'click #ur-add-key': ->
       view.modal.show 'add-key'
     'click #ur-refresh': ->
-      return if view.ms.refresh.current isnt 'default'  # already refreshing
-      view.ms.refresh.state 'refreshing'
-      Meteor.call 'updateUserView', (error) ->
-        if error then view.ms.refresh.state 'error'
-        else view.ms.refresh.state 'success'
+      view.refresh.refresh()
 
   view.helpers
     # Data providers
@@ -50,7 +37,7 @@ Kernite = (this ? exports).Kernite
     'timeLeft': ->
       info = this.skillInTraining
       if info and info.active
-        _.template '<%= day %>d <%= hour %>h <%= minute %>m <%= second %>s', Veldspar.Timing.diff info.now, info.end.date
+        return Veldspar.Timing.diff info.now, info.end.date
       else
         return null
     # UI styling
@@ -62,7 +49,7 @@ Kernite = (this ? exports).Kernite
         else 'ion-refresh'
 
   view.onRender ->
-    Session.set 'character.view', null
+    Veldspar.Router.navigate '/', trigger:yes, replace:yes
 
 
 )(Template.user)

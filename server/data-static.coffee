@@ -46,11 +46,14 @@ StaticData.updateSkillTree = () ->
   # Replace existing skill tree data
   StaticData.skillTree.remove({})
   _.each raw.skills, (i) ->
+    i.id = Number(i._id)
     StaticData.skillTree.insert i
   # Insert skill categories
   StaticData.skillCategories.remove({})
   _.each _.uniq(raw.groups, no, (o)->o.id), (i) ->
-    StaticData.skillCategories.insert _.pick(i, 'id', 'name')
+    cat = _.pick i, 'name'
+    cat._id = String(i.id)
+    StaticData.skillCategories.insert cat
   # Resolve skill dependencies
   resolveDeps = (skill) ->
       _.each skill.prerequisites, (i)->
@@ -61,7 +64,7 @@ StaticData.updateSkillTree = () ->
         resolveDeps(i) if i.id isnt skill.id
   _.each StaticData.skillTree.find().fetch(), (i)->
     resolveDeps(i)
-    #StaticData.skillTree.update({_id: i._id}, _.omit(i, '_id'))
+    StaticData.skillTree.update({_id: i._id}, _.omit(i, '_id'))
 
 # Security policies
 StaticData.skillTree.allow {

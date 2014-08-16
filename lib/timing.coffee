@@ -14,17 +14,6 @@ Timing.eveTime = ->
 Timing.progress = (sit) -> Math.round((sit.now.getTime() - sit.start.date.getTime()) / (sit.end.date.getTime() - sit.start.date.getTime()) * 100)
 # Gets the time difference between start and end
 Timing.diff = (start, end) ->
-  ###
-  temp = new Date(end - start)
-  return {
-    year: temp.getUTCFullYear() - 1970,
-    month: temp.getUTCMonth(),
-    day: temp.getUTCDate() - 1,
-    hour: temp.getUTCHours(),
-    minute: temp.getUTCMinutes() - 0,
-    second: temp.getUTCSeconds() - 0
-  }
-  ###
   result = { }
   d = Math.floor((end - start) / 1000) # seconds
   result.second = d % 60

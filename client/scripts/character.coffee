@@ -3,9 +3,7 @@ Kernite = (this ? exports).Kernite
 
 # CH-NAV: Character Navigation
 ((view) ->
-
-  view.events
-    'click #ch-nav-skills': -> Session.set 'character.view', 'skills'
+  Kernite.ui view
 
   view.helpers
     'character': ->
@@ -17,8 +15,11 @@ Kernite = (this ? exports).Kernite
 ((view) ->
   Kernite.ui view
 
+  view.ms =
+    refresh: new Veldspar.Refresh '#ch-refresh', 'updateCharacterSheet'
+
   view.events
-    'click #ch-nav-back': -> Session.set 'app.character', null
+    'click #ch-refresh': -> view.ms.refresh.refresh @_id
 
   view.helpers
     'character': ->
@@ -32,6 +33,7 @@ Kernite = (this ? exports).Kernite
     'dob': ->
       @dob.toLocaleDateString()
 
+  return view
 )(Template.character)
 
 # CH-SKL: Character Skills
@@ -39,28 +41,50 @@ Kernite = (this ? exports).Kernite
   Kernite.ui view
 
   view.ms =
-    refresh: (new Kernite.MultiState('#ch-skl-refresh i')
-      .addState('refreshing', 'ion-refreshing', null)
-      .addState('success', 'ion-checkmark text-success',
-        -> _.delay((-> view.ms.refresh.state 'default'), 3000))
-      .addState('error', 'ion-alert text-danger', null)
-      .addState('default', 'ion-refresh', null))
+    refresh: new Veldspar.Refresh '#ch-skl-refresh', 'updateSkillQueue'
 
   view.events
     'click #ch-skl-refresh': ->
-      return if view.ms.refresh.current isnt 'default'  # already refreshing
-      view.ms.refresh.state 'refreshing'
-      Meteor.call 'updateSkillQueue', @_id, (error) ->
-        if error then view.ms.refresh.state 'error'
-        else view.ms.refresh.state 'success'
+      view.ms.refresh.refresh @_id
 
   view.helpers
     'character': ->
       Veldspar.UserData.characters.findOne _id:Session.get 'app.character'
     'skillQueue': ->
       @skillQueue.sort (a, b) -> a.position - b.position
-    'skillInfo': ->
-      skill = Veldspar.StaticData.skillTree.findOne _id:@skill.id.toString()
-      return skill ? name:'Unknown Skill (BUG)'
+    'skillQueueItem': (char) ->
+      params =
+        skillInfo: Veldspar.StaticData.skillTree.findOne _id:String(@skill.id)
+        charSkill: _.binSearch char.skills, @skill, (a, b) -> a.id-b.id
+        indicator:
+          'level': _.binSearch(char.skills, @skill, (a, b) -> a.id-b.id)?.level ? 0
+          'queued': @skill.level
+          'training': if @position is 1 then _.chain(char.skillQueue).find((s) ->
+            s.position is 1).value()?.skill.level ? 0 else 0
+        remainingTime: Veldspar.Timing.diff @start.date, @end.date
+        queued: @
+
+    'skillCategories': ->
+      # Skip 'Fake Skills' category
+      categories = Veldspar.StaticData.skillCategories.find({$nor: [_id:'505']}, {sort: {name: 1}}).fetch()
+      for cat in categories
+        cat.skills = _.chain(@skills).where(groupID:Number cat._id).sort((a,b)->
+          return 1 if a.name > b.name
+          return -1 if a.name < b.name
+          return 0).value()
+        cat.skillPoints = _.chain(cat.skills).pluck('sp').reduce(((i, mem) -> i+mem), 0).value()
+      return categories
+
+
+    # Character Helpers
+    'charSkill': (char, skill) ->
+      skill = _.binSearch char.skills, skill, (a, b) -> a.id-b.id
+      return skill
+    'queueParam': (char, q) ->
+        'level': _.binSearch(char.skills, q.skill, (a, b) -> a.id-b.id)?.level ? 0
+        'queued': q.skill.level
+        'training': if q.position is 1 then _.chain(char.skillQueue).find((s) ->
+          s.position is 1).value()?.skill.level ? 0 else 0
+
 
 )(Template.ch_skills)
