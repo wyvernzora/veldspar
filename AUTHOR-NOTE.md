@@ -1,0 +1,7 @@
+#Author's Notes
+
+I absolutely love `EVEMon` and `Neocom`, but ever since I gave up on Windows and became a Mac user, I've been constantly struggling to find a worthy alternative. Despite my background in computer science and years of experience working in the IT industry, I found the process of compiling `GTK EVEMon` rather troublesome. Availability of good account managers on the Android platform also left me disappointed, not to say Windows Phone. It is the perfect time for a cross-platform Eve Online account manager.
+
+Therefore I set out to create a brand new account manager that would simply work on every platform imaginable. The best choice was obviously HTML5 with JavaScript. I have worked with `Meteor.js` framework before and I find its data-on-the-wire approach very convenient.
+
+The philosophy behind the `Veldspar` is that it is open source. Anybody can fork, contribute and even host a copy of the application. If you are an API guru, you can also create your own Eve Online related services using the `Veldspar API Client`. You can host it for your corporation, your alliance or just yourself and your roommate. If you feel that you can trust me enough, you can also use the copy hosted by me at [veldspar.io](http://veldspar.io).

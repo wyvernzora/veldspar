@@ -1,59 +1,71 @@
-<!-- 
-# Veldspar EVE Online API Client
-# views/login.html - Login View
-# Copyright © Denis Luchkin-Zhou
--->
 <template name="login">
-  <div id="login" class="view">
-    <div class="left">
-      <div class="step">
-        <h1>Sign Up</h1>
-        <p class="motd">Welcome to the <span class="accented">Veld</span>spar!</p>
-        <div class="ui-state-error error-box"></div>
-        <div class="ui-textbox-group">
-          <input id="email" type="text" class="ui-textbox" placeholder="email">
-        </div>
-        <div class="ui-textbox-group">
-          <input id="pwd1" type="password" class="ui-textbox" placeholder="password">
-          <input id="pwd2" type="password" class="ui-textbox" placeholder="verify password">
-        </div>
-        <div class="captcha"></div>
-        <div class="button-box">
-          <input type="button" class="ui-button cancel" value="Cancel">
-          <input type="button" class="ui-button ui-button-submit" value="Submit">
-        </div>
+  <div id="login" class="container-fluid">
+    <!-- Login Form -->
+    <div id="li-login-form" class="col-xs-12 col-sm-6 col-sm-offset-3 col-lg-4 col-lg-offset-4" role="form">
+      <header>
+        <h1 class="text-light"><i class="icon ion-planet"></i><span class="text-primary">Veld</span>spar</h1>
+        <p class="lead">Your window into the <span class="text-primary">new eden.</span></p>
+      </header>
+      <div id="li-email-group" class="form-group">
+        <label for="li-email" class="sr-only">Email</label>
+        <input id="li-email" type="email" class="input-lg first form-control" placeholder="Email" required autofocus />
+        <i class="icon ion-alert form-control-feedback"></i>
       </div>
-      <div class="step" id="loading">
-        {{#if showLoading}}
-        <div id="wait-wrapper">
-          <i id="loading-indicator" class="icon ion-loading-c"></i>
-          <h1>loading</h1>
-          <p>We need to take care of some red tape before you can become a proud owner of a <b><span class="accented">Veld</span>spar</b> account. This should only take a few seconds.</p>
+      <div id="li-password-group" class="form-group">
+        <label for="li-password" class="sr-only">Password</label>
+        <input id="li-password" type="password" class="input-lg last form-control" placeholder="Password" required />
+        <i class="icon ion-alert form-control-feedback"></i>
+      </div>
+      <button id="li-forgot-password" class="btn btn-link btn-block" type="button">Forgot your password?</button>
+      <hr>
+      <button id="li-login" class="btn btn-primary btn-lg btn-block" type="submit">
+        {{#if session "login.loading"}}<i class="icon ion-loading-c"></i>
+        {{else}}Log In{{/if}}
+      </button>
+      <button id="li-no-account" class="btn btn-link btn-block" type="button">Don't have an account?</button>
+    </div>
+  </div>
+</template>
+
+<template name="signup">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">
+      <span aria-hidden="true">&times;</span>
+      <span class="sr-only">Close</span>
+    </button>
+    <h1 class="modal-title"><span class="text-primary">Sign</span>up</h1>
+  </div>
+  <div class="modal-body">
+    <div id="su-signup-form" role="form">
+      <p class="text-center lead">Welcome to the
+        <span class="text-primary">Veld</span>spar!
+        We have been waining for you.
+      </p>
+      {{#if session "signup.error"}}
+        <div id="su-error-box" class="alert alert-danger">
+          {{session "signup.error"}}
         </div>
-        {{/if}}
+      {{/if}}
+      <div id="su-email-group" class="form-group">
+        <label for="su-email" class="sr-only">Email</label>
+        <input id="su-email" type="email" class="input-lg first last form-control" placeholder="Email" required autofocus />
+        <i class="icon ion-alert form-control-feedback"></i>
+      </div>
+      <p class="text-center">Password strength indicator here.</p>
+      <div id="su-password-group" class="form-group">
+        <label for="su-password" class="sr-only">Password</label>
+        <input id="su-password" type="password" class="input-lg first form-control" placeholder="Password" required />
+        <i class="icon ion-alert form-control-feedback"></i>
+      </div>
+      <div id="su-verify-group" class="form-group">
+        <label for="su-verify" class="sr-only">Verify Password</label>
+        <input id="su-verify" type="password" class="input-lg last form-control" placeholder="Verify password" required />
+        <i class="icon ion-alert form-control-feedback"></i>
       </div>
     </div>
-    <div class="main">
-      <div class="content">
-        <h1><span class="accented">Veld</span>spar</h1>
-        <p class="motd">EVE Online from anywhere!</p>
-        <div id="login-box">
-          <div class="ui-state-error error-box">
-            Capsuleer, you do have an email don't you?
-          </div>
-          <div class="ui-textbox-group" id="shaky">
-            <input class="ui-textbox" id="uname" placeholder="email" type="email" />
-            <input class="ui-textbox" id="pwd" placeholder="password" type="password" />
-            <a id="forgot" href="#">Forgot your password?</a>
-          </div>
-          <input class="ui-button" id="signup" type="button" value="Sign Up" />
-          <input class="ui-button ui-button-submit" id="submit" type="button" value="Log In" />
-        </div>
-        <div id="footer">
-          Powered by <a href="https://github.com/jluchiji/veldspar">Veldspar 1.0</a>
-          Copyright © 2014 Denis Luchkin-Zhou
-        </div>
-      </div>
-    </div>
+  </div>
+  <div class="modal-footer">
+    <button id="su-cancel" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+    <button id="su-submit" type="submit" class="btn btn-primary">Submit</button>
   </div>
 </template>

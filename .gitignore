@@ -1,2 +1,2 @@
-*.apikey.*
-*.paw
+private/dev/*
+private/*.yaml

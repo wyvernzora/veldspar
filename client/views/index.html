@@ -1,0 +1,85 @@
+<head>
+  <title>Veldspar</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+</head>
+
+<body>{{> root}}</body>
+
+<!-- RT: Root Template -->
+<template name="root">
+  <!-- Navbar -->
+  <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+      <!-- Mobile version -->
+      <div class="navbar-header">
+        {{#if currentUser}}
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#rt-navbar-content">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        {{/if}}
+        <a kern-href="/" class="kern-link navbar-brand text-light">
+          <span class="text-primary"><i class="icon ion-planet"></i>Veld</span>spar
+        </a>
+      </div>
+
+      <!-- Contents of the navbar -->
+      {{#if currentUser}}
+      <div class="collapse navbar-collapse" id="rt-navbar-content">
+        <ul id="rt-nav-dynamic" class="nav navbar-nav navbar-left">
+          {{> navbar}}
+        </ul>
+        <ul id="rt-nav-right" class="nav navbar-nav navbar-right">
+          {{#if currentUser}}
+            <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{userEmail}} <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  <li role="presentation" class="dropdown-header">Options</li>
+                  <li><a href="#">Preferences...</a></li>
+                  <li><a href="#">Change password</a></li>
+                  <li class="divider"></li>
+                  {{#if currentUser.isAdmin}}
+                    <li role="presentation" class="dropdown-header">Administrator Tools</li>
+                    <li class="kern-link" kern-href="/admin"><a>Administrator panel</a></li>
+                    <li class="divider"></li>
+                  {{/if}}
+                  <li><a class="kern-link" kern-href="/logout">Log Out</a></li>
+                </ul>
+              </li>
+            </ul>
+          {{/if}}
+        </ul>
+      </div>
+      {{/if}}
+    </div>
+  </nav>
+  <!-- View -->
+  {{> view}}
+  <!-- Modal -->
+  <div id="rt-modal-view" class="modal fade">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        {{> modal}}
+      </div>
+    </div>
+  </div>
+
+</template>
+
+
+<!-- Misc Templates -->
+<template name="notify">
+  <div class="{{panel}}">
+    <p class="text-center text-muted"><i class="icon-lg icon {{#if icon}}{{icon}}{{else}}ion-planet{{/if}}"></i></p>
+    <p class="text-center lead text-muted">{{> UI.contentBlock}}</p>
+  </div>
+</template>
+
+<template name="wip">
+  {{# notify panel=panel icon="ion-code-working"}}
+    This section is still under development.
+  {{/notify}}
+</template>

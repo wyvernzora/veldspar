@@ -1,0 +1,111 @@
+<!-- UR: User View -->
+<template name="user">
+  <div id="user" class="container">
+    <!-- Tab Navigation -->
+    <div id="ur-char-heading" class="page-header">
+      <ul class="nav nav-pills" role="tablist">
+        <li class="active"><a href="#ur-characters" role="tab" data-toggle="pill">Characters <span class="badge"></span></a></li>
+        <li><a href="#ur-corporations" role="tab" data-toggle="pill">Corporations</a></li>
+        <li class="pull-right"><a id="ur-add-key"><i class="icon ion-plus"></i><span class="hidden-xs"> Add API Key</span></a></li>
+        <li class="pull-right"><a id="ur-refresh">
+          <i class="icon ion-refresh"></i>
+          <span class="hidden-xs"> Refresh</span></a></li>
+      </ul>
+    </div>
+    <!-- Tab Pages -->
+    <div class="tab-content">
+      <div class="tab-pane fade in active" id="ur-characters">
+        <section class="row char-list">
+          {{#if characters.count}}
+            {{#each characters}}
+                <div class="char-item col-sm-4 col-md-3 col-lg-3">
+                  <div class="thumbnail">
+                    <img alt="portrait" src="{{portrait 512}}">
+                    <div class="char-info caption">
+                      <h3 class="text-nowrap">{{name}}</h3>
+                      <p class="text-nowrap">{{corp.name}}</p>
+                    </div>
+                    <hr>
+                    <div class="skill-info caption text-center">
+                      {{#if skillName}}<h5 class="text-nowrap">{{skillName}}</h5>{{/if}}
+                      <div class="progress">
+                        <div class="progress-bar progress-bar-info progress-bar-striped"
+                          role="progressbar" style="width: {{percent}}%;"></div>
+                        {{#if skillInTraining.active}}
+                          <p class="skill-progress text-nowrap">{{timespan timeLeft}} ({{percent}}%)</p>
+                        {{else}}
+                          <p class="skill-progress text-nowrap text-danger">Skill queue inactive</p>
+                        {{/if}}
+                      </div>
+                    </div>
+                    <hr>
+                    <div class="actions caption text-center">
+                      <div class="btn-group btn-group-sm dropup">
+                          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            Action
+                            <span class="caret"></span>
+                          </button>
+                          <ul class="dropdown-menu" role="menu">
+                            <li class="share-char"><a>Share</a></li>
+                            <li class="divider"></li>
+                            <li class="del-char"><a class="text-danger">Delete</a></li>
+                          </ul>
+                        </div>
+                      <button type="button" kern-href="/char/{{_id}}" class="kern-link view-char btn btn-sm btn-primary">View</button>
+                    </div>
+                </div>
+                </div>
+            {{/each}}
+          {{else}}
+            <p class="text-muted text-center"><i class="icon icon-lg ion-ios7-information-outline"></i></p>
+            <p class="lead text-center">None of your characters are known to us.</p>
+          {{/if}}
+        </section>
+      </div>
+      <div class="tab-pane fade" id="ur-corporations">
+        {{> wip panel="panel panel-info" icon="ion-code-working"}}
+      </div>
+    </div>
+
+  </div>
+</template>
+
+<!-- UR-NAV: User View Menu -->
+<template name="nav_user">
+</template>
+
+<!-- AK: Add API Key -->
+<template name="add_key">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">
+      <span aria-hidden="true">&times;</span>
+      <span class="sr-only">Close</span>
+    </button>
+    <h4 class="modal-title">Add <span class="text-primary">API</span> Key</h4>
+  </div>
+  <div class="modal-body">
+    <div id="ak-form" role="form">
+      <p class="text-center lead"></p>
+      {{#if session "add-key.error"}}
+        <div id="su-error-box" class="alert alert-danger">
+          {{session "ad-key.error"}}
+        </div>
+      {{/if}}
+      <p><b class="text-primary">Key ID</b> is a number</p>
+      <div id="ak-id-group" class="form-group">
+        <label for="ak-id" class="sr-only">Email</label>
+        <input id="ak-id" type="text" class="input-lg first form-control" placeholder="Key ID" required autofocus />
+        <i class="icon ion-alert form-control-feedback"></i>
+      </div>
+      <div id="ak-vcode-group" class="form-group">
+        <label for="ak-vcode" class="sr-only">Password</label>
+        <input id="ak-vcode" type="text" class="input-lg last form-control" placeholder="Verification Code" required />
+        <i class="icon ion-alert form-control-feedback"></i>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button id="ak-cancel" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+    <button id="ak-submit" type="submit" class="btn btn-primary">Continue <i class="icon ion-ios7-arrow-forward"></i></button>
+  </div>
+</template>

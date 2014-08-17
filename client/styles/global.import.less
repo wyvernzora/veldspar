@@ -1,0 +1,107 @@
+
+BODY {
+  /* Override bootstrap's defaults */
+  font-family: 'Open Sans', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+  color: @gray;
+  background-color: #FBFBFB;
+
+  /* Force containers in BODY to have a top padding */
+  & > .container,
+  & > .container-fluid {
+    padding-top: 30px;
+    padding-bottom: 20px;
+  }
+}
+
+/* Text Styles */
+.text-light { font-weight: lighter; }
+.text-nowrap {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Layout Styles */
+.no-margin { margin: 0; }
+
+/* Font Icons */
+i.icon-lg { font-size: 72px; }
+i.icon-md { font-size: 48px; }
+i.icon-sm { font-size: 24px; }
+i.icon-xs { font-size: 16px; }
+
+/* Form field types */
+@border-radius: 4px;
+form .btn-group {
+  display: block;
+  position: relative;
+  margin-top: 36px;
+  .btn { width: 50%; }
+}
+.form-group {
+  margin-bottom: 0;
+  position: relative;
+
+  i {
+    display: none;
+    visibility: hidden;
+  }
+
+  &.has-feedback {
+    z-index: 2;
+    I {
+      display: inline-block;
+      visibility: visible;
+    }
+  }
+
+  &.has-success I:before { content: "\f122"; }
+  &.has-warning I:before { content: "\f101"; }
+  &.has-error I:before { content: "\f12a"; }
+}
+.form-control {
+  position: relative;
+  border-radius: 0;
+
+  &.first {
+    margin-top: 7px;
+    border-top-left-radius: @border-radius;
+    border-top-right-radius: @border-radius;
+  }
+  &.last {
+    margin-bottom: 7px;
+    border-bottom-left-radius: @border-radius;
+    border-bottom-right-radius: @border-radius;
+  }
+  &:not(.last) { margin-bottom: -1px; }
+  &:focus { z-index: 2; }
+}
+
+/* Fixing some bootstrap 'issues' */
+.nav>li {
+  cursor: pointer;
+}
+.dropdown-menu>li {
+  cursor: pointer;
+  &>a.text-danger { color: #a94442; }
+}
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 { line-height: 1.3; }
+
+/* Customizations to the bootstrap */
+.navbar-default {
+  background-color: fadeout(@navbar-default-bg, 10%);
+}
+.navbar-inverse {
+  background-color: fadeout(@navbar-inverse-bg, 10%);
+}
+.pill-back { margin-right: 20px; }
+
+*[data-toggle],
+.kern-link:hover { cursor: pointer; }
+
+/* Toggle-panel heading styles */
+.panel-heading[data-toggle] {
+  /* 'expand' icon */
+  i.icon:before { content: '\f104'; }
+  &.collapsed i.icon:before { content: '\f10a'; }
+}

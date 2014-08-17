@@ -19,7 +19,7 @@ config.imageHost = 'http://images.eveonline.com'
 config.imageHost = 'http://localhost:8888'
 
 # Indicates whether to log detailed request and response parameters
-config.verbose = yes
+config.verbose = no
 
 # Indicates whether to hide unpublished entities from clients
-config.hideUnpublished = yes
+config.hideUnpublished = no
