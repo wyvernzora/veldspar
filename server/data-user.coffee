@@ -27,62 +27,101 @@ Meteor.publish 'user.SkillQueue', ->
 
 # Utility methods
 UserData.updateCharacterSheet = (id) ->
-  # Cannot do this if no user logged in
+  console.log 'UserData.updateCharacterSheet'
+
+  # Cannot do this if no user is logged in
   if not Meteor.userId()
     throw new Meteor.Error 403, 'Access denied: active user required.'
   userid = Meteor.userId() # Cache user id
-  # Check against cache timer
-  lastCall = UserData.callLog.findOne({'char': id, 'method': 'get-char-sheet'})
-  if lastCall and lastCall.cachedUntil >= Veldspar.Timing.eveTime()
+
+  # Find current character data and make sure there is such
+  char = UserData.characters.findOne({'owner': userid, '_id': id})
+  if not char
+    console.log 'Character not found!'
+    return
+
+  # Skip the update if cache is still valid
+  if char._cachedUntil and char._cachedUntil >= Veldspar.Timing.eveTime()
     console.log 'Cache timer in effect, skipping'
-  else
-    char = UserData.characters.findOne({'owner': userid, '_id': id})
-    if char
-      charSheet = Veldspar.API.Character.getCharacterSheet char.apiKey, char.id
-      # Sort character skills to speed up future searches
-      charSheet.skills.sort (a, b) -> a.id - b.id
-      char.skillPoints = _(charSheet.skills).pluck('sp').reduce(((memo, num) -> memo + num), 0)
-      # Update character skill info (name, rank)
-      _.each charSheet.skills, (s)->
-        skill = Veldspar.StaticData.skillTree.findOne({_id:String(s.id)})
-        _.extend s, _.pick skill, 'name', 'rank'
-        s.groupID = skill.group.id
-      # Update character info from the character sheet
-      #_.extend char, _.omit charSheet, '_currentTime', '_cachedUntil', 'id', 'name'
-      UserData.characters.update({'_id': id}, {$set: _.omit charSheet, '_currentTime', '_cachedUntil', 'id', 'name' })
-      UserData.callLog.upsert({'char': id, 'method': 'get-char-sheet'}, {$set: {'cachedUntil': char._cachedUntil}})
+    return
+
+  # Start the update by getting the most recent character sheet
+  charSheet = Veldspar.API.Character.getCharacterSheet char.apiKey, char.id
+
+  # Convert skill array into a skill hash for faster lookup
+  charSheet.skills = _.indexBy charSheet.skills, 'id'
+
+  # Compute total character skill points
+  charSheet.skillPoints = _(charSheet.skills).pluck('sp').reduce(((memo, num) -> memo + num), 0)
+
+  # Resolve basic skill information
+  for id, s of charSheet.skills
+    skill = Veldspar.StaticData.skillTree.findOne({_id:String(s.id)})
+    _.extend s, _.pick skill, 'name', 'rank', 'attributes'
+    s.groupID = skill.group.id
+
+  # Calculate certificate levels from skills
+  charSheet.certificates = { }
+  for cert in Veldspar.StaticData.certificates.find().fetch()
+    skillLevels = []
+    # Get skill levels for the character
+    for skill in cert.skills
+      l = char.getSkill(skill.id)?.level ? 0
+      for i in [0..5]
+        x = i if skill.levels[i] <= l
+      skillLevels.push x
+    # Calculate actual certificate level
+    charSheet.certificates[cert._id] = _.min skillLevels
+
+  # Update character info from the character sheet
+  UserData.characters.update({'_id': id}, {$set: _.omit charSheet, '_currentTime', 'id', 'name' })
 
 UserData.updateSkillInTraining = (id) ->
-  console.log 'update-skill-in-training'
-  # Cannot do this if no user logged in
+  console.log 'UserData.updateSkillInTraining()'
+
+  # Cannot do this if no user is logged in
   if not Meteor.userId()
     throw new Meteor.Error 403, 'Access denied: active user required.'
   userid = Meteor.userId() # Cache user id
-  # Check against cache timer
-  lastCall = UserData.callLog.findOne({'char': id, 'method': 'get-skill-in-training'})
-  if lastCall and lastCall.cachedUntil >= Veldspar.Timing.eveTime()
+
+  # Find current character data and make sure there is such
+  char = UserData.characters.findOne({'owner': userid, '_id': id})
+  if not char
+    console.log 'Character not found!'
+    return
+
+  # Skip the update if cache is still valid
+  if char?.skillInTraining._cachedUntil and char?.skillInTraining._cachedUntil >= Veldspar.Timing.eveTime()
     console.log 'Cache timer in effect, skipping'
-  else
-    char = UserData.characters.findOne({'owner': userid, '_id': id})
-    if char
-      skillInfo = Veldspar.API.Character.getSkillInTraining char.apiKey, char.id
-      UserData.callLog.update({'char': id, 'method': 'get-skill-in-training'}, {$set: {'cachedUntil': char._cachedUntil}})
-      UserData.characters.update({'_id': id}, {$set: {'skillInTraining': _.omit(skillInfo, '_currentTime', '_cachedUntil')}})
+    return
+
+  # Get the info about the skill in training
+  skillInfo = Veldspar.API.Character.getSkillInTraining char.apiKey, char.id
+  UserData.characters.update({'_id': id}, {$set: {'skillInTraining': _.omit(skillInfo, '_currentTime')}})
 
 UserData.updateSkillQueue = (id) ->
-  # Cannot do this if no user logged in
+  console.log 'UserData.updateSkillQueue()'
+
+  # Cannot do this if no user is logged in
   if not Meteor.userId()
     throw new Meteor.Error 403, 'Access denied: active user required.'
   userid = Meteor.userId() # Cache user id
-  # Check against cache timer
-  lastCall = UserData.callLog.findOne({'char': id, 'method': 'get-skill-queue'})
-  if lastCall and lastCall.cachedUntil >= Veldspar.Timing.eveTime()
+
+  # Find current character data and make sure there is such
+  char = UserData.characters.findOne({'owner': userid, '_id': id})
+  if not char
+    console.log 'Character not found!'
+    return
+
+  # Skip the update if cache is still valid
+  if char?.skillQueue._cachedUntil and char?.skillQueue._cachedUntil >= Veldspar.Timing.eveTime()
     console.log 'Cache timer in effect, skipping'
-  else
-    char = UserData.characters.findOne({'owner': userid, '_id': id})
-    if char
-      response = Veldspar.API.Character.getSkillQueue char.apiKey, char.id
-      # Sort skill queue for faster lookup
-      response.skillQueue.sort (a, b) -> a.skill.id - b.skill.id
-      UserData.callLog.update({'char': id, 'method': 'get-skill-queue'}, {'cachedUntil': char._cachedUntil}, true)
-      UserData.characters.update({'_id': id}, {$set: {'skillQueue': response.skillQueue}})
+    return
+
+  # Get the skill queue information
+  response = Veldspar.API.Character.getSkillQueue char.apiKey, char.id
+
+  # Convert the skill queue into an object
+  response.skillQueue = _.indexBy response.skillQueue, 'position'
+  response.skillQueue._cachedUntil = response._cachedUntil # Add cache information
+  UserData.characters.update({'_id': id}, {$set: {'skillQueue': response.skillQueue}})

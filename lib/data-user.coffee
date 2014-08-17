@@ -9,7 +9,11 @@ root.UserData ?= { }
 
 
 # Character Registry
-root.UserData.characters = new Meteor.Collection 'user.Characters'
+root.UserData.characters = new Meteor.Collection 'user.Characters',
+  # Attach utility functions to the document
+  transform: (c) ->
+    c.getSkill = (id) -> c.skills[String(id)]
+    return c
 root.UserData.skillQueue = new Meteor.Collection 'user.SkillQueue'
 
 if Meteor.isClient

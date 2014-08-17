@@ -19,7 +19,10 @@ Kernite = (this ? exports).Kernite
   view.helpers
     'view': ->
       if Meteor.user()
-        if Session.get('app.character')
+        if Session.get('app.view')
+          return switch Session.get('app.view')
+            when 'admin' then Template.admin
+        else if Session.get('app.character')
           return switch Session.get('character.view')
             when 'skills' then Template.ch_skills
             else Template.character
@@ -30,6 +33,7 @@ Kernite = (this ? exports).Kernite
       switch Session.get('app.modal')
         when 'signup' then Template.signup
         when 'add-key' then Template.add_key
+        when 'type' then Template.type
         else null
     'navbar': ->
       if Meteor.user()

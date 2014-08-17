@@ -6,7 +6,10 @@ kernite/view.coffee - This file contains the base class for all kernite views.
 ###
 Kernite = (this ? exports).Kernite ?= {}
 
-Kernite.ui = (v) ->
+Kernite.ui = (v, modal) ->
+
+  # Flags
+  v.isModal = modal
 
   # Utility Namespace
   v.util = (methods) ->
@@ -30,7 +33,7 @@ Kernite.ui = (v) ->
   v.rendered = ->
     _.each v._kern.render, (f) -> f()
 
-  v.onRender -> $('body').scrollTop 0
+  v.onRender -> $('body').scrollTop 0 if not v.isModal
 
   # Modal control
   v.modal =

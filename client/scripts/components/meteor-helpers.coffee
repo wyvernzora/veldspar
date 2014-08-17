@@ -15,6 +15,11 @@ UI.registerHelper 'session', (name) ->
 UI.registerHelper 'sessionIs', (name, value) ->
   Session.equals name, value
 
+# Gets the currently selected character
+UI.registerHelper 'currentCharacter', ->
+  if not Session.get('app.character') then null
+  else Veldspar.UserData.characters.findOne _id:Session.get 'app.character'
+
 # Gets the portrait URI of an entity
 # ! MUST be called from a {character} or {corporation} context
 UI.registerHelper 'portrait', (size) ->
@@ -70,3 +75,7 @@ UI.registerHelper 'timespan', (timespan) ->
   list.push timespan.second + 's'
   # Remove entries until first non-zero value
   return list.join ' '
+
+# Displays the skill level in roman numerals
+UI.registerHelper 'skillLevel', (level) ->
+  return ['', ' I', ' II', ' III', ' IV', ' V'][level]

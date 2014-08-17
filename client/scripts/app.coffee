@@ -11,21 +11,27 @@ Veldspar = (this ? exports).Veldspar
 veldsparRouter = Backbone.Router.extend
   routes:
     '': 'home'
+    'admin': 'admin'
     'logout': 'logout'
     'char/:id': 'char'
     'char/:id/:view': 'char'
-    'modal/:view': 'modal'
     'type/:id': 'type'
 
   # Route callbacks
   home: ->
     Session.set 'app.character', null
     Session.set 'character.view', null
+    Session.set 'app.view', null
+
+  admin: ->
+    if Meteor.user()?.isAdmin
+      Session.set 'app.view', 'admin'
 
   logout: ->
     Meteor.logout()
     Session.set 'app.character', null
     Session.set 'character.view', null
+    Session.set 'app.view', null
 
   char: (id, view) ->
     char = Veldspar.UserData.characters.findOne _id:id
@@ -36,6 +42,10 @@ veldsparRouter = Backbone.Router.extend
 
   type: (id) ->
 
+    console.log 'type:' + id
+    Session.set 'app.modal', 'type'
+    Session.set  'type.id', id
+    $('#rt-modal-view').modal 'show'
 
 Veldspar.Router = new veldsparRouter()
 Meteor.startup -> Backbone.history.start pushState:yes

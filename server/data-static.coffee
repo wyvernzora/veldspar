@@ -7,6 +7,7 @@ StaticData = Veldspar.StaticData
 # Publish all static data
 Meteor.publish 'static.SkillTree', -> StaticData.skillTree.find()
 Meteor.publish 'static.SkillCategories', -> StaticData.skillCategories.find()
+Meteor.publish 'static.Certificates', -> StaticData.certificates.find()
 
 # Internal: Fetches the skill tree data from EVE API and updates the
 # existing 'static_SkillTree' collection.
@@ -65,6 +66,34 @@ StaticData.updateSkillTree = () ->
   _.each StaticData.skillTree.find().fetch(), (i)->
     resolveDeps(i)
     StaticData.skillTree.update({_id: i._id}, _.omit(i, '_id'))
+# Internal: Loads the /private/certificates.yaml and updates the existing
+# 'static.Certificates' collection.
+StaticData.updateCertificates = ->
+  # Read YAML file and parse it into a JSON object
+  raw = jsyaml.safeLoad Assets.getText 'certificates.yaml'
+  if not raw or raw is 'undefined'
+    throw new Meteor.Error 400, 'Failed to deserialize certificates.yaml'
+  # Delete all existing data
+  Veldspar.StaticData.certificates.remove {}
+  # Do some minor transformations
+  for id, cert of raw
+    # TODO resolve recommendation references
+    # Resolve skill references
+    cert.skills = [ ] # Convert to array
+    for sid, skill of cert.skillTypes
+      info = Veldspar.StaticData.skillTree.findOne _id:sid  # sid is already a string
+      skill.id = Number(sid)
+      skill.name = info?.name ? 'UNKNOWN SKILL (BUG)'
+      skill.rank = info?.rank ? 1
+      skill.attributes = info?.attributes ? primary:'intelligence', secondary:'memory'
+      skill.levels = [ 0, skill.basic, skill.standard, skill.improved, skill.advanced, skill.elite ] # convert into array
+      cert.skills.push _.pick skill, 'id', 'name', 'rank', 'attributes', 'levels'
+    delete cert.skillTypes
+    # Insert into the collection
+    cert._id = id
+    Veldspar.StaticData.certificates.insert cert
+
+  return raw
 
 # Security policies
 StaticData.skillTree.allow {

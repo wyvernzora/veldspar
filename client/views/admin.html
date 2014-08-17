@@ -1,0 +1,120 @@
+<!-- ADMIN: Administrator Panel -->
+<template name="admin">
+  <div class="container">
+    {{#if currentUser.isAdmin}}
+      <!-- Page Heading -->
+      <div class="page-header">
+        <ul class="nav nav-pills" role="tablist">
+          <!-- Back button -->
+          <li class="pill-back kern-link" href="/"><a><i class="icon ion-ios7-arrow-back"></i> Back</a></li>
+
+          <!-- Collapsed link on small screen devices -->
+          <li class="dropdown visible-xs active">
+            <a class="dropdown-toggle" data-toggle="dropdown">
+              View <span class="caret"></span>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+              <li class="active visible-xs">
+                <a href="#admin-stats" role="tab" data-toggle="pill">Server stats</a>
+              </li>
+              <li class="visible-xs"><a href="#admin-static" role="tab" data-toggle="pill">Static data</a></li>
+              <li class="visible-xs"><a href="#admin-users" role="tab" data-toggle="pill">User management</a></li>
+            </ul>
+          </li>
+
+          <!-- Expanded link on bigger devices -->
+          <li class="hidden-xs active">
+            <a href="#admin-stats" role="tab" data-toggle="pill">Server stats</a>
+          </li>
+          <li class="hidden-xs"><a href="#admin-static" role="tab" data-toggle="pill">Static data</a></li>
+          <li class="hidden-xs"><a href="#admin-users" role="tab" data-toggle="pill">User management</a></li>
+
+          <!-- Refresh button -->
+          <li class="pull-right"><a id="admin-refresh">
+            <i class="icon ion-refresh"></i>
+            <span class="hidden-xs"> Refresh</span></a>
+          </li>
+        </ul>
+      </div>
+      <div class="tab-content">
+        <div id="admin-stats" class="tab-pane fade in active">
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h4 class="panel-title">User statistics</h4>
+            </div>
+            {{> wip}}
+          </div>
+        </div>
+        <div id="admin-static" class="tab-pane fade">
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h4 class="panel-title">Static data dump</h4>
+            </div>
+            <div class="panel-body">
+              <table class="table">
+                <tr>
+                  <td><b>Version</b></td>
+                  <td>Rubicon 1.0</td>
+                </tr>
+                <tr>
+                  <td><b>Last update</b></td>
+                  <td>2014-08-17 16:56:21</td>
+                </tr>
+                <tr>
+                  <td><b>Last update by</b></td>
+                  <td>admin@veldspar.io</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <div class="panel panel-info">
+            <div class="panel-heading">
+              <h4 class="panel-title">Update static data</h4>
+            </div>
+            <div class="panel-body">
+              <p>In order to update static data, please follow the following steps:</p>
+              <ol>
+                <li>
+                  Download the latest EVE Online static data dump from CCP from <a href="#">here</a>.
+                </li>
+                <li>
+                  Extract the data into <code>.yaml</code> files using <a href="#">this tool</a>.
+                </li>
+                <li>
+                  Place <code>.yaml</code> files into the <code>/private</code> directory of the meteor.js
+                  server.
+                </li>
+                <li>
+                  Press the <em>Update static data</em> button below.
+                </li>
+              </ol>
+              <hr>
+              <button id="admin-update-static" class="btn btn-lg btn-danger"><i class="icon ion-nuclear"></i> Update static data</button>
+              <span class="help-block text-danger">
+                <b>Warning: </b> incorrect static dump data may prevent the website from properly working.
+                It is strongly advised to test your changes before applying them to the production environment.
+              </span>
+            </div>
+          </div>
+        </div>
+        <div id="admin-users" class="tab-pane fade">
+          {{> wip}}
+        </div>
+      </div>
+    {{else}}
+      <div class="page-header">
+        <ul class="nav nav-pills" role="tablist">
+          <li class="pill-back kern-link" href="/"><a><i class="icon ion-ios7-arrow-back"></i> Back</a></li>
+        </ul>
+      </div>
+      {{# notify icon="ion-ios7-locked-outline text-danger" panel="panel panel-danger"}}
+        Oops! Staff only, sorry. <hr>
+        <small class="text-justified">
+          The fact that you got here means that you are trying to break something.
+          We would like to kindly remind you that attempting to hack a website
+          without the owners' permission is a serious crime in most countries.
+        </small>
+      {{/notify}}
+    {{/if}}
+  </div>
+</template>

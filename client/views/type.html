@@ -1,0 +1,60 @@
+<!-- TY: Type View (showinfo: modal) -->
+<template name="type">
+  {{#with typeInfo}}
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">
+      <span aria-hidden="true">&times;</span>
+      <span class="sr-only">Close</span>
+    </button>
+    <h4 class="modal-title">{{name}} <small>(#{{id}})</small></h4>
+  </div>
+  <div id="ty-content" class="modal-body container-fluid">
+    <!-- Icon & Description -->
+
+    <img class="pull-left" src="/icons/50_64_13.png">
+    <p class="">{{description}}</p>
+
+
+    <h4 class="clear">Miscellaneous</h4>
+    <table class="table col-xs-12">
+      <tbody>
+        <tr>
+          <td><b>Primary Attribute</b></td>
+          <td>{{attributes.primary}}</td>
+        </tr>
+        <tr>
+          <td><b>Secondary Attribute</b></td>
+          <td>{{attributes.secondary}}</td>
+        </tr>
+        <tr>
+          <td><b>Rank</b></td>
+          <td>{{rank}}x</td>
+        </tr>
+
+      </tbody>
+    </table>
+
+    <h4>Prerequisites</h4>
+    {{> skill_prereq}}
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+  </div>
+  {{/with}}
+</template>
+
+
+<!-- misc: Skill Prerequisites -->
+<template name="skill_prereq">
+  <ul class="skill-prereq">
+  {{#each prerequisites}}
+    <li>
+      <span>{{name}}{{skillLevel level}}</span>
+      <div class="pull-right">
+        {{> skillLevel prereqIndicator}}
+      </div>
+      {{> skill_prereq}}
+    </li>
+  {{/each}}
+  </ul>
+</template>

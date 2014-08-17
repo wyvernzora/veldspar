@@ -21,6 +21,15 @@ Meteor.methods {
   # Administrative Methods
 
   # Updates the skill tree from API
+  updateStaticData: ->
+    if Meteor.user()?.isAdmin
+      #StaticData.updateSkillTree() # Skill tree is updated via API
+      StaticData.updateCertificates() # Certificates are updated from .yaml file
+    else
+      throw new Meteor.Error 403, 'Access denied: administrator account required.'
+
+
+
   updateSkillTree: () ->
     if Meteor.user() and Meteor.user().isAdmin
       StaticData.updateSkillTree()

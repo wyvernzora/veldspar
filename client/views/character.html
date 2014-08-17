@@ -1,6 +1,6 @@
 <!-- CH: Character View -->
 <template name="character">
-  {{#with character}}
+  {{#with currentCharacter}}
   <div id="character" class="container">
     <div class="page-header">
       <ul class="nav nav-pills" role="tablist">
@@ -70,7 +70,7 @@
 
 <!-- CH-NAV: Character Navigation -->
 <template name="nav_character">
-  {{#with character}}
+  {{#with currentCharacter}}
   <li class="hidden-sm kern-link" kern-href="/char/{{_id}}">
     <a><b>{{name}}</b></a>
   </li>
@@ -95,7 +95,7 @@
 
 <!-- CH-SKL: Character Skills -->
 <template name="ch_skills">
-  {{#with character}}
+  {{#with currentCharacter}}
   <div id="ch-skills" class="container">
     <div class="page-header">
       <ul class="nav nav-pills" role="tablist">
@@ -136,18 +136,18 @@
           </div>
           <ul class="list-group">
             {{#each skillQueue}}
-              <a class="list-group-item container-fluid">
-                {{#with skillQueueItem ..}}
+              {{#with skillQueueItem ..}}
+              <a class="list-group-item container-fluid kern-link" kern-href="/type/{{skillInfo.id}}">
                   <div class="row">
-                    <div class="col-xs-8 col-sm-10"><a class="kern-link" kern-href="/type/{{skillInfo.id}}">{{skillInfo.name}} ({{skillInfo.rank}}x)</a></div>
+                    <div class="col-xs-8 col-sm-10"><a>{{skillInfo.name}} ({{skillInfo.rank}}x)</a></div>
                     <div class="col-xs-4 col-sm-2">{{> skillLevel ./indicator}}</div>
                   </div>
                   <div class="row">
                     <div class="text-nowrap small text-muted col-xs-7 col-sm-9">SP: {{sp skillInfo.rank queued.skill.level}} ({{sph ../.. skillInfo}} SP/h)</div>
                     <div class="text-nowrap small text-right text-muted  col-xs-5 col-sm-3">{{timespan remainingTime}}</div>
                   </div>
-                {{/with}}
               </a>
+              {{/with}}
             {{/each}}
           </ul>
         </div>
@@ -159,7 +159,7 @@
         </div>
       </div>
       <div id="ch-skl-my" class="tab-pane fade panel-group">
-        <p class="text-center text-muted">If you need to view all skills, not just the ones you have, please use the <a>database</a> feature.</p>
+        <!--<p class="text-center text-muted">If you need to view all skills, not just the ones you have, please use the <a>database</a> feature.</p>-->
         {{#each skillCategories}}
           <div class="panel panel-info">
             <div class="panel-heading collapsed" data-toggle="collapse" href="#{{_id}}">
@@ -167,30 +167,52 @@
                 <small>({{millionize skillPoints}} SP)</small>
               </h2>
             </div>
-            <ul id="{{_id}}" class="list-group panel-collapse collapse">
+            <div id="{{_id}}" class="list-group panel-collapse collapse">
               {{#if skills}}
                 {{#each skills}}
-                <li class="list-group-item">
+                <a class="list-group-item kern-link" kern-href="/type/{{id}}">
                   <div class="row">
-                    <div class="col-xs-8 col-sm-10"><a class="kern-link" kern-href="/type/{{id}}">{{name}} ({{rank}}x)</a></div>
-                    <div class="col-xs-4 col-sm-2">{{> skillLevel level=level}}</div>
+                    <div class="col-xs-8 col-sm-10"><a>{{name}} ({{rank}}x)</a></div>
+                    {{#unless notTrained}}
+                      <div class="col-xs-4 col-sm-2">{{> skillLevel level=level}}</div>
+                    {{/unless}}
                   </div>
                   <div class="row">
                     <div class="col-xs-8 col-sm-10 text-muted small">SP: {{sp rank level}}</div>
                   </div>
-                </li>
+                </a>
                 {{/each}}
               {{else}}
                 {{#notify icon="ion-ios7-information-outline"}}
                   You do not have any skills in this category.
                 {{/notify}}
               {{/if}}
-            </ul>
+            </div>
           </div>
         {{/each}}
       </div>
-      <div id="ch-skl-cert" class="tab-pane fade">
-      {{> wip panel="panel panel-info"}}
+      <div id="ch-skl-cert" class="tab-pane fade panel-group">
+        {{#each certCategories}}
+          <div class="panel panel-info">
+            <div class="panel-heading collapsed" data-toggle="collapse" href="#cert{{id}}">
+              <h2 class="panel-title"><i class="icon ion-arrow-right-b"></i> {{name}}</h2>
+            </div>
+            <div id="cert{{id}}" class="list-group panel-collapse collapse">
+              {{#each certificates}}
+              <a class="list-group-item kern-link" kern-href="/cert/{{_id}}">
+                <div class="row">
+                  <div class="col-xs-8 col-sm-10"><a>{{name}}</a></div>
+                  <div class="col-xs-4 col-sm-2">{{> skillLevel .}}</div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-8 col-sm-10 text-muted small">{{skills.length}} Skills</div>
+                </div>
+              </a>
+              {{/each}}
+            </div>
+          </div>
+
+        {{/each}}
       </div>
       <div id="ch-skl-plans" class="tab-pane fade">
       {{> wip panel="panel panel-info"}}

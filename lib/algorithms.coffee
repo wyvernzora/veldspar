@@ -5,7 +5,7 @@ Copyright © 2014 Denis Luchkin-Zhou
 algorithms.coffee - Frequently needed algorithms
 ###
 
-# Exte underscore.js for that matter
+# Extend underscore.js for that matter
 _.mixin
   # Binary Search
   binSearch: (array, target, comparator) ->
@@ -18,3 +18,6 @@ _.mixin
       else if d < 0 then e = c - 1
       else return array[c]
     return null
+
+
+# 
