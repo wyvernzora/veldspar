@@ -7,13 +7,13 @@
     "packages": {
       "xml2js": {
         "git": "https://github.com/peerlibrary/meteor-xml2js.git",
-        "tag": "v0.4.1-1",
-        "commit": "18aeb92fbbcdf916c66fb87a8617c4b86f376f91"
+        "tag": "v0.4.4-1",
+        "commit": "e437621620bf1821f3388f8949c8d5408f38d1fb"
       },
       "blocking": {
         "git": "https://github.com/peerlibrary/meteor-blocking.git",
-        "tag": "v0.4.0",
-        "commit": "e25a0be72e771b317b26d2bb5758c983bdcef23c"
+        "tag": "v0.4.1",
+        "commit": "512354e9721d931c7884b56fbb3b419d060ae8da"
       }
     }
   }

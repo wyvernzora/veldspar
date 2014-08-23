@@ -6,20 +6,11 @@ Veldspar is a [Meteor.js](http://meteor.com) based EVE Online account manager. I
 ##Running Veldspar
 Veldspar is a [Meteor.js](http://meteor.com) application, which requires the `mrt` build tool. In order to setup a development environment, please follow the following steps:
 
-**1. Install Meteor.js**  
-`$ curl https://install.meteor.com | sh`
-
-**2. Install Node.js and npm**  
-Download the Node.js installer from [the official site](http://nodejs.org) and install it. This will also install the `npm`, which is needed to install Veldspar's dependencies.
-
-**3. Install `mrt`**  
-`$ sudo npm install -g mrt`
-
-**4. Clone Veldspar application**  
-In the application root directory, run the following command to install dependencies: `$ mrt update`.
-
-**5. Run Veldspar**  
-In the application root directory, `$ mrt`.
+1. Download snd install the [**Node.js** distribution for your platform](http://nodejs.org/).
+2. Install **Meteorite** using the following command line: `$ sudo npm install -g meteorite`
+3. Install **Meteor** using the following command line: `$ sudo curl https://install.meteor.com | sh`
+4. `cd` to the `veldspar` directory, and run the following: `$ mrt update`
+5. Run the veldspar: `$ mrt`
 
 ##Dependencies
 Veldspar depends on the following atmosphere packages:
