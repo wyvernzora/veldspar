@@ -31,6 +31,12 @@ class Veldspar.Refresh extends Kernite.MultiState
       else
         @state 'success'
 
+class Veldspar.Loader extends Kernite.MultiState
+
+  constructor: (@element) ->
+    super(@element)
+    @addState 'loading', 'loading', null
+
 class Veldspar.FormField extends Kernite.MultiState
 
   constructor: (@element) ->
@@ -40,3 +46,10 @@ class Veldspar.FormField extends Kernite.MultiState
     @addState 'error', 'has-feedback', 'has-error', =>
       $(@element + ' i').clearQueue().effect 'pulsate', times:2
       $(@element + ' input').focus().select()
+
+class Veldspar.AlertBox extends Kernite.MultiState
+
+  constructor: (@element) ->
+    super(@element)
+    @addState 'show', '', => $(@element).clearQueue().effect 'pulsate', times:2
+    @addState 'hidden', 'hidden', null

@@ -18,43 +18,7 @@
         <section class="row char-list">
           {{#if characters.count}}
             {{#each characters}}
-                <div class="char-item col-sm-4 col-md-3 col-lg-3">
-                  <div class="thumbnail">
-                    <img alt="portrait" src="{{portrait 512}}">
-                    <div class="char-info caption">
-                      <h3 class="text-nowrap">{{name}}</h3>
-                      <p class="text-nowrap">{{corp.name}}</p>
-                    </div>
-                    <hr>
-                    <div class="skill-info caption text-center">
-                      {{#if skillName}}<h5 class="text-nowrap">{{skillName}}</h5>{{/if}}
-                      <div class="progress">
-                        <div class="progress-bar progress-bar-info progress-bar-striped"
-                          role="progressbar" style="width: {{percent}}%;"></div>
-                        {{#if skillInTraining.active}}
-                          <p class="skill-progress text-nowrap">{{timespan timeLeft}} ({{percent}}%)</p>
-                        {{else}}
-                          <p class="skill-progress text-nowrap text-danger">Skill queue inactive</p>
-                        {{/if}}
-                      </div>
-                    </div>
-                    <hr>
-                    <div class="actions caption text-center">
-                      <div class="btn-group btn-group-sm dropup">
-                          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                            Action
-                            <span class="caret"></span>
-                          </button>
-                          <ul class="dropdown-menu" role="menu">
-                            <li class="share-char"><a>Share</a></li>
-                            <li class="divider"></li>
-                            <li class="del-char"><a class="text-danger">Delete</a></li>
-                          </ul>
-                        </div>
-                      <button type="button" kern-href="/char/{{_id}}" class="kern-link view-char btn btn-sm btn-primary">View</button>
-                    </div>
-                </div>
-                </div>
+              {{> ur_char_item}}
             {{/each}}
           {{else}}
             <p class="text-muted text-center"><i class="icon icon-lg ion-ios7-information-outline"></i></p>
@@ -66,12 +30,48 @@
         {{> wip panel="panel panel-info" icon="ion-code-working"}}
       </div>
     </div>
-
   </div>
 </template>
 
-<!-- UR-NAV: User View Menu -->
-<template name="nav_user">
+<!-- User View character list item -->
+<template name="ur_char_item">
+  <div class="char-item col-sm-4 col-md-3 col-lg-3">
+    <div class="thumbnail">
+      <img alt="portrait" src="{{portrait 512}}">
+      <div class="char-info caption">
+        <h3 class="text-nowrap">{{name}}</h3>
+        <p class="text-nowrap">{{corp.name}}</p>
+      </div>
+      <hr>
+      <div class="skill-info caption text-center">
+        <h5 class="text-nowrap">{{#if skillName}}{{skillName}}{{else}}- - -{{/if}}</h5>
+        <div class="progress">
+          <div class="progress-bar progress-bar-info progress-bar-striped"
+            role="progressbar" style="width: {{percent}}%;"></div>
+          {{#if skillInTraining.active}}
+            <p class="skill-progress text-nowrap">{{timespan timeLeft}} ({{percent}}%)</p>
+          {{else}}
+            <p class="skill-progress text-nowrap text-danger">Skill queue inactive</p>
+          {{/if}}
+        </div>
+      </div>
+      <hr>
+      <div class="actions caption text-center">
+        <div class="btn-group btn-group-sm dropup">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+              Action
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li class="share-char"><a>Share</a></li>
+              <li class="divider"></li>
+              <li class="del-char"><a class="text-danger">Delete</a></li>
+            </ul>
+          </div>
+        <button type="button" href="{{pathFor "char-sheet"}}" class="kern-link view-char btn btn-sm btn-primary">View</button>
+      </div>
+  </div>
+  </div>
 </template>
 
 <!-- AK: Add API Key -->
@@ -84,14 +84,28 @@
     <h4 class="modal-title">Add <span class="text-primary">API</span> Key</h4>
   </div>
   <div class="modal-body">
+    <p class="lead text-center">Select the characters you wish to add!</p>
+    {{#if session "add-key.keyInfo"}}
+      {{#with session "add-key.keyInfo"}}
+        {{#each characters}}
+          <a class="ak-char-item thumbnail">
+            <img class="pull-left" alt="portrait" src="{{portrait 72 "Character"}}">
+            <i class="icon icon-md pull-right {{#if selected}}ion-ios7-checkmark-outline text-success{{else}}ion-ios7-circle-outline text-muted{{/if}}"></i>
+            <div class="char-info caption">
+              <h3 class="text-nowrap">{{name}}</h3>
+              <p class="text-nowrap">{{corp.name}}</p>
+            </div>
+          </a>
+        {{/each}}
+      {{/with}}
+    {{else}}
     <div id="ak-form" role="form">
-      <p class="text-center lead"></p>
-      {{#if session "add-key.error"}}
-        <div id="su-error-box" class="alert alert-danger">
-          {{session "ad-key.error"}}
-        </div>
-      {{/if}}
-      <p><b class="text-primary">Key ID</b> is a number</p>
+      <p class="text-center lead">Introduce your characters to us!</p>
+
+      <div id="ak-error" class="alert alert-danger hidden">
+        {{#markdown}}{{session "add-key.error"}}{{/markdown}}
+      </div>
+
       <div id="ak-id-group" class="form-group">
         <label for="ak-id" class="sr-only">Email</label>
         <input id="ak-id" type="text" class="input-lg first form-control" placeholder="Key ID" required autofocus />
@@ -102,10 +116,18 @@
         <input id="ak-vcode" type="text" class="input-lg last form-control" placeholder="Verification Code" required />
         <i class="icon ion-alert form-control-feedback"></i>
       </div>
+      <hr>
+      <p>
+        Both <b>Key ID</b> and <b>Verification Code</b> can be obtained from the <a href="https://community.eveonline.com/support/api-key/">API Key management page</a>.
+      </p>
     </div>
+    {{/if}}
   </div>
   <div class="modal-footer">
     <button id="ak-cancel" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-    <button id="ak-submit" type="submit" class="btn btn-primary">Continue <i class="icon ion-ios7-arrow-forward"></i></button>
+    <button id="ak-submit" type="submit" class="btn btn-primary btn-loader">
+      <div class="st-normal">Continue <i class="icon ion-ios7-arrow-forward"></i></div>
+      <div class="st-loader"><i class="icon ion-loading-c"></i></div>
+    </button>
   </div>
 </template>

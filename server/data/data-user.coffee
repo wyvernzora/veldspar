@@ -27,7 +27,7 @@ Meteor.publish 'user.SkillQueue', ->
 
 # Utility methods
 UserData.updateCharacterSheet = (id) ->
-  console.log 'UserData.updateCharacterSheet'
+  console.log 'UserData.updateCharacterSheet()'
 
   # Cannot do this if no user is logged in
   if not Meteor.userId()
@@ -42,7 +42,7 @@ UserData.updateCharacterSheet = (id) ->
 
   # Skip the update if cache is still valid
   if char._cachedUntil and char._cachedUntil >= Veldspar.Timing.eveTime()
-    console.log 'Cache timer in effect, skipping'
+    console.log 'Cache timer in effect until ' + char._cachedUntil
     return
 
   # Start the update by getting the most recent character sheet
@@ -66,7 +66,8 @@ UserData.updateCharacterSheet = (id) ->
     skillLevels = []
     # Get skill levels for the character
     for skill in cert.skills
-      l = char.getSkill(skill.id)?.level ? 0
+      #l = char.getSkill(skill.id)?.level ? 0
+      l = charSheet.skills[skill.id]?.level ? 0
       for i in [0..5]
         x = i if skill.levels[i] <= l
       skillLevels.push x
@@ -74,7 +75,7 @@ UserData.updateCharacterSheet = (id) ->
     charSheet.certificates[cert._id] = _.min skillLevels
 
   # Update character info from the character sheet
-  UserData.characters.update({'_id': id}, {$set: _.omit charSheet, '_currentTime', 'id', 'name' })
+  UserData.characters.update({'_id': char._id}, {$set: _.omit(charSheet, '_currentTime', 'id', 'name') })
 
 UserData.updateSkillInTraining = (id) ->
   console.log 'UserData.updateSkillInTraining()'
@@ -91,13 +92,13 @@ UserData.updateSkillInTraining = (id) ->
     return
 
   # Skip the update if cache is still valid
-  if char?.skillInTraining._cachedUntil and char?.skillInTraining._cachedUntil >= Veldspar.Timing.eveTime()
-    console.log 'Cache timer in effect, skipping'
+  if char?.skillInTraining?._cachedUntil and char?.skillInTraining?._cachedUntil >= Veldspar.Timing.eveTime()
+    console.log 'Cache timer in effect until ' + char.skillInTraining._cachedUntil
     return
 
   # Get the info about the skill in training
   skillInfo = Veldspar.API.Character.getSkillInTraining char.apiKey, char.id
-  UserData.characters.update({'_id': id}, {$set: {'skillInTraining': _.omit(skillInfo, '_currentTime')}})
+  UserData.characters.update({'_id': char._id}, {$set: {'skillInTraining': _.omit(skillInfo, '_currentTime')}})
 
 UserData.updateSkillQueue = (id) ->
   console.log 'UserData.updateSkillQueue()'
@@ -114,14 +115,15 @@ UserData.updateSkillQueue = (id) ->
     return
 
   # Skip the update if cache is still valid
-  if char?.skillQueue._cachedUntil and char?.skillQueue._cachedUntil >= Veldspar.Timing.eveTime()
-    console.log 'Cache timer in effect, skipping'
+  if char?.skillQueue?._cachedUntil and char?.skillQueue?._cachedUntil >= Veldspar.Timing.eveTime()
+    console.log 'Cache timer in effect until ' + char.skillQueue._cachedUntil
     return
 
   # Get the skill queue information
   response = Veldspar.API.Character.getSkillQueue char.apiKey, char.id
+  console.log response
 
   # Convert the skill queue into an object
   response.skillQueue = _.indexBy response.skillQueue, 'position'
   response.skillQueue._cachedUntil = response._cachedUntil # Add cache information
-  UserData.characters.update({'_id': id}, {$set: {'skillQueue': response.skillQueue}})
+  UserData.characters.update({'_id': char._id}, {$set: {'skillQueue': response.skillQueue}})

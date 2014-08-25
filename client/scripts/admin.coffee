@@ -1,12 +1,13 @@
 # ADMIN: Admin Panel
-((view) ->
-  Kernite.ui view
+Meteor.startup ->
+  ((view) ->
+    Kernite.ui view
 
-  view.events
-    'click #admin-update-static': ->
-      console.log 'processing...'
-      Meteor.call 'updateStaticData', (error, result) ->
-        #alert(error?.reason ? result)
-        console.log JSON.stringify result
+    view.events
+      'click #admin-update-static': ->
+        console.log 'processing...'
+        Meteor.call 'updateStaticData', (error, result) ->
+          #alert(error?.reason ? result)
+          console.log JSON.stringify result
 
-)(Template.admin)
+  )(Template.admin)

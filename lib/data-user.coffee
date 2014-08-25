@@ -19,5 +19,5 @@ root.UserData.skillQueue = new Meteor.Collection 'user.SkillQueue'
 if Meteor.isClient
   # Subscribe to user data
   Meteor.subscribe 'user.Config'      # User metadata, such as preferences
-  Meteor.subscribe 'user.Characters'  # Character data, not including skills
+  #Meteor.subscribe 'user.Characters'  # Character data, not including skills
   Meteor.subscribe 'user.SkillQueue'  # Skill queue

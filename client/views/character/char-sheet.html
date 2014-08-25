@@ -1,0 +1,73 @@
+<!-- Character Sheet -->
+<template name="char-sheet">
+  {{#contentFor "nav-menu"}}
+    {{> ch_nav}}
+  {{/contentFor}}
+
+  {{#Layout template="character" data=.}}
+    <!-- Page Header -->
+    {{#contentFor "page-header"}}
+      <li class="pill-back kern-link" kern-href="/"><a><i class="icon ion-ios7-arrow-back"></i> Back</a></li>
+      <li class="pull-right">
+        <a id="ch-refresh">
+          <i class="icon ion-refresh"></i>
+          <span class="hidden-xs"> Refresh</span>
+        </a>
+      </li>
+    {{/contentFor}}
+
+    <!-- Page Content -->
+    <div class="alert alert-danger hidden"></div>
+
+    <div class="panel panel-default">
+      <div class="panel-body container-fluid">
+        <!-- Character Portrait -->
+        <div class="portrait thumbnail col-xs-4 col-xs-offset-4 col-sm-2 col-sm-offset-0 col-md-2">
+          <img alt="Character Portrait" src="{{portrait 256}}">
+        </div>
+        <!-- Character Information -->
+        <div class="info col-xs-12 col-sm-10 col-md-10 container-fluid">
+          <h1 class="no-margin text-nowrap">{{name}}</h1>
+          <h3 class="no-margin text-light">{{corp/name}}</h3>
+          <hr>
+          <div class="row">
+            <b class="col-xs-4 col-sm-2 text-right">Gender</b>
+            <span class="col-xs-8 col-sm-4 text-muted">{{gender}}</span>
+            <b class="col-xs-4 col-sm-2 text-right">
+              <span class="hidden-sm hidden-xs">Date of Birth</span>
+              <span class="visible-sm visible-xs">DOB</span>
+            </b>
+            <span class="col-xs-8 col-sm-4 text-muted">{{dob}}</span>
+            <b class="col-xs-4 col-sm-2 text-right">Wealth</b>
+            <span class="col-xs-8 col-sm-4 text-muted">{{millionize balance 2}} ISK</span>
+            <b class="col-xs-4 col-sm-2 text-right">
+              <span class="hidden-sm hidden-xs">Skill Points</span>
+              <span class="visible-sm visible-xs">SP</span>
+            </b>
+            <span class="col-xs-8 col-sm-4 text-muted">{{millionize skillPoints}} ({{skills/length}} Skills)</span>
+            <b class="col-xs-4 col-sm-2 text-right">Bloodline</b>
+            <span class="col-xs-8 col-sm-4 text-muted text-nowrap">{{race}}/{{bloodLine}}/{{ancestry}}</span>
+            <b class="col-xs-4 col-sm-2 text-right">Clone</b>
+            <span class="col-xs-8 col-sm-4 text-muted">{{clone/name}} ({{millionize clone/skillPoints}})</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h2 class="panel-title">Employment</h2>
+      </div>
+      <div class="panel-body container-fluid">
+        {{> wip}}
+      </div>
+    </div>
+
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h2 class="panel-title">Attributes</h2>
+      </div>
+        {{> wip}}
+    </div>
+  {{/Layout}}
+</template>

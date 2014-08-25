@@ -3,11 +3,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 </head>
 
-<body>{{> root}}</body>
+<body></body>
 
 <!-- RT: Root Template -->
 <template name="root">
-  <!-- Navbar -->
+  <!--Navbar -->
+  {{> rt_navbar}}
+
+  <!-- View -->
+  {{#if currentUser}}
+    {{> yield}}
+  {{else}}
+    {{> login}}
+  {{/if}}
+
+  <!-- Modal View -->
+  {{> yield "modal"}}
+</template>
+
+<!-- RT: Navbar -->
+<template name="rt_navbar">
   <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container-fluid">
       <!-- Mobile version -->
@@ -29,7 +44,7 @@
       {{#if currentUser}}
       <div class="collapse navbar-collapse" id="rt-navbar-content">
         <ul id="rt-nav-dynamic" class="nav navbar-nav navbar-left">
-          {{> navbar}}
+          {{> yield "nav-menu"}}
         </ul>
         <ul id="rt-nav-right" class="nav navbar-nav navbar-right">
           {{#if currentUser}}
@@ -46,7 +61,7 @@
                     <li class="kern-link" kern-href="/admin"><a>Administrator panel</a></li>
                     <li class="divider"></li>
                   {{/if}}
-                  <li><a class="kern-link" kern-href="/logout">Log Out</a></li>
+                  <li id="rt-nav-logout"><a>Log Out</a></li>
                 </ul>
               </li>
             </ul>
@@ -56,19 +71,26 @@
       {{/if}}
     </div>
   </nav>
-  <!-- View -->
-  {{> view}}
-  <!-- Modal -->
-  <div id="rt-modal-view" class="modal fade">
+</template>
+
+<!-- MD: Modal Dialog -->
+<template name="modal">
+  <div id="{{id}}" class="modal fade">
     <div class="modal-dialog">
       <div class="modal-content">
-        {{> modal}}
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+          </button>
+          {{> yield "title"}}
+        </div>
+        <div class="modal-body">{{> yield}}</div>
+        <div class="modal-footer">{{> yield "footer"}}</div>
       </div>
     </div>
   </div>
-
 </template>
-
 
 <!-- Misc Templates -->
 <template name="notify">

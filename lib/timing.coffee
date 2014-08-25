@@ -4,14 +4,27 @@
 Veldspar = (exports ? this).Veldspar
 Timing = Veldspar.Timing ?= { }
 
+Timing.dt = 0
+
+# Calibrates Veldspar's timing against CCP's current time
+Timing.calibrate = (now) ->
+  if Meteor.isServer
+    Timing.dt = now.getTime() - Date.now()
+  if Meteor.isClient
+    Meteor.call 'util.getTimerCalibration', (error, result) ->
+      if error
+        # PANIC!
+      else
+        Veldspar.Timing.dt = result.getTime() - Date.now()
 
 Timing.eveTime = ->
-  dt = new Date();
-  dt.setMinutes((new Date()).getTimezoneOffset());
-  return dt;
+  d = Date.now() + Timing.dt
+  return new Date(d)
 
 # Gets the progress of the skill in training
-Timing.progress = (sit) -> Math.round((sit.now.getTime() - sit.start.date.getTime()) / (sit.end.date.getTime() - sit.start.date.getTime()) * 100)
+Timing.progress = (sit) ->
+  Math.round (sit.now.getTime() - sit.start.date.getTime()) / (sit.end.date.getTime() - sit.start.date.getTime()) * 100
+
 # Gets the time difference between start and end
 Timing.diff = (start, end) ->
   result = { }

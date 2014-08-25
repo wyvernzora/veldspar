@@ -7,45 +7,43 @@ app.coffee - Application initialization
 Kernite = (this ? exports).Kernite
 Veldspar = (this ? exports).Veldspar
 
-# Backbone.Router setup
-veldsparRouter = Backbone.Router.extend
-  routes:
-    '': 'home'
-    'admin': 'admin'
-    'logout': 'logout'
-    'char/:id': 'char'
-    'char/:id/:view': 'char'
-    'type/:id': 'type'
+# Set up iron-router
+Router.configure
+  layoutTemplate: 'root'
 
-  # Route callbacks
-  home: ->
-    Session.set 'app.character', null
-    Session.set 'character.view', null
-    Session.set 'app.view', null
+# Set up global hooks
 
-  admin: ->
-    if Meteor.user()?.isAdmin
-      Session.set 'app.view', 'admin'
+# Set up the application
+Router.map ->
 
-  logout: ->
-    Meteor.logout()
-    Session.set 'app.character', null
-    Session.set 'character.view', null
-    Session.set 'app.view', null
+  @route 'user',
+    path:'/'
+    waitOn: ->
+      Meteor.subscribe 'user.Characters'
+    data: ->
+      characters: Veldspar.UserData.characters.find type:'Character'
+      corporations: Veldspar.UserData.characters.find type:'Corporation'
 
-  char: (id, view) ->
-    char = Veldspar.UserData.characters.findOne _id:id
-    oldChar = Session.get 'app.character'
-    if char and oldChar isnt char then Session.set 'app.character', id
-    oldView = Session.get 'character.view'
-    if oldView isnt view then Session.set 'character.view', view
+  @route 'char-sheet',
+    path:'/char/:_id'
+    waitOn: ->
+      Meteor.subscribe 'user.Characters'
+    data: ->
+      return Veldspar.UserData.characters.findOne('_id':@params._id) ? null
 
-  type: (id) ->
+  @route 'char-skills',
+    path:'/char/:_id/skills'
+    waitOn: ->
+      Meteor.subscribe 'user.Characters'
+    data: ->
+      return Veldspar.UserData.characters.findOne('_id':@params._id) ? null
 
-    console.log 'type:' + id
-    Session.set 'app.modal', 'type'
-    Session.set  'type.id', id
-    $('#rt-modal-view').modal 'show'
 
-Veldspar.Router = new veldsparRouter()
-Meteor.startup -> Backbone.history.start pushState:yes
+# Startup code
+Meteor.startup ->
+  # Calibrate timer
+  Veldspar.Timing.calibrate()
+  # Set global timer
+  Session.set 'app.now', Veldspar.Timing.eveTime()
+  # Auto update global timer
+  Meteor.setInterval (-> Session.set 'app.now', Veldspar.Timing.eveTime()), 1000

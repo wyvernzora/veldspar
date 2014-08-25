@@ -11,6 +11,11 @@ Meteor.startup ->
     Accounts.createUser
       email: 'admin@veldspar.io'
       password: 'password'
-    id = Meteor.users.findOne()
-    Meteor.users.update {}, {$set: isAdmin: yes}
-    console.log 'Default admin added.'
+    Meteor.users.update {}, {$set: {isAdmin: yes}}
+    console.log 'No users detected: created default administrator account.'
+
+  # Calibrate timing
+  console.log 'Calibrating the cache timer...'
+  srvInfo = Veldspar.API.Server.getServerStatus()
+  Veldspar.Timing.calibrate srvInfo._currentTime
+  console.log 'Timer calibration complete: dt = ' + Veldspar.Timing.dt + 'ms'

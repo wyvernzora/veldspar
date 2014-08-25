@@ -105,3 +105,39 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 { line-height: 1.3; }
   i.icon:before { content: '\f104'; }
   &.collapsed i.icon:before { content: '\f10a'; }
 }
+
+.btn { min-width: 100px; }
+
+.btn.btn-loader {
+  .st-loader {
+    visibility: invisible;
+    display: none;
+  }
+  .st-normal {
+    display: block;
+    visibility: visible;
+  }
+  &.loading {
+    .st-loader {
+      visibility: visible;
+      display: block;
+    }
+    .st-normal {
+      display: none;
+      visibility: invisible;
+    }
+  }
+}
+
+
+.modal-content {
+  .form-group {
+    max-width: 420px;
+    text-align: center;
+    margin: auto;
+  }
+  .modal-footer P {
+    display: inline-block;
+    margin: 0 10px;
+  }
+}

@@ -9,8 +9,10 @@ jquery
 underscore
 xml2js
 blocking
-backbone
 coffeescript
 accounts-password
 insecure
 less
+showdown
+iron-router
+iron-layout

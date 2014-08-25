@@ -22,7 +22,7 @@ UI.registerHelper 'currentCharacter', ->
 
 # Gets the portrait URI of an entity
 # ! MUST be called from a {character} or {corporation} context
-UI.registerHelper 'portrait', (size) ->
+UI.registerHelper 'portrait', (size, type) ->
   # Normalize the size to one of the officially supported resolutions
   size = Math.pow 2, ((x) ->
     exp = Math.ceil (Math.LOG2E * Math.log x)
@@ -30,10 +30,10 @@ UI.registerHelper 'portrait', (size) ->
     exp = 9 if exp > 9
     exp
   )(size)
-  format = if @type is 'Character' then 'jpg' else 'png'
+  format = if (@type ? type) is 'Character' then 'jpg' else 'png'
   # Construct the URI
   return _.template '<%= host %>/<%= type %>/<%= id %>_<%= size %>.<%= ext %>',
-    host: Veldspar.Config.imageHost, id: @id, size: size, type: @type, ext: format
+    host: Veldspar.Config.imageHost, id: @id, size: size, type: @type ? type, ext: format
 
 # Gets the first email of current user
 UI.registerHelper 'userEmail', ->
@@ -56,6 +56,20 @@ UI.registerHelper 'millionize', (number, decimals) ->
   return Math.floor(number / 1000000 * c) / c + 'M' if number >= 1000000
   return Math.floor(number / 1000 * c) / c + 'K' if number >= 1000
   return number
+
+# Formats numbers into roman equivalent
+UI.registerHelper 'romanize', (number) ->
+  if not number then return ''
+  digits = String(+num).split("")
+  key = ["","C","CC","CCC","CD","D","DC","DCC","DCCC","CM",
+         "","X","XX","XXX","XL","L","LX","LXX","LXXX","XC",
+         "","I","II","III","IV","V","VI","VII","VIII","IX"]
+  roman = ""
+  i = 3
+  while (i--)
+  	roman = (key[+digits.pop() + (i * 10)] || "") + roman;
+  return Array(+digits.join("") + 1).join("M") + roman;
+
 
 # Gets the total SP for the specified skill rank and level
 UI.registerHelper 'sp', (rank, level) ->

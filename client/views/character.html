@@ -1,223 +1,48 @@
 <!-- CH: Character View -->
 <template name="character">
-  {{#with currentCharacter}}
   <div id="character" class="container">
     <div class="page-header">
       <ul class="nav nav-pills" role="tablist">
-        <li class="pill-back kern-link" kern-href="/"><a><i class="icon ion-ios7-arrow-back"></i> Back</a></li>
-        <li class="pull-right"><a id="ch-refresh">
-          <i class="icon ion-refresh"></i>
-          <span class="hidden-xs"> Refresh</span></a></li>
+        {{> yield "page-header"}}
       </ul>
     </div>
-
-    <div class="alert alert-danger hidden"></div>
-
-    <div class="panel panel-default">
-      <div class="panel-body container-fluid">
-        <!-- Character Portrait -->
-        <div class="portrait thumbnail col-xs-4 col-xs-offset-4 col-sm-2 col-sm-offset-0 col-md-2">
-          <img alt="Character Portrait" src="{{portrait 256}}">
-        </div>
-        <!-- Character Information -->
-        <div class="info col-xs-12 col-sm-10 col-md-10 container-fluid">
-          <h1 class="no-margin text-nowrap">{{name}}</h1>
-          <h3 class="no-margin text-light">{{corp/name}}</h3>
-          <hr>
-          <div class="row">
-            <b class="col-xs-4 col-sm-2 text-right">Gender</b>
-            <span class="col-xs-8 col-sm-4 text-muted">{{gender}}</span>
-            <b class="col-xs-4 col-sm-2 text-right">
-              <span class="hidden-sm hidden-xs">Date of Birth</span>
-              <span class="visible-sm visible-xs">DOB</span>
-            </b>
-            <span class="col-xs-8 col-sm-4 text-muted">{{dob}}</span>
-            <b class="col-xs-4 col-sm-2 text-right">Wealth</b>
-            <span class="col-xs-8 col-sm-4 text-muted">{{millionize balance 2}} ISK</span>
-            <b class="col-xs-4 col-sm-2 text-right">
-              <span class="hidden-sm hidden-xs">Skill Points</span>
-              <span class="visible-sm visible-xs">SP</span>
-            </b>
-            <span class="col-xs-8 col-sm-4 text-muted">{{millionize skillPoints}} ({{skills/length}} Skills)</span>
-            <b class="col-xs-4 col-sm-2 text-right">Bloodline</b>
-            <span class="col-xs-8 col-sm-4 text-muted text-nowrap">{{race}}/{{bloodLine}}/{{ancestry}}</span>
-            <b class="col-xs-4 col-sm-2 text-right">Clone</b>
-            <span class="col-xs-8 col-sm-4 text-muted">{{clone/name}} ({{millionize clone/skillPoints}})</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="panel panel-info">
-      <div class="panel-heading">
-        <h2 class="panel-title">Employment</h2>
-      </div>
-      <div class="panel-body container-fluid">
-        {{> wip}}
-      </div>
-    </div>
-
-    <div class="panel panel-info">
-      <div class="panel-heading">
-        <h2 class="panel-title">Attributes</h2>
-      </div>
-        {{> wip}}
-    </div>
-
+    {{#if .}}
+      {{> yield}}
+    {{else}}
+      {{# notify panel="panel panel-info" icon="ion-ios7-help-outline"}}
+        Oops! The character you were looking for isn't here anymore.
+      {{/notify}}
+    {{/if}}
   </div>
-  {{/with}}
 </template>
 
-<!-- CH-NAV: Character Navigation -->
-<template name="nav_character">
-  {{#with currentCharacter}}
-  <li class="hidden-sm kern-link" kern-href="/char/{{_id}}">
-    <a><b>{{name}}</b></a>
-  </li>
-  <li class="hidden-sm kern-link" kern-href="/char/{{_id}}/skills" ><a>Skills</a></li>
-  <li class="hidden-sm"><a>Combat</a></li>
-  <li class="hidden-sm"><a>Social</a></li>
-  <li class="hidden-sm"><a>Finance</a></li>
-  <li class="hidden-sm"><a>Industry</a></li>
-  <li class="visible-sm dropdown">
-    <a class="dropdown-toggle" data-toggle="dropdown"><b>{{name}}</b> <span class="caret"></span></a>
-    <ul class="dropdown-menu" role="menu">
-      <li class="kern-link" kern-href="/char/{{_id}}"><a>Character Sheet</a></li>
-      <li class="kern-link" kern-href="/char/{{_id}}/skills"><a>Skills</a></li>
-      <li><a>Combat</a></li>
-      <li><a>Social</a></li>
-      <li><a>Finance</a></li>
-      <li><a>Industry</a></li>
-    </ul>
-  </li>
-  {{/with}}
-</template>
-
-<!-- CH-SKL: Character Skills -->
-<template name="ch_skills">
-  {{#with currentCharacter}}
-  <div id="ch-skills" class="container">
-    <div class="page-header">
-      <ul class="nav nav-pills" role="tablist">
-        <li class="pill-back kern-link" href="/"><a><i class="icon ion-ios7-arrow-back"></i> Back</a></li>
-
-        <!-- Collapsed link on small screen devices -->
-        <li class="dropdown visible-xs active">
-          <a class="dropdown-toggle" data-toggle="dropdown">
-            View <span class="caret"></span>
-          </a>
-          <ul class="dropdown-menu" role="menu">
-            <li class="active">
-              <a href="#ch-skl-queue" role="tab" data-toggle="pill">Skill Queue <span class="badge">{{skillQueue.length}}</span></a>
-            </li>
-            <li><a href="#ch-skl-my" role="tab" data-toggle="pill">My Skills</a></li>
-            <li><a href="#ch-skl-cert" role="tab" data-toggle="pill">Certificates</a></li>
-            <li><a href="#ch-skl-plans" role="tab" data-toggle="pill">Skill Plans</a></li>
-          </ul>
-        </li>
-
-        <li class="active hidden-xs">
-          <a href="#ch-skl-queue" role="tab" data-toggle="pill">Skill Queue <span class="badge">{{skillQueue.length}}</span></a>
-        </li>
-        <li class="hidden-xs"><a href="#ch-skl-my" role="tab" data-toggle="pill">My Skills</a></li>
-        <li class="hidden-xs"><a href="#ch-skl-cert" role="tab" data-toggle="pill">Certificates</a></li>
-        <li class="hidden-xs"><a href="#ch-skl-plans" role="tab" data-toggle="pill">Skill Plans</a></li>
-
-        <li class="pull-right"><a id="ch-skl-refresh">
-          <i class="icon ion-refresh"></i>
-          <span class="hidden-xs"> Refresh</span></a></li>
+<!-- Character Navigation -->
+<template name="ch_nav">
+  {{#if .}}
+    <li class="hidden-sm">
+      <a href="{{pathFor "char-sheet"}}">
+        <b>{{name}}</b>
+      </a>
+    </li>
+    <li class="hidden-sm">
+      <a href="{{pathFor "char-skills"}}">
+        Skills
+      </a>
+    </li>
+    <li class="hidden-sm"><a>Combat</a></li>
+    <li class="hidden-sm"><a>Social</a></li>
+    <li class="hidden-sm"><a>Finance</a></li>
+    <li class="hidden-sm"><a>Industry</a></li>
+    <li class="visible-sm dropdown">
+      <a class="dropdown-toggle" data-toggle="dropdown"><b>{{name}}</b> <span class="caret"></span></a>
+      <ul class="dropdown-menu" role="menu">
+        <li><a>Character Sheet</a></li>
+        <li><a>Skills</a></li>
+        <li><a>Combat</a></li>
+        <li><a>Social</a></li>
+        <li><a>Finance</a></li>
+        <li><a>Industry</a></li>
       </ul>
-    </div>
-    <div class="tab-content">
-      <div id="ch-skl-queue" class="tab-pane fade in active panel-group">
-        <div class="panel panel-info">
-          <div class="panel-heading">
-            <h2 class="panel-title">Current skill queue</h2>
-          </div>
-          <ul class="list-group">
-            {{#each skillQueue}}
-              {{#with skillQueueItem ..}}
-              <a class="list-group-item container-fluid kern-link" kern-href="/type/{{skillInfo.id}}">
-                  <div class="row">
-                    <div class="col-xs-8 col-sm-10"><a>{{skillInfo.name}} ({{skillInfo.rank}}x)</a></div>
-                    <div class="col-xs-4 col-sm-2">{{> skillLevel ./indicator}}</div>
-                  </div>
-                  <div class="row">
-                    <div class="text-nowrap small text-muted col-xs-7 col-sm-9">SP: {{sp skillInfo.rank queued.skill.level}} ({{sph ../.. skillInfo}} SP/h)</div>
-                    <div class="text-nowrap small text-right text-muted  col-xs-5 col-sm-3">{{timespan remainingTime}}</div>
-                  </div>
-              </a>
-              {{/with}}
-            {{/each}}
-          </ul>
-        </div>
-        <div class="panel panel-info">
-          <div class="panel-heading">
-            <h2 class="panel-title">Active skill plan</h2>
-          </div>
-          {{> wip}}
-        </div>
-      </div>
-      <div id="ch-skl-my" class="tab-pane fade panel-group">
-        <!--<p class="text-center text-muted">If you need to view all skills, not just the ones you have, please use the <a>database</a> feature.</p>-->
-        {{#each skillCategories}}
-          <div class="panel panel-info">
-            <div class="panel-heading collapsed" data-toggle="collapse" href="#{{_id}}">
-              <h2 class="panel-title"><i class="icon ion-arrow-right-b"></i> {{name}}
-                <small>({{millionize skillPoints}} SP)</small>
-              </h2>
-            </div>
-            <div id="{{_id}}" class="list-group panel-collapse collapse">
-              {{#if skills}}
-                {{#each skills}}
-                <a class="list-group-item kern-link" kern-href="/type/{{id}}">
-                  <div class="row">
-                    <div class="col-xs-8 col-sm-10"><a>{{name}} ({{rank}}x)</a></div>
-                    {{#unless notTrained}}
-                      <div class="col-xs-4 col-sm-2">{{> skillLevel level=level}}</div>
-                    {{/unless}}
-                  </div>
-                  <div class="row">
-                    <div class="col-xs-8 col-sm-10 text-muted small">SP: {{sp rank level}}</div>
-                  </div>
-                </a>
-                {{/each}}
-              {{else}}
-                {{#notify icon="ion-ios7-information-outline"}}
-                  You do not have any skills in this category.
-                {{/notify}}
-              {{/if}}
-            </div>
-          </div>
-        {{/each}}
-      </div>
-      <div id="ch-skl-cert" class="tab-pane fade panel-group">
-        {{#each certCategories}}
-          <div class="panel panel-info">
-            <div class="panel-heading collapsed" data-toggle="collapse" href="#cert{{id}}">
-              <h2 class="panel-title"><i class="icon ion-arrow-right-b"></i> {{name}}</h2>
-            </div>
-            <div id="cert{{id}}" class="list-group panel-collapse collapse">
-              {{#each certificates}}
-              <a class="list-group-item kern-link" kern-href="/cert/{{_id}}">
-                <div class="row">
-                  <div class="col-xs-8 col-sm-10"><a>{{name}}</a></div>
-                  <div class="col-xs-4 col-sm-2">{{> skillLevel .}}</div>
-                </div>
-                <div class="row">
-                  <div class="col-xs-8 col-sm-10 text-muted small">{{skills.length}} Skills</div>
-                </div>
-              </a>
-              {{/each}}
-            </div>
-          </div>
-
-        {{/each}}
-      </div>
-      <div id="ch-skl-plans" class="tab-pane fade">
-      {{> wip panel="panel panel-info"}}
-      </div>
-    </div>
-  </div>
-  {{/with}}
+    </li>
+  {{/if}}
 </template>
