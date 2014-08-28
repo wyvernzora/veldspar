@@ -1,4 +1,4 @@
-<!-- Character Sheet -->
+<!-- SH-SHT: Character Sheet -->
 <template name="char-sheet">
   {{#contentFor "nav-menu"}}
     {{> ch_nav}}
@@ -7,7 +7,15 @@
   {{#Layout template="character" data=.}}
     <!-- Page Header -->
     {{#contentFor "page-header"}}
-      <li class="pill-back kern-link" kern-href="/"><a><i class="icon ion-ios7-arrow-back"></i> Back</a></li>
+      <li class="pill-back">
+        <a href="{{pathFor "home"}}">
+          <i class="icon ion-ios7-arrow-back"></i> Back
+        </a>
+      </li>
+
+      <li class="active"><a href="#ch-sht-basic" data-toggle="pill">Basic Info</a></li>
+      <li><a href="#ch-sht-employment" data-toggle="pill">Employment</a></li>
+
       <li class="pull-right">
         <a id="ch-refresh">
           <i class="icon ion-refresh"></i>
@@ -17,57 +25,176 @@
     {{/contentFor}}
 
     <!-- Page Content -->
-    <div class="alert alert-danger hidden"></div>
+    <div id="char-sheet">
+      <div class="alert alert-danger hidden"></div>
 
-    <div class="panel panel-default">
-      <div class="panel-body container-fluid">
-        <!-- Character Portrait -->
-        <div class="portrait thumbnail col-xs-4 col-xs-offset-4 col-sm-2 col-sm-offset-0 col-md-2">
-          <img alt="Character Portrait" src="{{portrait 256}}">
-        </div>
-        <!-- Character Information -->
-        <div class="info col-xs-12 col-sm-10 col-md-10 container-fluid">
-          <h1 class="no-margin text-nowrap">{{name}}</h1>
-          <h3 class="no-margin text-light">{{corp/name}}</h3>
-          <hr>
-          <div class="row">
-            <b class="col-xs-4 col-sm-2 text-right">Gender</b>
-            <span class="col-xs-8 col-sm-4 text-muted">{{gender}}</span>
-            <b class="col-xs-4 col-sm-2 text-right">
-              <span class="hidden-sm hidden-xs">Date of Birth</span>
-              <span class="visible-sm visible-xs">DOB</span>
-            </b>
-            <span class="col-xs-8 col-sm-4 text-muted">{{dob}}</span>
-            <b class="col-xs-4 col-sm-2 text-right">Wealth</b>
-            <span class="col-xs-8 col-sm-4 text-muted">{{millionize balance 2}} ISK</span>
-            <b class="col-xs-4 col-sm-2 text-right">
-              <span class="hidden-sm hidden-xs">Skill Points</span>
-              <span class="visible-sm visible-xs">SP</span>
-            </b>
-            <span class="col-xs-8 col-sm-4 text-muted">{{millionize skillPoints}} ({{skills/length}} Skills)</span>
-            <b class="col-xs-4 col-sm-2 text-right">Bloodline</b>
-            <span class="col-xs-8 col-sm-4 text-muted text-nowrap">{{race}}/{{bloodLine}}/{{ancestry}}</span>
-            <b class="col-xs-4 col-sm-2 text-right">Clone</b>
-            <span class="col-xs-8 col-sm-4 text-muted">{{clone/name}} ({{millionize clone/skillPoints}})</span>
+      <div class="panel panel-default">
+        <div class="panel-body container-fluid">
+          <!-- Character Portrait -->
+          <div class="portrait thumbnail col-xs-4 col-xs-offset-4 col-sm-2 col-sm-offset-0 col-md-2">
+            <img alt="Character Portrait" src="{{portrait 256}}">
+          </div>
+          <!-- Character Information -->
+          <div class="info col-xs-12 col-sm-10 col-md-10 container-fluid">
+            <h1 class="no-margin text-nowrap">{{name}}</h1>
+            <h3 class="no-margin text-light">{{corp/name}}</h3>
+            <hr>
+            <div class="row">
+              <b class="col-xs-4 col-sm-2 text-right">Gender</b>
+              <span class="col-xs-8 col-sm-4 text-muted">{{gender}}</span>
+              <b class="col-xs-4 col-sm-2 text-right">
+                <span class="hidden-sm hidden-xs">Date of Birth</span>
+                <span class="visible-sm visible-xs">DOB</span>
+              </b>
+              <span class="col-xs-8 col-sm-4 text-muted">{{dob}}</span>
+              <b class="col-xs-4 col-sm-2 text-right">Wealth</b>
+              <span class="col-xs-8 col-sm-4 text-muted">{{millionize balance 2}} ISK</span>
+              <b class="col-xs-4 col-sm-2 text-right">
+                <span class="hidden-sm hidden-xs">Skill Points</span>
+                <span class="visible-sm visible-xs">SP</span>
+              </b>
+              <span class="col-xs-8 col-sm-4 text-muted">{{millionize skillPoints}} ({{skills/length}} Skills)</span>
+              <b class="col-xs-4 col-sm-2 text-right">Bloodline</b>
+              <span class="col-xs-8 col-sm-4 text-muted text-nowrap">{{race}}/{{bloodLine}}/{{ancestry}}</span>
+              <b class="col-xs-4 col-sm-2 text-right">Clone</b>
+              <span class="col-xs-8 col-sm-4 text-muted">{{clone/name}} ({{millionize clone/skillPoints}})</span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="panel panel-info">
-      <div class="panel-heading">
-        <h2 class="panel-title">Employment</h2>
-      </div>
-      <div class="panel-body container-fluid">
-        {{> wip}}
-      </div>
-    </div>
+      <div class="tab-content">
+        <div id="ch-sht-basic" class="tab-pane active fade in">
+          <h2 class="text-muted text-light">Basic Information</h2>
+          <div class="panel panel-default">
+            <ul class="list-group">
+              <li class="list-group-item">
+                <img class="pull-left" src="/icons/race/{{lower race}}-32.png">
+                <div class="text-muted small">Race</div>
+                <div class="">{{race}}</div>
+              </li>
+              <li class="list-group-item">
+                <img class="pull-left" src="/icons/bloodline/{{lower bloodLine}}-128.png">
+                <div class="text-muted small">Bloodline</div>
+                <div class="">{{bloodLine}}</div>
+              </li>
+              <li class="list-group-item">
+                <img class="pull-left" src="/icons/ancestry-64.png">
+                <div class="text-muted small">Ancestry</div>
+                <div class="">{{ancestry}}</div>
+              </li>
+              <li class="list-group-item">
+                <img class="pull-left" src="/icons/ship-64.png">
+                <div class="text-muted small">Ship</div>
+                <div class="">{{ship.name}} ({{ship.type.name}})</div>
+              </li>
 
-    <div class="panel panel-info">
-      <div class="panel-heading">
-        <h2 class="panel-title">Attributes</h2>
+            </ul>
+          </div>
+          <h2 class="text-muted text-light">Attributes</h2>
+          <div class="panel panel-default">
+            <ul class="list-group">
+              <li class="list-group-item">
+                <img class="pull-left" src="/icons/attribute/perception-128.png">
+                <div class="text-muted small">Perception</div>
+                <div class="progress">
+                  {{#with attrWidth "perception"}}
+                    <div class="progress-bar progress-bar-primary" style="width: {{base}}%;">
+                      {{../attributes.perception.value}}
+                    </div>
+                    {{#if ../attributes.perception.bonus}}
+                      <div class="progress-bar progress-bar-success" style="width: {{bonus}}%;">
+                        {{../attributes.perception.bonus}}
+                      </div>
+                    {{/if}}
+                  {{/with}}
+                </div>
+              </li>
+              <li class="list-group-item">
+                <img class="pull-left" src="/icons/attribute/memory-128.png">
+                <div class="text-muted small">Memory</div>
+                <div class="progress">
+                  {{#with attrWidth "memory"}}
+                    <div class="progress-bar progress-bar-primary" style="width: {{base}}%;">
+                      {{../attributes.memory.value}}
+                    </div>
+                    {{#if ../attributes.memory.bonus}}
+                      <div class="progress-bar progress-bar-success" style="width: {{bonus}}%;">
+                        {{../attributes.memory.bonus}}
+                      </div>
+                    {{/if}}
+                  {{/with}}
+                </div>
+              </li>
+              <li class="list-group-item">
+                <img class="pull-left" src="/icons/attribute/willpower-128.png">
+                <div class="text-muted small">Willpower</div>
+                <div class="progress">
+                  {{#with attrWidth "willpower"}}
+                    <div class="progress-bar progress-bar-primary" style="width: {{base}}%;">
+                      {{../attributes.willpower.value}}
+                    </div>
+                    {{#if ../attributes.willpower.bonus}}
+                      <div class="progress-bar progress-bar-success" style="width: {{bonus}}%;">
+                        {{../attributes.willpower.bonus}}
+                      </div>
+                    {{/if}}
+                  {{/with}}
+                </div>
+              </li>
+              <li class="list-group-item">
+                <img class="pull-left" src="/icons/attribute/intelligence-128.png">
+                <div class="text-muted small">Intelligence</div>
+                <div class="progress">
+                  {{#with attrWidth "intelligence"}}
+                    <div class="progress-bar progress-bar-primary" style="width: {{base}}%;">
+                      {{../attributes.intelligence.value}}
+                    </div>
+                    {{#if ../attributes.intelligence.bonus}}
+                      <div class="progress-bar progress-bar-success" style="width: {{bonus}}%;">
+                        {{../attributes.intelligence.bonus}}
+                      </div>
+                    {{/if}}
+                  {{/with}}
+                </div>
+              </li>
+              <li class="list-group-item">
+                <img class="pull-left" src="/icons/attribute/charisma-128.png">
+                <div class="text-muted small">Charisma</div>
+                <div class="progress">
+                  {{#with attrWidth "charisma"}}
+                    <div class="progress-bar progress-bar-primary" style="width: {{base}}%;">
+                      {{../attributes.charisma.value}}
+                    </div>
+                    {{#if ../attributes.charisma.bonus}}
+                      <div class="progress-bar progress-bar-success" style="width: {{bonus}}%;">
+                        {{../attributes.charisma.bonus}}
+                      </div>
+                    {{/if}}
+                  {{/with}}
+                </div>
+              </li>
+
+            </ul>
+          </div>
+        </div>
+        <div id="ch-sht-employment" class="tab-pane fade">
+          <h2 class="text-muted text-light">Employment History</h2>
+          <div class="panel panel-default">
+            <ul class="list-group">
+              {{#each employmentHistory}}
+                <li class="list-group-item ch-sht-corp">
+                  {{#with corp}}
+                    <img class="pull-left" src="{{portrait 48 "Corporation"}}">
+                  {{/with}}
+                  <div class="">{{corp.name}}</div>
+                  <div class="text-muted small">joined {{timeInCorp.day}} days ago</div>
+                </li>
+              {{/each}}
+            </ul>
+          </div>
+        </div>
       </div>
-        {{> wip}}
     </div>
   {{/Layout}}
 </template>

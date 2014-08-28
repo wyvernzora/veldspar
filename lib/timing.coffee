@@ -27,6 +27,8 @@ Timing.progress = (sit) ->
 
 # Gets the time difference between start and end
 Timing.diff = (start, end) ->
+  start ?= Timing.eveTime()
+  end ?= Timing.eveTime()
   result = { }
   d = Math.floor((end - start) / 1000) # seconds
   result.second = d % 60

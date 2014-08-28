@@ -10,14 +10,16 @@ Veldspar = (this ? exports).Veldspar
 # Set up iron-router
 Router.configure
   layoutTemplate: 'root'
+  loadingTemplate: 'loading'
 
 # Set up global hooks
 
 # Set up the application
 Router.map ->
 
-  @route 'user',
+  @route 'home',
     path:'/'
+    template: 'user'
     waitOn: ->
       Meteor.subscribe 'user.Characters'
     data: ->

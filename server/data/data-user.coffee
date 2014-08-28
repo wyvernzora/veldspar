@@ -47,6 +47,15 @@ UserData.updateCharacterSheet = (id) ->
 
   # Start the update by getting the most recent character sheet
   charSheet = Veldspar.API.Character.getCharacterSheet char.apiKey, char.id
+  charInfo = Veldspar.API.Eve.getCharacterInfo char.apiKey, char.id
+
+  # Resolve employment history
+  employerNames = Veldspar.Cache.resolveEntityNames _.map(charInfo.employmentHistory, (i)->i.corp.id)
+  for employer in charInfo.employmentHistory
+    employer.corp.name = employerNames[employer.corp.id].name
+
+  # Merge charInfo into charSheet
+  _.extend charSheet, _.pick charInfo, 'employmentHistory', 'ship', 'location', 'securityStatus', 'corp'
 
   # Convert skill array into a skill hash for faster lookup
   charSheet.skills = _.indexBy charSheet.skills, 'id'

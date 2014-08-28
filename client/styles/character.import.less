@@ -1,5 +1,24 @@
+@prop-list-icon-size: 48px;
 
 #character {
+  .list-group-item {
+    img {
+      height: @prop-list-icon-size;
+      width: @prop-list-icon-size;
+    }
+    & > div {
+      line-height: (@prop-list-icon-size / 2);
+      margin-left: 15px + @prop-list-icon-size;
+    }
+
+    .progress {
+      line-height: (@prop-list-icon-size / 2);
+      height: (@prop-list-icon-size / 2);
+      max-height: 18px;
+      margin-bottom: 0;
+      font-size: 12px;
+    }
+  }
 
   .info {
     h1, h3 { text-align: center; }
@@ -16,11 +35,17 @@
   }
 }
 
-#ch-skills {
 
-  .skill-level {
-    margin: 4px 0;
-    float: right;
-  }
+#character {
+
 
 }
+
+#ch-skills {
+
+
+
+}
+
+@import "character/char-sheet.import.less";
+@import "character/char-skills.import.less";

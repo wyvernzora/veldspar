@@ -35,7 +35,7 @@
           <span class="icon-bar"></span>
         </button>
         {{/if}}
-        <a kern-href="/" class="kern-link navbar-brand text-light">
+        <a href="{{pathFor "home"}}" class="navbar-brand text-light">
           <span class="text-primary"><i class="icon ion-planet"></i>Veld</span>spar
         </a>
       </div>
@@ -104,4 +104,20 @@
   {{# notify panel=panel icon="ion-code-working"}}
     This section is still under development.
   {{/notify}}
+</template>
+
+
+<template name="loading">
+  <div class="loading-wrapper {{panel}}">
+    <div class="loading text-center center-block">
+      <i class="icon icon-lg ion-planet"></i>
+    </div>
+    <p class="text-center lead text-muted">
+      {{#if UI.contentBlock}}
+        {{> UI.contentBlock}}
+      {{else}}
+        Contacting CONCORD for some information.<br>This might take a moment.
+      {{/if}}
+    </p>
+  </div>
 </template>

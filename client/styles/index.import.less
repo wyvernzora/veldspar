@@ -3,3 +3,59 @@
   padding-left: 20px;
   padding-right: 20px;
 }
+
+@loading-color: black;
+
+.loading-wrapper {
+  padding: 15px;
+}
+
+.loading {
+  position: relative;
+
+  height: 100px;
+  width: 100px;
+  margin-top: 32px;
+  margin-bottom: 32px;
+
+	background: @brand-info;
+	background: fadeout(@brand-primary, 0.3);
+
+  color: white;
+  border-radius: 100%;
+
+  transition: transform ease-out .1s, background .2s;
+  z-index: 1;
+
+  &:after {
+    pointer-events: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 100%;
+    content: '';
+    box-sizing: content-box;
+  	top: 0;
+  	left: 0;
+  	padding: 0;
+  	z-index: -1;
+  	box-shadow: 0 0 0 2px fadeout(@loading-color, 90%);
+  	opacity: 0
+  }
+  &.resonate:after { animation: resonate 1.3s ease-out 75ms; }
+}
+
+@keyframes resonate {
+  	0% { opacity: .3; }
+
+	40% {
+		opacity: .5;
+		box-shadow: 0 0 0 2px fadeout(@loading-color, 60%),0 0 10px 10px #344453,0 0 0 10px fadeout(@loading-color, 40%)
+	}
+
+	100% {
+		box-shadow: 0 0 0 2px fadeout(@loading-color, 60%),0 0 10px 10px #344453,0 0 0 10px fadeout(@loading-color, 40%);
+		-webkit-transform: scale(1.5);
+		opacity: 0
+	}
+}

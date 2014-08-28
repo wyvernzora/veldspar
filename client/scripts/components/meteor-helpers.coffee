@@ -71,6 +71,18 @@ UI.registerHelper 'romanize', (number) ->
   return Array(+digits.join("") + 1).join("M") + roman;
 
 
+UI.registerHelper 'lower', (str) ->
+  return str.toLowerCase()
+
+
+UI.registerHelper 'skillIcon', ->
+  lv = @?.level ? 0
+  if lv is 5 then '/svg/skill-book-full.svg'
+  else '/svg/skill-book-default.svg'
+
+UI.registerHelper 'dump', (obj) ->
+  JSON.stringify obj
+
 # Gets the total SP for the specified skill rank and level
 UI.registerHelper 'sp', (rank, level) ->
   return Veldspar.util.skill.sp level, rank

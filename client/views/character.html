@@ -9,9 +9,12 @@
     {{#if .}}
       {{> yield}}
     {{else}}
+    <!--
       {{# notify panel="panel panel-info" icon="ion-ios7-help-outline"}}
         Oops! The character you were looking for isn't here anymore.
       {{/notify}}
+    -->
+      {{> loading panel="panel panel-info"}}
     {{/if}}
   </div>
 </template>
