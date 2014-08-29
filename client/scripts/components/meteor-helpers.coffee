@@ -77,8 +77,8 @@ UI.registerHelper 'lower', (str) ->
 
 UI.registerHelper 'skillIcon', ->
   lv = @?.level ? 0
-  if lv is 5 then '/svg/skill-book-full.svg'
-  else '/svg/skill-book-default.svg'
+  if lv is 5 then '/svg/va_book-level-v.svg'
+  else '/svg/va_book-default.svg'
 
 UI.registerHelper 'dump', (obj) ->
   JSON.stringify obj

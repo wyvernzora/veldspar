@@ -56,28 +56,33 @@
   {{/Layout}}
 </template>
 
-
 <!-- Tab pages -->
 <template name="char-skills-queue">
   <h2 class="text-muted text-light">Skill Queue</h2>
   <div class="panel panel-default">
-    <ul class="list-group">
-      {{#each skillQueue}}
-        {{#with skillQueueItem ..}}
-        <a class="list-group-item container-fluid">
-          <img class="pull-left" src="{{skillIcon}}">
-          <div>
-            <div class="no-left-padding col-xs-8 col-sm-10"><a>{{skillInfo.name}} ({{skillInfo.rank}}x)</a></div>
-            <div class="col-xs-4 col-sm-2">{{> skillLevel ./indicator}}</div>
-          </div>
-          <div>
-            <div class="no-left-padding text-nowrap small text-muted col-xs-7 col-sm-9">SP: {{sp skillInfo.rank queued.skill.level}} ({{sph ../.. skillInfo}} SP/h)</div>
-            <div class="text-nowrap small text-right text-muted  col-xs-5 col-sm-3">{{timespan remainingTime}}</div>
-          </div>
-        </a>
-        {{/with}}
-      {{/each}}
-    </ul>
+    {{#if skillQueue.length}}
+      <ul class="list-group">
+        {{#each skillQueue}}
+          {{#with skillQueueItem ..}}
+          <a class="list-group-item container-fluid">
+            <img class="pull-left" src="{{skillIcon}}">
+            <div>
+              <div class="no-left-padding col-xs-8 col-sm-10"><a>{{skillInfo.name}} ({{skillInfo.rank}}x)</a></div>
+              <div class="col-xs-4 col-sm-2">{{> skillLevel ./indicator}}</div>
+            </div>
+            <div>
+              <div class="no-left-padding text-nowrap small text-muted col-xs-7 col-sm-9">SP: {{sp skillInfo.rank queued.skill.level}} ({{sph ../.. skillInfo}} SP/h)</div>
+              <div class="text-nowrap small text-right text-muted  col-xs-5 col-sm-3">{{timespan remainingTime}}</div>
+            </div>
+          </a>
+          {{/with}}
+        {{/each}}
+      </ul>
+    {{else}}
+      {{#notify icon="ion-alert-circled text-danger"}}
+        <span class="text-danger">Skill queue is empty!</span>
+      {{/notify}}
+    {{/if}}
   </div>
   <h2 class="text-muted text-light">Active Skill Plan</h2>
   <div class="panel panel-default">
@@ -128,7 +133,7 @@
       <div class="list-group">
         {{#each certificates}}
         <a class="list-group-item container-fluid">
-          <img class="pull-left" src="/svg/cert-{{level}}.svg">
+          <img class="pull-left" src="/svg/va_cert-{{level}}.svg">
           <div>
             <div class="no-left-padding col-xs-8 col-sm-10"><a>{{name}}</a></div>
             <div class="col-xs-4 col-sm-2">{{> skillLevel .}}</div>
