@@ -39,9 +39,14 @@ Router.map ->
       Meteor.subscribe 'user.Characters'
     data: ->
       return Veldspar.UserData.characters.findOne('_id':@params._id) ? null
+
   # Administrator Panel
   @route 'admin',
     path: '/admin'
+  # Application Crash
+  @route 'error', ->
+    data: ->
+      return Session.get('app.error')
 
 # Startup code
 Meteor.startup ->

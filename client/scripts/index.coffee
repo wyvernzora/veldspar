@@ -24,7 +24,6 @@ Meteor.startup ->
 
   )(Template.root)
 
-
 # LD: Loading View
 Meteor.startup ->
   ((view) ->

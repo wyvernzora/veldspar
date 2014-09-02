@@ -13,7 +13,8 @@ Timing.calibrate = (now) ->
   if Meteor.isClient
     Meteor.call 'util.getTimerCalibration', (error, result) ->
       if error
-        # PANIC!
+        Session.set('app.error', error)
+        Router.go('error')
       else
         Veldspar.Timing.dt = result.getTime() - Date.now()
 

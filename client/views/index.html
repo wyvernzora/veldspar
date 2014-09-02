@@ -91,33 +91,3 @@
     </div>
   </div>
 </template>
-
-<!-- Misc Templates -->
-<template name="notify">
-  <div class="{{panel}}">
-    <p class="text-center text-muted"><i class="icon-lg icon {{#if icon}}{{icon}}{{else}}ion-planet{{/if}}"></i></p>
-    <p class="text-center lead text-muted">{{> UI.contentBlock}}</p>
-  </div>
-</template>
-
-<template name="wip">
-  {{# notify panel=panel icon="ion-code-working"}}
-    This section is still under development.
-  {{/notify}}
-</template>
-
-
-<template name="loading">
-  <div class="loading-wrapper {{panel}}">
-    <div class="loading text-center center-block">
-      <i class="icon icon-lg ion-planet"></i>
-    </div>
-    <p class="text-center lead text-muted">
-      {{#if UI.contentBlock}}
-        {{> UI.contentBlock}}
-      {{else}}
-        Contacting CONCORD for some information.<br>This might take a moment.
-      {{/if}}
-    </p>
-  </div>
-</template>

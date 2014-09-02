@@ -4677,7 +4677,7 @@ $.extend(Datepicker.prototype, {
 			inst.drawMonth = inst.selectedMonth = date.getMonth();
 			inst.drawYear = inst.selectedYear = date.getFullYear();
 		}
-		this._notifyChange(inst);
+		this._placeholderChange(inst);
 		this._adjustDate(target);
 	},
 
@@ -4690,7 +4690,7 @@ $.extend(Datepicker.prototype, {
 		inst["draw" + (period === "M" ? "Month" : "Year")] =
 			parseInt(select.options[select.selectedIndex].value,10);
 
-		this._notifyChange(inst);
+		this._placeholderChange(inst);
 		this._adjustDate(target);
 	},
 
@@ -5258,7 +5258,7 @@ $.extend(Datepicker.prototype, {
 		inst.drawMonth = inst.selectedMonth = inst.currentMonth = newDate.getMonth();
 		inst.drawYear = inst.selectedYear = inst.currentYear = newDate.getFullYear();
 		if ((origMonth !== inst.selectedMonth || origYear !== inst.selectedYear) && !noChange) {
-			this._notifyChange(inst);
+			this._placeholderChange(inst);
 		}
 		this._adjustInstDate(inst);
 		if (inst.input) {
@@ -5578,7 +5578,7 @@ $.extend(Datepicker.prototype, {
 		inst.drawMonth = inst.selectedMonth = date.getMonth();
 		inst.drawYear = inst.selectedYear = date.getFullYear();
 		if (period === "M" || period === "Y") {
-			this._notifyChange(inst);
+			this._placeholderChange(inst);
 		}
 	},
 
@@ -5590,8 +5590,8 @@ $.extend(Datepicker.prototype, {
 		return (maxDate && newDate > maxDate ? maxDate : newDate);
 	},
 
-	/* Notify change of month/year. */
-	_notifyChange: function(inst) {
+	/* placeholder change of month/year. */
+	_placeholderChange: function(inst) {
 		var onChange = this._get(inst, "onChangeMonthYear");
 		if (onChange) {
 			onChange.apply((inst.input ? inst.input[0] : null),

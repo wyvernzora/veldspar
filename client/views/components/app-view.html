@@ -1,0 +1,10 @@
+<template name="app-view">
+  <div id="{{id}}" class="container">
+    <div class="page-header">
+      <ul class="nav nav-pills" role="tablist">
+        {{> yield "page-header"}}
+      </ul>
+    </div>
+    {{> yield}}
+  </div>
+</template>
