@@ -16,7 +16,7 @@ Router.configure
 
 # Set up the application
 Router.map ->
-
+  # User home page
   @route 'home',
     path:'/'
     template: 'user'
@@ -25,21 +25,23 @@ Router.map ->
     data: ->
       characters: Veldspar.UserData.characters.find type:'Character'
       corporations: Veldspar.UserData.characters.find type:'Corporation'
-
+  # Character Sheet
   @route 'char-sheet',
     path:'/char/:_id'
     waitOn: ->
       Meteor.subscribe 'user.Characters'
     data: ->
       return Veldspar.UserData.characters.findOne('_id':@params._id) ? null
-
+  # Character Skills
   @route 'char-skills',
     path:'/char/:_id/skills'
     waitOn: ->
       Meteor.subscribe 'user.Characters'
     data: ->
       return Veldspar.UserData.characters.findOne('_id':@params._id) ? null
-
+  # Administrator Panel
+  @route 'admin',
+    path: '/admin'
 
 # Startup code
 Meteor.startup ->

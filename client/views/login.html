@@ -28,14 +28,11 @@
 </template>
 
 <template name="signup">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal">
-      <span aria-hidden="true">&times;</span>
-      <span class="sr-only">Close</span>
-    </button>
-    <h1 class="modal-title"><span class="text-primary">Sign</span>up</h1>
-  </div>
-  <div class="modal-body">
+  {{#Layout template="modal"}}
+    {{#contentFor "title"}}
+      <h1 class="modal-title"><span class="text-primary">Sign</span>up</h1>
+    {{/contentFor}}
+
     <div id="su-signup-form" role="form">
       <p class="text-center lead">Welcome to the
         <span class="text-primary">Veld</span>spar!
@@ -63,9 +60,10 @@
         <i class="icon ion-alert form-control-feedback"></i>
       </div>
     </div>
-  </div>
-  <div class="modal-footer">
-    <button id="su-cancel" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-    <button id="su-submit" type="submit" class="btn btn-primary">Submit</button>
-  </div>
+
+    {{#contentFor "footer"}}
+      <button id="su-cancel" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      <button id="su-submit" type="submit" class="btn btn-primary">Submit</button>
+    {{/contentFor}}
+  {{/Layout}}
 </template>

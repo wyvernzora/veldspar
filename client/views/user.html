@@ -76,16 +76,13 @@
 
 <!-- AK: Add API Key -->
 <template name="add_key">
-  <div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal">
-      <span aria-hidden="true">&times;</span>
-      <span class="sr-only">Close</span>
-    </button>
-    <h4 class="modal-title">Add <span class="text-primary">API</span> Key</h4>
-  </div>
-  <div class="modal-body">
-    <p class="lead text-center">Select the characters you wish to add!</p>
+  {{#Layout template="modal"}}
+    {{#contentFor "title"}}
+      <h4 class="modal-title">Add <span class="text-primary">API</span> Key</h4>
+    {{/contentFor}}
+
     {{#if session "add-key.keyInfo"}}
+      <p class="lead text-center">Select the characters you wish to add!</p>
       {{#with session "add-key.keyInfo"}}
         {{#each characters}}
           <a class="ak-char-item thumbnail">
@@ -99,35 +96,36 @@
         {{/each}}
       {{/with}}
     {{else}}
-    <div id="ak-form" role="form">
-      <p class="text-center lead">Introduce your characters to us!</p>
+      <div id="ak-form" role="form">
+        <p class="text-center lead">Introduce your characters to us!</p>
 
-      <div id="ak-error" class="alert alert-danger hidden">
-        {{#markdown}}{{session "add-key.error"}}{{/markdown}}
-      </div>
+        <div id="ak-error" class="alert alert-danger hidden">
+          {{#markdown}}{{session "add-key.error"}}{{/markdown}}
+        </div>
 
-      <div id="ak-id-group" class="form-group">
-        <label for="ak-id" class="sr-only">Email</label>
-        <input id="ak-id" type="text" class="input-lg first form-control" placeholder="Key ID" required autofocus />
-        <i class="icon ion-alert form-control-feedback"></i>
+        <div id="ak-id-group" class="form-group">
+          <label for="ak-id" class="sr-only">Email</label>
+          <input id="ak-id" type="text" class="input-lg first form-control" placeholder="Key ID" required autofocus />
+          <i class="icon ion-alert form-control-feedback"></i>
+        </div>
+        <div id="ak-vcode-group" class="form-group">
+          <label for="ak-vcode" class="sr-only">Password</label>
+          <input id="ak-vcode" type="text" class="input-lg last form-control" placeholder="Verification Code" required />
+          <i class="icon ion-alert form-control-feedback"></i>
+        </div>
+        <hr>
+        <p>
+          Both <b>Key ID</b> and <b>Verification Code</b> can be obtained from the <a href="https://community.eveonline.com/support/api-key/">API Key management page</a>.
+        </p>
       </div>
-      <div id="ak-vcode-group" class="form-group">
-        <label for="ak-vcode" class="sr-only">Password</label>
-        <input id="ak-vcode" type="text" class="input-lg last form-control" placeholder="Verification Code" required />
-        <i class="icon ion-alert form-control-feedback"></i>
-      </div>
-      <hr>
-      <p>
-        Both <b>Key ID</b> and <b>Verification Code</b> can be obtained from the <a href="https://community.eveonline.com/support/api-key/">API Key management page</a>.
-      </p>
-    </div>
     {{/if}}
-  </div>
-  <div class="modal-footer">
-    <button id="ak-cancel" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-    <button id="ak-submit" type="submit" class="btn btn-primary btn-loader">
-      <div class="st-normal">Continue <i class="icon ion-ios7-arrow-forward"></i></div>
-      <div class="st-loader"><i class="icon ion-loading-c"></i></div>
-    </button>
-  </div>
+
+    {{#contentFor "footer"}}
+      <button id="ak-cancel" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      <button id="ak-submit" type="submit" class="btn btn-primary btn-loader">
+        <div class="st-normal">Continue <i class="icon ion-ios7-arrow-forward"></i></div>
+        <div class="st-loader"><i class="icon ion-loading-c"></i></div>
+      </button>
+    {{/contentFor}}
+  {{/Layout}}
 </template>

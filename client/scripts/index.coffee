@@ -13,6 +13,11 @@ Meteor.startup ->
 
     # Meteor.js helpers
     view.helpers
+      'modal': ->
+        switch Session.get('app.modal')
+          when 'add-key' then Template['add_key']
+          when 'signup' then Template['signup']
+          else null
 
     view.onRender ->
       $('#rt-modal-view').on 'hidden.bs.modal', -> Session.set 'app.modal', null
