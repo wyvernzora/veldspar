@@ -4,9 +4,9 @@
     {{> ch_nav}}
   {{/contentFor}}
 
-  {{#Layout template="character" data=.}}
+  {{#Layout template="app-view" data=. }}
     <!-- Page Header -->
-    {{#contentFor "page-header"}}
+    {{#contentFor "view-header"}}
       <li class="pill-back">
         <a href="{{pathFor "home"}}">
           <i class="icon ion-ios7-arrow-back"></i> Back
@@ -67,34 +67,33 @@
         <div id="ch-sht-basic" class="tab-pane active fade in">
           <h2 class="text-muted text-light">Basic Information</h2>
           <div class="panel panel-default">
-            <ul class="list-group">
-              <li class="list-group-item">
+            <ul class="list-group prop-list">
+              <li class="list-group-item has-icon">
                 <img class="pull-left" src="/svg/va_faction-{{lower race}}.svg">
                 <div class="text-muted small">Race</div>
                 <div class="">{{race}}</div>
               </li>
-              <li class="list-group-item">
+              <li class="list-group-item has-icon">
                 <img class="pull-left" src="/svg/va_bloodline-{{lower bloodLine}}.svg">
                 <div class="text-muted small">Bloodline</div>
                 <div class="">{{bloodLine}}</div>
               </li>
-              <li class="list-group-item">
+              <li class="list-group-item has-icon">
                 <img class="pull-left" src="/svg/va_faction-concord.svg">
                 <div class="text-muted small">Ancestry</div>
                 <div class="">{{ancestry}}</div>
               </li>
-              <li class="list-group-item">
+              <li class="list-group-item has-icon">
                 <img class="pull-left" src="/icons/ship-64.png">
                 <div class="text-muted small">Ship</div>
                 <div class="">{{ship.name}} ({{ship.type.name}})</div>
               </li>
-
             </ul>
           </div>
           <h2 class="text-muted text-light">Attributes</h2>
           <div class="panel panel-default">
-            <ul class="list-group">
-              <li class="list-group-item">
+            <ul class="list-group prop-list">
+              <li class="list-group-item has-icon">
                 <img class="pull-left" src="/icons/attribute/perception-128.png">
                 <div class="text-muted small">Perception</div>
                 <div class="progress">
@@ -110,7 +109,7 @@
                   {{/with}}
                 </div>
               </li>
-              <li class="list-group-item">
+              <li class="list-group-item has-icon">
                 <img class="pull-left" src="/icons/attribute/memory-128.png">
                 <div class="text-muted small">Memory</div>
                 <div class="progress">
@@ -126,7 +125,7 @@
                   {{/with}}
                 </div>
               </li>
-              <li class="list-group-item">
+              <li class="list-group-item has-icon">
                 <img class="pull-left" src="/icons/attribute/willpower-128.png">
                 <div class="text-muted small">Willpower</div>
                 <div class="progress">
@@ -142,7 +141,7 @@
                   {{/with}}
                 </div>
               </li>
-              <li class="list-group-item">
+              <li class="list-group-item has-icon">
                 <img class="pull-left" src="/icons/attribute/intelligence-128.png">
                 <div class="text-muted small">Intelligence</div>
                 <div class="progress">
@@ -158,7 +157,7 @@
                   {{/with}}
                 </div>
               </li>
-              <li class="list-group-item">
+              <li class="list-group-item has-icon">
                 <img class="pull-left" src="/icons/attribute/charisma-128.png">
                 <div class="text-muted small">Charisma</div>
                 <div class="progress">
@@ -174,7 +173,6 @@
                   {{/with}}
                 </div>
               </li>
-
             </ul>
           </div>
         </div>
@@ -183,7 +181,7 @@
           <div class="panel panel-default">
             <ul class="list-group">
               {{#each employmentHistory}}
-                <li class="list-group-item ch-sht-corp">
+                <li class="list-group-item has-icon ch-sht-corp">
                   {{#with corp}}
                     <img class="pull-left" src="{{portrait 48 "Corporation"}}">
                   {{/with}}

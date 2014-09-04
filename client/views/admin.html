@@ -46,56 +46,7 @@
           </div>
         </div>
         <div id="admin-static" class="tab-pane fade">
-          <div class="panel panel-info">
-            <div class="panel-heading">
-              <h4 class="panel-title">Static data dump</h4>
-            </div>
-            <div class="panel-body">
-              <table class="table">
-                <tr>
-                  <td><b>Version</b></td>
-                  <td>Rubicon 1.0</td>
-                </tr>
-                <tr>
-                  <td><b>Last update</b></td>
-                  <td>2014-08-17 16:56:21</td>
-                </tr>
-                <tr>
-                  <td><b>Last update by</b></td>
-                  <td>admin@veldspar.io</td>
-                </tr>
-              </table>
-            </div>
-          </div>
-          <div class="panel panel-info">
-            <div class="panel-heading">
-              <h4 class="panel-title">Update static data</h4>
-            </div>
-            <div class="panel-body">
-              <p>In order to update static data, please follow the following steps:</p>
-              <ol>
-                <li>
-                  Download the latest EVE Online static data dump from CCP from <a href="#">here</a>.
-                </li>
-                <li>
-                  Extract the data into <code>.yaml</code> files using <a href="#">this tool</a>.
-                </li>
-                <li>
-                  Place <code>.yaml</code> files into the <code>/private</code> directory of the meteor.js
-                  server.
-                </li>
-                <li>
-                  Press the <em>Update static data</em> button below.
-                </li>
-              </ol>
-              <hr>
-              <button id="admin-update-static" class="btn btn-lg btn-danger"><i class="icon ion-nuclear"></i> Update static data</button>
-              <span class="help-block text-danger">
-                <b>Warning: </b> incorrect static dump data may prevent the website from properly working.
-                It is strongly advised to test your changes before applying them to the production environment.
-              </span>
-            </div>
-          </div>
+          {{> [admin-static]}}
         </div>
         <div id="admin-users" class="tab-pane fade">
           {{> wip panel="panel panel-info"}}
@@ -109,12 +60,55 @@
       </div>
       {{# placeholder icon="ion-ios7-locked-outline text-danger" panel="panel panel-danger"}}
         Oops! Staff only, sorry. <hr>
-        <small class="text-justified">
-          The fact that you got here means that you are trying to break something.
-          We would like to kindly remind you that attempting to hack a website
-          without the owners' permission is a serious crime in most countries.
-        </small>
+        <p>You can always <a href="https://github.com/jluchiji/veldspar/issues">file a bug report.</a></p>
       {{/placeholder}}
     {{/if}}
+  </div>
+</template>
+
+<!-- AM-ST: Updating Static Data -->
+<template name="admin-static">
+  <div class="container-fluid">
+    <div class="col-xs-12 col-md-4">
+       <div class="panel panel-info">
+         <div class="panel-heading">
+           <h4 class="panel-title">Static Data Information</h4>
+         </div>
+         <div class="list-group prop-list">
+           <li class="list-group-item">
+             <div class="text-muted small">Version</div>
+             <div class="">Hyperion 1.0</div>
+           </li>
+           <li class="list-group-item">
+             <div class="text-muted small">Last Update</div>
+             <div class="">2014/08/31</div>
+           </li>
+         </div>
+       </div>
+    </div>
+    <div class="col-xs-12 col-md-8">
+      <div class="panel panel-info">
+         <div class="panel-heading">
+           <div class="row">
+             <h4 class="panel-title col-xs-8">Update static data</h4>
+             <button class="btn btn-xs btn-danger pull-right">Update All</button>
+           </div>
+         </div>
+         <ul id="am-st-cat" class="list-group">
+           <li class="list-group-item">
+             <a data-toggle="collapse" data-parent="#am-st-cat" href="#am-st-skills">Update Skills</a>
+             <div id="am-st-skills" class="panel-collapse collapse in">
+               <p class="text-muted small">Skill tree updates are pulled directly from the EVE Online API.</p>
+             </div>
+           </li>
+           <li class="list-group-item">
+             <a data-toggle="collapse" data-parent="#am-st-cat" href="#am-st-cert">Update Certificates</a>
+             <div id="am-st-cert" class="panel-collapse collapse">
+               {{> wip}}
+             </div>
+           </li>
+         </ul>
+       </div>
+    </div>
   </div>
 </template>

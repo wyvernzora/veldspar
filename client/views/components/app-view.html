@@ -1,8 +1,9 @@
+<!-- Application view layout -->
 <template name="app-view">
-  <div id="{{id}}" class="container">
+  <div class="container app-view">
     <div class="page-header">
       <ul class="nav nav-pills" role="tablist">
-        {{> yield "page-header"}}
+        {{> yield "view-header"}}
       </ul>
     </div>
     {{> yield}}

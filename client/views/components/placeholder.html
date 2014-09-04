@@ -1,0 +1,30 @@
+<!-- Generic Placeholder -->
+<template name="placeholder">
+  <div class="{{panel}}">
+    <p class="text-center text-muted"><i class="icon-lg icon {{#if icon}}{{icon}}{{else}}ion-planet{{/if}}"></i></p>
+    <p class="text-center lead text-muted">{{> UI.contentBlock}}</p>
+  </div>
+</template>
+
+<!-- 'Work In Progress' placeholder -->
+<template name="wip">
+  {{# placeholder panel=panel icon="ion-code-working"}}
+    This section is still under development.
+  {{/placeholder}}
+</template>
+
+<!-- Loading Indicator -->
+<template name="loading">
+  <div class="loading-wrapper {{panel}}">
+    <div class="loading text-center center-block">
+      <i class="icon icon-lg ion-planet"></i>
+    </div>
+    <p class="text-center lead text-muted">
+      {{#if UI.contentBlock}}
+        {{> UI.contentBlock}}
+      {{else}}
+        Contacting CONCORD for some information.<br>This might take a moment.
+      {{/if}}
+    </p>
+  </div>
+</template>

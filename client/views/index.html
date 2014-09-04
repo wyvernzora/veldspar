@@ -60,7 +60,7 @@
                   <li class="divider"></li>
                   {{#if currentUser.isAdmin}}
                     <li role="presentation" class="dropdown-header">Administrator Tools</li>
-                    <li class="kern-link" kern-href="/admin"><a>Administrator panel</a></li>
+                    <li><a href="{{pathFor "admin"}}">Administrator panel</a></li>
                     <li class="divider"></li>
                   {{/if}}
                   <li id="rt-nav-logout"><a>Log Out</a></li>

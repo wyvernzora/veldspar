@@ -1,24 +1,3 @@
-<!-- CH: Character View -->
-<template name="character">
-  <div id="character" class="container">
-    <div class="page-header">
-      <ul class="nav nav-pills" role="tablist">
-        {{> yield "page-header"}}
-      </ul>
-    </div>
-    {{#if .}}
-      {{> yield}}
-    {{else}}
-    <!--
-      {{# placeholder panel="panel panel-info" icon="ion-ios7-help-outline"}}
-        Oops! The character you were looking for isn't here anymore.
-      {{/placeholder}}
-    -->
-      {{> loading panel="panel panel-info"}}
-    {{/if}}
-  </div>
-</template>
-
 <!-- Character Navigation -->
 <template name="ch_nav">
   {{#if .}}

@@ -1,0 +1,35 @@
+
+/* Property List */
+@prop-list-icon-size: 48px;
+
+.prop-list {
+  .list-group-item {
+    min-height: @prop-list-icon-size + 20px;
+    & > div { line-height: (@prop-list-icon-size / 2); }
+
+    /* Contains an icon */
+    &.has-icon {
+      & > img {
+        height: @prop-list-icon-size;
+        width: @prop-list-icon-size;
+      }
+      & > div { margin-left: 15px + @prop-list-icon-size; }
+    }
+
+    /* Nested progress bar */
+    .progress {
+      line-height: (@prop-list-icon-size / 2);
+      height: (@prop-list-icon-size / 2);
+      max-height: 18px;
+      margin-bottom: 0;
+      font-size: 12px;
+    }
+  }
+}
+
+/* Button inside panel heading */
+.panel-heading .btn.btn-xs {
+  margin-top: -1px;
+  margin-bottom: -1px;
+  margin-right: 15px;
+}
