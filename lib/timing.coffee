@@ -13,7 +13,10 @@ Timing.calibrate = (now) ->
   if Meteor.isClient
     Meteor.call 'util.getTimerCalibration', (error, result) ->
       if error
-        # PANIC!
+        # Panic!
+        Session.set 'app.error',
+          code: 500
+          reason: 'Failed to calibrate the EVE Time!\n' + error.reason
       else
         Veldspar.Timing.dt = result.getTime() - Date.now()
 

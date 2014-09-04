@@ -1,3 +1,9 @@
 <template name="error">
-  
+  <div class="container">
+    {{#Layout template="app-view"}}
+      {{#with session "app.error"}}
+        {{> [placeholder-error] panel="panel panel-danger" error=.}}
+      {{/with}}
+    {{/Layout}}
+  </div>
 </template>

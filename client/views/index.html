@@ -11,10 +11,14 @@
   {{> rt_navbar}}
 
   <!-- View -->
-  {{#if currentUser}}
-    {{> yield}}
+  {{#if session "app.error"}}
+    {{> error}}
   {{else}}
-    {{> login}}
+    {{#if currentUser}}
+      {{> yield}}
+    {{else}}
+      {{> login}}
+    {{/if}}
   {{/if}}
 
   <!-- Modal View -->

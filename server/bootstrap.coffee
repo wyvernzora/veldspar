@@ -15,7 +15,11 @@ Meteor.startup ->
     console.log 'No users detected: created default administrator account.'
 
   # Calibrate timing
-  console.log 'Calibrating the cache timer...'
-  srvInfo = Veldspar.API.Server.getServerStatus()
-  Veldspar.Timing.calibrate srvInfo._currentTime
-  console.log 'Timer calibration complete: dt = ' + Veldspar.Timing.dt + 'ms'
+  try
+    console.log 'Calibrating the cache timer...'
+    srvInfo = Veldspar.API.Server.getServerStatus()
+    Veldspar.Timing.calibrate srvInfo._currentTime
+    console.log 'Timer calibration complete: dt = ' + Veldspar.Timing.dt + 'ms'
+  catch err
+    console.error 'Timer calibration failed: ' + err.reason
+    console.error 'Falling back to local time, but there may be up to 12 hours error.'

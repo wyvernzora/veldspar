@@ -1,15 +1,15 @@
 <!-- Generic Placeholder -->
 <template name="placeholder">
-  <div class="{{panel}}">
-    <p class="text-center text-muted"><i class="icon-lg icon {{#if icon}}{{icon}}{{else}}ion-planet{{/if}}"></i></p>
-    <p class="text-center lead text-muted">{{> UI.contentBlock}}</p>
+  <div class="{{panel}} text-center">
+    <p class="text-muted"><i class="icon-lg icon {{#if icon}}{{icon}}{{else}}ion-planet{{/if}}"></i></p>
+    {{> UI.contentBlock}}
   </div>
 </template>
 
 <!-- 'Work In Progress' placeholder -->
 <template name="wip">
   {{# placeholder panel=panel icon="ion-code-working"}}
-    This section is still under development.
+    <p class="lead text-muted">This section is still under development.</p>
   {{/placeholder}}
 </template>
 
@@ -26,5 +26,18 @@
         Contacting CONCORD for some information.<br>This might take a moment.
       {{/if}}
     </p>
+  </div>
+</template>
+
+<!-- Error Indicator -->
+<template name="placeholder-error">
+  <div class="{{panel}} text-center">
+    <p class="text-danger"><i class="icon-lg icon {{#if icon}}{{icon}}{{else}}ion-alert-circled{{/if}}"></i></p>
+    {{#with error}}
+      <p class="lead text-danger">Oops, the wormhole back to K-space is gone...</p>
+      <hr>
+      <h4>Messy Details</h4>
+      <p><b class="text-danger">Error {{code}}: </b>{{reason}}</p>
+    {{/with}}
   </div>
 </template>

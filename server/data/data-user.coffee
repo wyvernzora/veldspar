@@ -65,7 +65,12 @@ UserData.updateCharacterSheet = (id) ->
 
   # Resolve basic skill information
   for id, s of charSheet.skills
-    skill = Veldspar.StaticData.skillTree.findOne({_id:String(s.id)})
+    skill = Veldspar.StaticData.skillTree.findOne({_id:String(s.id)}) ?
+      name: 'UNKNOWN'
+      rank: 1
+      attributes:
+        primary: 'intelligence'
+        secondary: 'memory'
     _.extend s, _.pick skill, 'name', 'rank', 'attributes'
     s.groupID = skill.group.id
 
