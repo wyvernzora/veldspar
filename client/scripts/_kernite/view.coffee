@@ -8,8 +8,7 @@ Kernite = (this ? exports).Kernite ?= {}
 
 Kernite.ui = (v, modal) ->
 
-  # Flags
-  v.isModal = modal
+  if not v then return v
 
   # Utility Namespace
   v.util = (methods) ->
