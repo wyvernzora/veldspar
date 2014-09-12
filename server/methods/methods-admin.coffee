@@ -103,3 +103,30 @@ Meteor.methods
       # Insert into the collection
       cert._id = id
       Veldspar.StaticData.certificates.insert cert
+
+  # Public: updates type information
+  'admin.updateTypes': ->
+    # Authorize
+    if not Meteor.user()?.isAdmin
+      throw new Meteor.Error 403, 'Access denied: admin account required.'
+    # Read YAML file
+    try
+      properties = Assets.getText 'static/eve-properties-en-US.xml'
+      types = Assets.getText 'static/eve-items-en-US.xml'
+    catch
+      throw new Meteor.Error 404, 'EveMon data files not found.'
+    # .. and parse it
+    parser = new xml2js.Parser attrkey: '@', emptyTag: null, mergeAttrs: yes, explicitArray: no
+    try
+      properties = (blocking parser, parser.parseString)(properties)
+      types = (blocking parser, parser.parseString)(types)
+    catch
+    # Extract categories
+    categories = _(properties.propertiesDatafile.category).map((i) ->
+      _.extend _.pick(i, 'name', 'description'), '_id':String(i.id))
+    # Update the database
+    StaticData.propertyCategories.remove {}
+    for cat in categories
+      StaticData.propertyCategories.insert cat
+
+    return categories

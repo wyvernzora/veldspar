@@ -113,12 +113,15 @@
            </li>
            <li class="list-group-item">
              <b>Type Info</b>
-             <button class="btn btn-xs btn-primary btn-inline pull-right">Update</button>
+             <button id="am-st-update-types" class="btn btn-xs btn-primary btn-inline pull-right">Update</button>
              <p class="text-muted small">Last Updated: Never</p>
-             <p class="no-margin em-box em-box-warning">
-               Download the <a href="http://evemon.battleclinic.com/">EveMon binaries</a>, extract all <code>.gzip</code> files in the <code>Resources</code> directory and
-               place the resulting <code>.xml</code> files in the <code>private/static</code> directory of the veldspar server.
-             </p>
+             <div class="no-margin em-box em-box-warning">
+               <p>
+                 Download the <a href="http://evemon.battleclinic.com/">EveMon binaries</a>, extract all <code>.gzip</code> files in the <code>Resources</code> directory and
+                 place the resulting <code>.xml</code> files in the <code>private/static</code> directory of the veldspar server.
+               </p>
+               <p class="no-margin"><b>Note: </b> Updating this may take up to a few minutes.</p>
+             </div>
            </li>
          </ul>
        </div>
@@ -136,7 +139,7 @@
               {{#placeholder icon="ion-alert-circled text-danger"}}
                 Unfortunately, an error occured during the update.
                 {{#with session "am-st.error"}}
-                  <p class="small"><b>Error {{code}}: </b>{{reason}}</p>
+                  <p class="small"><b>Error {{error}}: </b>{{reason}}</p>
                 {{/with}}
                 <hr>
                 <button class="btn btn-lg btn-primary center-block" data-dismiss="modal">Close</button>

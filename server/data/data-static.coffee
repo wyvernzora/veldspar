@@ -9,6 +9,11 @@ Meteor.publish 'static.SkillTree', -> StaticData.skillTree.find()
 Meteor.publish 'static.SkillCategories', -> StaticData.skillCategories.find()
 Meteor.publish 'static.Certificates', -> StaticData.certificates.find()
 
+Meteor.publish 'static.PropertyCategories', -> StaticData.propertyCategories.find()
+Meteor.publish 'static.MarketGroups', -> StaticData.marketGroups.find()
+Meteor.publish 'static.Types', -> StaticData.types.find()
+
+
 # Security policies
 StaticData.skillTree.allow {
   insert: (userId) ->

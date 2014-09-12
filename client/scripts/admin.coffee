@@ -35,7 +35,15 @@ Meteor.startup ->
             $('#am-st-update-dlg').modal('hide')
           else
             Session.set 'am-st.error', error
-
+      'click #am-st-update-types': ->
+        Session.set 'am-st.error', null
+        $('#am-st-update-dlg').modal('show')
+        Meteor.call 'admin.updateTypes', (error, result) ->
+          if not error
+            $('#am-st-update-dlg').modal('hide')
+            console.log result
+          else
+            Session.set 'am-st.error', error
 
     view.onRender -> Session.set 'am-st.error', undefined
   )(Template['admin-static'])
