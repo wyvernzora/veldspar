@@ -91,27 +91,65 @@
          <div class="panel-heading">
            <div class="row">
              <h4 class="panel-title col-xs-8">Update static data</h4>
-             <button class="btn btn-xs btn-danger btn-inline pull-right">Update All</button>
            </div>
          </div>
          <ul id="am-st-cat" class="list-group">
            <li class="list-group-item">
              <b>Skills Tree</b>
-             <button class="btn btn-xs btn-danger btn-inline pull-right">Update</button>
-             <p class="text-muted small no-margin">Last Updated: Never</p>
+             <button id="am-st-update-skills" class="btn btn-xs btn-primary btn-inline pull-right">Update</button>
+             <p class="text-muted small">Last Updated: Never</p>
+             <p class="no-margin em-box em-box-warning">
+               Veldspar pulls skill tree data from CCP, there is nothing you need to do besides pressing the button.
+               </p>
            </li>
            <li class="list-group-item">
              <b>Certificate Tree</b>
-             <button class="btn btn-xs btn-danger btn-inline pull-right">Update</button>
-             <p class="text-muted small no-margin">Last Updated: Never</p>
+             <button id="am-st-update-certs" class="btn btn-xs btn-primary btn-inline pull-right">Update</button>
+             <p class="text-muted small">Last Updated: Never</p>
+             <p class="no-margin em-box em-box-warning">
+               Download the <a href="https://community.eveonline.com/community/fansites/toolkit/">Eve Online static data export</a>,
+               and place the <code>certificates.yaml</code> into the <code>private/static</code> directory of the veldspar server.
+             </p>
            </li>
            <li class="list-group-item">
              <b>Type Info</b>
-             <button class="btn btn-xs btn-danger btn-inline pull-right">Update</button>
-             <p class="text-muted small no-margin">Last Updated: Never</p>
+             <button class="btn btn-xs btn-primary btn-inline pull-right">Update</button>
+             <p class="text-muted small">Last Updated: Never</p>
+             <p class="no-margin em-box em-box-warning">
+               Download the <a href="http://evemon.battleclinic.com/">EveMon binaries</a>, extract all <code>.gzip</code> files in the <code>Resources</code> directory and
+               place the resulting <code>.xml</code> files in the <code>private/static</code> directory of the veldspar server.
+             </p>
            </li>
          </ul>
        </div>
     </div>
+
+    <!-- Loading Dialog -->
+    <div id="am-st-update-dlg" class="modal fade" data-backdrop="static" data-keyboard="false" data-show="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Update in progress</h4>
+          </div>
+          <div class="modal-body">
+            {{#if session "am-st.error"}}
+              {{#placeholder icon="ion-alert-circled text-danger"}}
+                Unfortunately, an error occured during the update.
+                {{#with session "am-st.error"}}
+                  <p class="small"><b>Error {{code}}: </b>{{reason}}</p>
+                {{/with}}
+                <hr>
+                <button class="btn btn-lg btn-primary center-block" data-dismiss="modal">Close</button>
+              {{/placeholder}}
+            {{else}}
+              {{#loading}}
+                Hang on, updating the server for you...
+              {{/loading}}
+            {{/if}}
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </template>

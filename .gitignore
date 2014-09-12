@@ -1,2 +1,3 @@
 private/dev/*
-private/*.yaml
+private/static/*
+*.log

@@ -4,7 +4,7 @@
   padding-right: 20px;
 }
 
-@loading-color: black;
+@loading-color: @brand-primary;
 
 .loading-wrapper {
   padding: 15px;
@@ -46,15 +46,15 @@ div.loading {
 }
 
 @keyframes resonate {
-  	0% { opacity: .3; }
+  0% { opacity: .3; }
 
 	40% {
 		opacity: .5;
-		box-shadow: 0 0 0 2px fadeout(@loading-color, 60%),0 0 10px 10px #344453,0 0 0 10px fadeout(@loading-color, 40%)
+		box-shadow: 0 0 0 2px fadeout(@loading-color, 60%),0 0 10px 10px fadeout(@loading-color, 80%),0 0 0 10px fadeout(@loading-color, 40%)
 	}
 
 	100% {
-		box-shadow: 0 0 0 2px fadeout(@loading-color, 60%),0 0 10px 10px #344453,0 0 0 10px fadeout(@loading-color, 40%);
+		box-shadow: 0 0 0 2px fadeout(@loading-color, 60%),0 0 10px 10px fadeout(@loading-color, 80%),0 0 0 10px fadeout(@loading-color, 40%);
 		-webkit-transform: scale(1.5);
 		opacity: 0
 	}

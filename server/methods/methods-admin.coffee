@@ -75,8 +75,13 @@ Meteor.methods
     # Authorize
     if not Meteor.user()?.isAdmin
       throw new Meteor.Error 403, 'Access denied: admin account required.'
-    # Read YAML file and parse it into a JSON object
-    raw = jsyaml.safeLoad Assets.getText 'certificates.yaml'
+    # Read YAML file
+    try
+      raw = Assets.getText 'static/certificates.yaml'
+    catch
+      throw new Meteor.Error 404, 'File not found: private/static/certificates.yaml'
+    # .. and parse it
+    raw = jsyaml.safeLoad raw
     if not raw or raw is 'undefined'
       throw new Meteor.Error 400, 'Failed to deserialize certificates.yaml'
     # Delete all existing data
