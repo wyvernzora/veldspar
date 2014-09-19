@@ -13,6 +13,7 @@ Meteor.methods
 
   # Public: updates skill tree data from EVE API
   'admin.updateSkillTree': ->
+    console.log 'Admin.UpdateSkillTree()'
     # Authorize
     if not Meteor.user()?.isAdmin
       throw new Meteor.Error 403, 'Access denied: admin account required.'
@@ -72,6 +73,7 @@ Meteor.methods
 
   # Public: updates certificate data from certificates.yaml
   'admin.updateCertificates': ->
+    console.log 'Admin.UpdateCertificates()'
     # Authorize
     if not Meteor.user()?.isAdmin
       throw new Meteor.Error 403, 'Access denied: admin account required.'
@@ -106,6 +108,7 @@ Meteor.methods
 
   # Public: updates type information
   'admin.updateTypes': ->
+    console.log 'Admin.UpdateTypes()'
     # Authorize
     if not Meteor.user()?.isAdmin
       throw new Meteor.Error 403, 'Access denied: admin account required.'
@@ -115,18 +118,39 @@ Meteor.methods
       types = Assets.getText 'static/eve-items-en-US.xml'
     catch
       throw new Meteor.Error 404, 'EveMon data files not found.'
+    # ... create the necessary transformation rules
+    propTransform =
+      'categories':
+        '$path': 'propertiesDatafile.category'
+        '_id': 'id'
+        'name': 'name'
+        'description': 'description'
+        'properties':
+          '$path': 'properties.property'
+          '_id': 'id'
+          'default': 'defaultValue'
+          'description': 'description'
+          'positive': 'bool:higherIsBetter'
+          'icon': 'icon'
+          'name': 'name'
+          'unit.name': 'unit'
+          'unit.id': 'unitID'
+
     # .. and parse it
     parser = new xml2js.Parser attrkey: '@', emptyTag: null, mergeAttrs: yes, explicitArray: no
     try
-      properties = (blocking parser, parser.parseString)(properties)
+      properties = Veldspar.Transformer.transform (blocking parser, parser.parseString)(properties), propTransform
       types = (blocking parser, parser.parseString)(types)
     catch
     # Extract categories
-    categories = _(properties.propertiesDatafile.category).map((i) ->
-      _.extend _.pick(i, 'name', 'description'), '_id':String(i.id))
+    categories = _(properties.categories).map((i) ->
+      _.pick(i, '_id', 'name', 'description'))
     # Update the database
     StaticData.propertyCategories.remove {}
     for cat in categories
       StaticData.propertyCategories.insert cat
+    # Extract properties
+      
 
-    return categories
+
+    return properties
