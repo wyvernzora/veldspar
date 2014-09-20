@@ -26,9 +26,9 @@ Meteor.startup ->
 
       'standingStyleSuffix':  ->
         if -10.0 <= @standing <= -5.0 then 'danger'
-        else if -5.0 < @standing <= -3.0 then 'warning'
-        else if -3.0 < @standing < 3.0 then 'default'
-        else if 3.0 <= @standing < 5.0 then 'success'
+        else if -5.0 < @standing <= -1.0 then 'warning'
+        else if -1.0 < @standing < 1.0 then 'default'
+        else if 1.0 <= @standing < 5.0 then 'success'
         else if 5.0 <= @standing <= 10.0 then 'primary'
 
       'agentStandings': ->
@@ -38,5 +38,9 @@ Meteor.startup ->
       'factionStandings': ->
         return Veldspar.UserData.npcStandings.find type:'faction', {sort: {standing: -1}}
 
+      'standing': ->
+        val = @standing.toFixed(2)
+        if val > 0 then val = '+' + val
+        return val
 
   )(Template['char-sheet'])

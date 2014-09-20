@@ -74,6 +74,8 @@ UI.registerHelper 'romanize', (number) ->
 UI.registerHelper 'lower', (str) ->
   return str.toLowerCase()
 
+UI.registerHelper 'fixDecimals', (num, decimals) ->
+  return (Math.round(num * 100) / 100).toFixed(decimals);
 
 UI.registerHelper 'skillIcon', ->
   lv = @?.level ? 0
