@@ -30,10 +30,10 @@ UI.registerHelper 'portrait', (size, type) ->
     exp = 9 if exp > 9
     exp
   )(size)
-  format = if (@type ? type) is 'Character' then 'jpg' else 'png'
+  format = if (type ? @type) is 'Character' then 'jpg' else 'png'
   # Construct the URI
   return _.template '<%= host %>/<%= type %>/<%= id %>_<%= size %>.<%= ext %>',
-    host: Veldspar.Config.imageHost, id: @id, size: size, type: @type ? type, ext: format
+    host: Veldspar.Config.imageHost, id: @id, size: size, type: type ? @type, ext: format
 
 # Gets the first email of current user
 UI.registerHelper 'userEmail', ->
