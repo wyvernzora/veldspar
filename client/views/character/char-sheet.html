@@ -67,7 +67,7 @@
       <div class="tab-content">
         <div id="ch-sht-basic" class="tab-pane active fade in">
           <h2 class="text-muted text-light">Basic Information</h2>
-          <div class="panel panel-default">
+          <!--<div class="panel panel-default">
             <ul class="list-group prop-list">
               <li class="list-group-item has-icon">
                 <img class="pull-left" src="/svg/va_faction-{{lower race}}.svg">
@@ -90,7 +90,49 @@
                 <div class="">{{ship.name}} ({{ship.type.name}})</div>
               </li>
             </ul>
-          </div>
+          </div>-->
+          <ul class="tile-list">
+            <!-- Character Race -->
+            <li class="has-icon col-xs-12 col-sm-6 col-md-4 col-lg-3">
+              <div>
+                <img src="/svg/va_faction-{{lower race}}.svg">
+                <div>
+                  <div class="prop-name no-margin text-nowrap text-muted small">Race</div>
+                  <div class="prop-value no-margin text-nowrap">{{race}}</div>
+                </div>
+              </div>
+            </li>
+            <!-- Character Bloodline -->
+            <li class="has-icon col-xs-12 col-sm-6 col-md-4 col-lg-3">
+              <div>
+                <img src="/svg/va_bloodline-{{lower bloodLine}}.svg">
+                <div>
+                  <div class="prop-name no-margin text-nowrap text-muted small">Bloodline</div>
+                  <div class="prop-value no-margin text-nowrap">{{bloodLine}}</div>
+                </div>
+              </div>
+            </li>
+            <!-- Character Ancestry -->
+            <li class="has-icon col-xs-12 col-sm-6 col-md-4 col-lg-3">
+              <div>
+                <img src="/svg/va_faction-concord.svg">
+                <div>
+                  <div class="prop-name no-margin text-nowrap text-muted small">Ancestry</div>
+                  <div class="prop-value no-margin text-nowrap">{{ancestry}}</div>
+                </div>
+              </div>
+            </li>
+            <!-- Character Ship -->
+            <li class="has-icon col-xs-12 col-sm-6 col-md-4 col-lg-3">
+              <div>
+                <img src="/icons/ship-64.png">
+                <div>
+                  <div class="prop-name no-margin text-nowrap text-muted small">Current Ship</div>
+                  <div class="prop-value no-margin text-nowrap">{{ship.name}} ({{ship.type.name}})</div>
+                </div>
+              </div>
+            </li>
+          </ul>
           <h2 class="text-muted text-light">Attributes</h2>
           <div class="panel panel-default">
             <ul class="list-group prop-list">
@@ -179,66 +221,70 @@
         </div>
         <div id="ch-sht-employment" class="tab-pane fade">
           <h2 class="text-muted text-light">Employment History</h2>
-          <div class="panel panel-default">
-            <ul class="list-group prop-list">
-              {{#each employmentHistory}}
-                <li class="list-group-item has-icon ch-sht-corp">
+          <ul class="tile-list">
+            {{#each employmentHistory}}
+              <li class="{{standingStyle}} has-icon col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                <div>
                   {{#with corp}}
-                    <img class="pull-left" src="{{portrait 48 "Corporation"}}">
+                    <img alt="portrait" src="{{portrait 64 "Corporation"}}">
                   {{/with}}
-                  <div class="">{{corp.name}}</div>
-                  <div class="text-muted small">joined {{timeInCorp.day}} days ago</div>
-                </li>
-              {{/each}}
-            </ul>
-          </div>
+                  <div>
+                    <div class="employer-name no-margin text-nowrap">{{corp.name}}</div>
+                    <div class="employer-time small no-margin text-muted">
+                      joined {{timeInCorp.day}} days ago
+                    </div>
+                  </div>
+                </div>
+              </li>
+            {{/each}}
+          </ul>
         </div>
         <div id="ch-sht-standings" class="tab-pane fade">
           <h2 class="text-muted text-light">Factions</h2>
-          <section class="row">
+          <ul class="tile-list">
             <!-- Agent Entry -->
             {{#each factionStandings}}
-              <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
-                <div class="panel panel-{{standingStyleSuffix}} standing-item">
-                  <img alt="standing-portrait" src="{{portrait 64 "Alliance"}}" class="pull-left">
+              <li class="{{standingStyle}} has-icon col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                <div>
+                  <img alt="portrait" src="{{portrait 64 "Alliance"}}">
                   <div>
-                    <div class="no-margin text-nowrap">{{name}}</div>
-                    <div class="h3 no-margin text-{{standingStyleSuffix}}">{{standing}}</div>
+                    <div class="standing-name no-margin text-nowrap">{{name}}</div>
+                    <div class="standing-value h4 no-margin accented">{{standing}}</div>
                   </div>
                 </div>
-              </div>
+              </li>
             {{/each}}
-          </section>
+          </ul>
           <h2 class="text-muted text-light">Corporations</h2>
-          <section class="row">
+          <ul class="tile-list">
             <!-- Agent Entry -->
             {{#each corpStandings}}
-              <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
-                <div class="panel panel-{{standingStyleSuffix}} standing-item">
-                  <img alt="standing-portrait" src="{{portrait 64 "Corporation"}}" class="pull-left">
+              <li class="{{standingStyle}} has-icon col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                <div>
+                  <img alt="portrait" src="{{portrait 64 "Corporation"}}">
                   <div>
-                    <div class="no-margin text-nowrap">{{name}}</div>
-                    <div class="h3 no-margin text-{{standingStyleSuffix}}">{{standing}}</div>
+                    <div class="standing-name no-margin text-nowrap">{{name}}</div>
+                    <div class="standing-value h4 no-margin accented">{{standing}}</div>
                   </div>
                 </div>
-              </div>
+              </li>
             {{/each}}
-          </section>
+          </ul>
           <h2 class="text-muted text-light">Agents</h2>
-          <section class="row">
+          <ul class="tile-list">
             <!-- Agent Entry -->
             {{#each agentStandings}}
-              <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
-                <div class="panel panel-{{standingStyleSuffix}} standing-item">
-                  <img alt="standing-portrait" src="{{portrait 64 "Character"}}" class="pull-left">
+              <li class="{{standingStyle}} has-icon col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                <div>
+                  <img alt="portrait" src="{{portrait 64 "Character"}}">
                   <div>
-                    <div class="no-margin text-nowrap">{{name}}</div>
-                    <div class="h3 no-margin text-{{standingStyleSuffix}}">{{standing}}</div>
+                    <div class="standing-name no-margin text-nowrap">{{name}}</div>
+                    <div class="standing-value h4 no-margin accented">{{standing}}</div>
                   </div>
                 </div>
-              </div>
+              </li>
             {{/each}}
-          </section>
+          </ul>
         </div>
       </div>
     </div>

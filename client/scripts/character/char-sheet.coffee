@@ -24,7 +24,7 @@ Meteor.startup ->
       'joinDate': ->
         @date.toLocaleString()
 
-      'standingStyleSuffix':  ->
+      'standingStyle':  ->
         if -10.0 <= @standing <= -5.0 then 'danger'
         else if -5.0 < @standing <= -1.0 then 'warning'
         else if -1.0 < @standing < 1.0 then 'default'

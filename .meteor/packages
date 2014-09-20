@@ -17,4 +17,5 @@ showdown
 iron-router
 iron-layout
 nooitaf:colors
+anti:i18n
 
