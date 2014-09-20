@@ -4,6 +4,10 @@
 Veldspar = (exports ? this).Veldspar
 Cache = Veldspar.Cache
 
+# Server-only Data
+Cache.timers = new Meteor.Collection 'cache.Timers'
+
+# Entity names
 Meteor.publish 'cache.EntityNames', -> Cache.entityNames.find()
 
 

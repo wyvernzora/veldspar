@@ -15,6 +15,8 @@ root.UserData.characters = new Meteor.Collection 'user.Characters',
     c.getSkill = (id) -> c.skills[String(id)]
     return c
 root.UserData.skillQueue = new Meteor.Collection 'user.SkillQueue'
+# NPC Standings
+root.UserData.npcStandings = new Meteor.Collection 'user.NpcStandings'
 
 if Meteor.isClient
   # Subscribe to user data

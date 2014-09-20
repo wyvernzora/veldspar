@@ -17,6 +17,8 @@ Meteor.methods
     # Authorize
     if not Meteor.user()?.isAdmin
       throw new Meteor.Error 403, 'Access denied: admin account required.'
+    # Parallelize
+    this.unblock()
     # Request skill tree from CCP API
     client = new Veldspar.ApiClient '/eve/SkillTree.xml.aspx'
     transform =
@@ -77,6 +79,8 @@ Meteor.methods
     # Authorize
     if not Meteor.user()?.isAdmin
       throw new Meteor.Error 403, 'Access denied: admin account required.'
+    # Parallelize
+    this.unblock()
     # Read YAML file
     try
       raw = Assets.getText 'static/certificates.yaml'
@@ -112,6 +116,8 @@ Meteor.methods
     # Authorize
     if not Meteor.user()?.isAdmin
       throw new Meteor.Error 403, 'Access denied: admin account required.'
+    # Parallelize
+    this.unblock()
     # Read YAML file
     try
       properties = Assets.getText 'static/eve-properties-en-US.xml'
@@ -122,7 +128,7 @@ Meteor.methods
     propTransform =
       'categories':
         '$path': 'propertiesDatafile.category'
-        '_id': 'id'
+        'id': 'number:id'
         'name': 'name'
         'description': 'description'
         'properties':
@@ -135,22 +141,34 @@ Meteor.methods
           'name': 'name'
           'unit.name': 'unit'
           'unit.id': 'unitID'
-
     # .. and parse it
     parser = new xml2js.Parser attrkey: '@', emptyTag: null, mergeAttrs: yes, explicitArray: no
     try
       properties = Veldspar.Transformer.transform (blocking parser, parser.parseString)(properties), propTransform
-      types = (blocking parser, parser.parseString)(types)
+      # types = (blocking parser, parser.parseString)(types)
     catch
+      throw new Meteor.Error 500, 'Failed to parse "static/eve-properties-en-US.xml"'
     # Extract categories
-    categories = _(properties.categories).map((i) ->
-      _.pick(i, '_id', 'name', 'description'))
-    # Update the database
-    StaticData.propertyCategories.remove {}
-    for cat in categories
-      StaticData.propertyCategories.insert cat
+    categories = _.indexBy(_(properties.categories).map((i) ->
+      _.pick(i, 'id', 'name', 'description')), 'id')
     # Extract properties
-      
+    properties = _(properties.categories).map((cat) ->
+      _.each cat.properties, (prop) -> prop.category = name: cat.name, description: cat.description
+      return cat.properties)
+    # Flatten the property list
+    properties = _.compact(_(properties).flatten())
+    # Update database
+    StaticData.properties.remove {}
+    for prop in properties
+      StaticData.properties.insert prop
+
+    # Create transformation rules for the item file
+    # ... it's recursive, so this will be a bit tricky.
+    mktGroupTransform =
+      '$path': 'marketGroups'
+      'id': 'number:id'
+      'name': 'name'
 
 
-    return properties
+
+    return

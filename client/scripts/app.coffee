@@ -29,7 +29,7 @@ Router.map ->
   @route 'char-sheet',
     path:'/char/:_id'
     waitOn: ->
-      Meteor.subscribe 'user.Characters'
+      return [Meteor.subscribe('user.Characters'), Meteor.subscribe('user.NpcStandings', @params._id)]
     data: ->
       return Veldspar.UserData.characters.findOne('_id':@params._id) ? null
   # Character Skills

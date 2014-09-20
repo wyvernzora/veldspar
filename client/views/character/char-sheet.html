@@ -15,6 +15,7 @@
 
       <li class="active"><a href="#ch-sht-basic" data-toggle="pill">Basic Info</a></li>
       <li><a href="#ch-sht-employment" data-toggle="pill">Employment</a></li>
+      <li><a href="#ch-sht-standings" data-toggle="pill">Standings</a></li>
 
       <li class="pull-right">
         <a id="ch-refresh">
@@ -32,7 +33,7 @@
         <div class="panel-body container-fluid">
           <!-- Character Portrait -->
           <div class="portrait thumbnail col-xs-4 col-xs-offset-4 col-sm-2 col-sm-offset-0 col-md-2">
-            <img alt="Character Portrait" src="{{portrait 256}}">
+            <img alt="Character Portrait" src="{{portrait 256 "Character"}}">
           </div>
           <!-- Character Information -->
           <div class="info col-xs-12 col-sm-10 col-md-10 container-fluid">
@@ -191,6 +192,53 @@
               {{/each}}
             </ul>
           </div>
+        </div>
+        <div id="ch-sht-standings" class="tab-pane fade">
+          <h2 class="text-muted text-light">Factions</h2>
+          <section class="row">
+            <!-- Agent Entry -->
+            {{#each factionStandings}}
+              <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+                <div class="panel panel-{{standingStyleSuffix}} standing-item">
+                  <img alt="standing-portrait" src="{{portrait 64 "Alliance"}}" class="pull-left">
+                  <div>
+                    <div class="no-margin text-nowrap">{{name}}</div>
+                    <div class="h3 no-margin text-{{standingStyleSuffix}}">{{standing}}</div>
+                  </div>
+                </div>
+              </div>
+            {{/each}}
+          </section>
+          <h2 class="text-muted text-light">Corporations</h2>
+          <section class="row">
+            <!-- Agent Entry -->
+            {{#each corpStandings}}
+              <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+                <div class="panel panel-{{standingStyleSuffix}} standing-item">
+                  <img alt="standing-portrait" src="{{portrait 64 "Corporation"}}" class="pull-left">
+                  <div>
+                    <div class="no-margin text-nowrap">{{name}}</div>
+                    <div class="h3 no-margin text-{{standingStyleSuffix}}">{{standing}}</div>
+                  </div>
+                </div>
+              </div>
+            {{/each}}
+          </section>
+          <h2 class="text-muted text-light">Agents</h2>
+          <section class="row">
+            <!-- Agent Entry -->
+            {{#each agentStandings}}
+              <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+                <div class="panel panel-{{standingStyleSuffix}} standing-item">
+                  <img alt="standing-portrait" src="{{portrait 64 "Character"}}" class="pull-left">
+                  <div>
+                    <div class="no-margin text-nowrap">{{name}}</div>
+                    <div class="h3 no-margin text-{{standingStyleSuffix}}">{{standing}}</div>
+                  </div>
+                </div>
+              </div>
+            {{/each}}
+          </section>
         </div>
       </div>
     </div>

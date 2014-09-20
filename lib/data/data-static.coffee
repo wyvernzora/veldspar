@@ -12,7 +12,7 @@ root.StaticData.skillCategories = new Meteor.Collection 'static.SkillCategories'
 root.StaticData.skillTree = new Meteor.Collection 'static.SkillTree'
 root.StaticData.certificates = new Meteor.Collection 'static.Certificates'
 
-root.StaticData.propertyCategories = new Meteor.Collection 'static.PropertyCategories'
+root.StaticData.properties = new Meteor.Collection 'static.Properties'
 root.StaticData.marketGroups = new Meteor.Collection 'static.MarkerGroups'
 root.StaticData.types = new Meteor.Collection 'static.Types'
 
@@ -22,6 +22,6 @@ if Meteor.isClient
   Meteor.subscribe 'static.SkillTree'
   Meteor.subscribe 'static.Certificates'
 
-  Meteor.subscribe 'static.PropertyCategories'
+  Meteor.subscribe 'static.Properties'
   Meteor.subscribe 'static.MarketGroups'
   Meteor.subscribe 'static.Types'

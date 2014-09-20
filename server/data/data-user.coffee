@@ -3,9 +3,7 @@
 # Copyright © Denis Luchkin-Zhou
 Veldspar = (exports ? this).Veldspar
 UserData = Veldspar.UserData
-
-# Server-only Data
-UserData.callLog = new Meteor.Collection 'user.CallLog'
+Cache = Veldspar.Cache
 
 # Publish User Info
 Meteor.publish 'user.Config', ->
@@ -24,6 +22,13 @@ Meteor.publish 'user.SkillQueue', ->
   return UserData.skillQueue.find({owner: this.userId}) if @userId
   @ready()
 
+# Publish standing data
+Meteor.publish 'user.NpcStandings', (charid) ->
+  char = UserData.characters.findOne _id:charid
+  if char and (char.owner is this.userId)
+    return UserData.npcStandings.find 'charId': charid
+  else
+    this.ready()
 
 # Utility methods
 UserData.updateCharacterSheet = (id) ->
@@ -141,3 +146,53 @@ UserData.updateSkillQueue = (id) ->
   response.skillQueue = _.indexBy response.skillQueue, 'position'
   response.skillQueue._cachedUntil = response._cachedUntil # Add cache information
   UserData.characters.update({'_id': char._id}, {$set: {'skillQueue': response.skillQueue}})
+
+UserData.updateNpcStandings = (id) ->
+  ###
+  Entry ID generation:
+    CharID + '.' + Entity ID
+  ###
+
+  console.log 'UserData.updateNpcStandings()'
+
+  # Cannot do this if no user is logged in
+  if not Meteor.userId()
+    throw new Meteor.Error 403, 'Access denied: active user required.'
+  userid = Meteor.userId() # Cache user id
+
+  # Find current character data and make sure there is such
+  char = UserData.characters.findOne({'owner': userid, '_id': id})
+  if not char
+    console.log 'Character not found!'
+    return
+
+  # Skip the update if cache is still valid
+  cacheTimer = Cache.timers.findOne(charId: char.id, method: 'npc-standings')
+
+  if cacheTimer?.timer and cacheTimer.timer >= Veldspar.Timing.eveTime()
+    console.log 'Cache timer in effect until ' + cacheTimer.timer
+    return
+
+  # Fetch standings from CCP
+  standings = Veldspar.API.Character.getNpcStandings char.apiKey, char.id
+
+  # Update the cache timer
+  if cacheTimer
+    Cache.timers.update {_id: cacheTimer._id}, {$set: {timer: standings._cachedUntil}}
+  else
+    Cache.timers.insert charId: char.id, method: 'npc-standings', timer: standings._cachedUntil
+
+
+  # Update standings
+  for agent in standings.agents
+    _id = char.id + '.' + agent.id
+    UserData.npcStandings.update {_id:_id},
+      {$set: {id:agent.id, name:agent.name, standing:agent.standing, type: 'agent',  charId: char._id}}, {upsert: yes}
+  for corp in standings.corps
+    _id = char.id + '.' + corp.id
+    UserData.npcStandings.update {_id:_id},
+      {$set: {id:corp.id, name:corp.name, standing:corp.standing, type: 'corp', charId: char._id}}, {upsert: yes}
+  for faction in standings.factions
+    _id = char.id + '.' + faction.id
+    UserData.npcStandings.update {_id:_id},
+      {$set: {id:faction.id, name:faction.name, standing:faction.standing, type: 'faction', charId: char._id}}, {upsert: yes}
