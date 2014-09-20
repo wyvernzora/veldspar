@@ -9,18 +9,18 @@
     {{#contentFor "view-header"}}
       <li class="pill-back">
         <a href="{{pathFor "home"}}">
-          <i class="icon ion-ios7-arrow-back"></i> Back
+          <i class="icon ion-ios7-arrow-back"></i> {{i18n "nav.back"}}
         </a>
       </li>
 
-      <li class="active"><a href="#ch-sht-basic" data-toggle="pill">Basic Info</a></li>
-      <li><a href="#ch-sht-employment" data-toggle="pill">Employment</a></li>
-      <li><a href="#ch-sht-standings" data-toggle="pill">Standings</a></li>
+      <li class="active"><a href="#ch-sht-basic" data-toggle="pill">{{i18n "char.nav.basic-info"}}</a></li>
+      <li><a href="#ch-sht-employment" data-toggle="pill">{{i18n "char.nav.employment"}}</a></li>
+      <li><a href="#ch-sht-standings" data-toggle="pill">{{i18n "char.nav.standings"}}</a></li>
 
       <li class="pull-right">
         <a id="ch-refresh">
           <i class="icon ion-refresh"></i>
-          <span class="hidden-xs"> Refresh</span>
+          <span class="hidden-xs"> {{i18n "nav.refresh"}}</span>
         </a>
       </li>
     {{/contentFor}}
@@ -66,38 +66,24 @@
 
       <div class="tab-content">
         <div id="ch-sht-basic" class="tab-pane active fade in">
-          <h2 class="text-muted text-light">Basic Information</h2>
-          <!--<div class="panel panel-default">
-            <ul class="list-group prop-list">
-              <li class="list-group-item has-icon">
-                <img class="pull-left" src="/svg/va_faction-{{lower race}}.svg">
-                <div class="text-muted small">Race</div>
-                <div class="">{{race}}</div>
-              </li>
-              <li class="list-group-item has-icon">
-                <img class="pull-left" src="/svg/va_bloodline-{{lower bloodLine}}.svg">
-                <div class="text-muted small">Bloodline</div>
-                <div class="">{{bloodLine}}</div>
-              </li>
-              <li class="list-group-item has-icon">
-                <img class="pull-left" src="/svg/va_faction-concord.svg">
-                <div class="text-muted small">Ancestry</div>
-                <div class="">{{ancestry}}</div>
-              </li>
-              <li class="list-group-item has-icon">
-                <img class="pull-left" src="/icons/ship-64.png">
-                <div class="text-muted small">Ship</div>
-                <div class="">{{ship.name}} ({{ship.type.name}})</div>
-              </li>
-            </ul>
-          </div>-->
+          <h2 class="text-muted text-light">{{i18n "char.basic.basic-info"}}</h2>
           <ul class="tile-list">
+            <!-- Character Gender -->
+            <li class="has-icon col-xs-12 col-sm-6 col-md-4 col-lg-3">
+              <div>
+                <img src="/svg/va_gender-{{lower gender}}.svg">
+                <div>
+                  <div class="prop-name no-margin text-nowrap text-muted small">{{i18n "char.basic.gender"}}</div>
+                  <div class="prop-value no-margin text-nowrap">{{gender}}</div>
+                </div>
+              </div>
+            </li>
             <!-- Character Race -->
             <li class="has-icon col-xs-12 col-sm-6 col-md-4 col-lg-3">
               <div>
                 <img src="/svg/va_faction-{{lower race}}.svg">
                 <div>
-                  <div class="prop-name no-margin text-nowrap text-muted small">Race</div>
+                  <div class="prop-name no-margin text-nowrap text-muted small">{{i18n "char.basic.race"}}</div>
                   <div class="prop-value no-margin text-nowrap">{{race}}</div>
                 </div>
               </div>
@@ -107,7 +93,7 @@
               <div>
                 <img src="/svg/va_bloodline-{{lower bloodLine}}.svg">
                 <div>
-                  <div class="prop-name no-margin text-nowrap text-muted small">Bloodline</div>
+                  <div class="prop-name no-margin text-nowrap text-muted small">{{i18n "char.basic.bloodline"}}</div>
                   <div class="prop-value no-margin text-nowrap">{{bloodLine}}</div>
                 </div>
               </div>
@@ -117,110 +103,113 @@
               <div>
                 <img src="/svg/va_faction-concord.svg">
                 <div>
-                  <div class="prop-name no-margin text-nowrap text-muted small">Ancestry</div>
+                  <div class="prop-name no-margin text-nowrap text-muted small">{{i18n "char.basic.ancestry"}}</div>
                   <div class="prop-value no-margin text-nowrap">{{ancestry}}</div>
+                </div>
+              </div>
+            </li>
+            <!-- Character Location -->
+            <li class="has-icon col-xs-12 col-sm-6 col-md-4 col-lg-3">
+              <div>
+                <img src="/svg/va_location.svg">
+                <div>
+                  <div class="prop-name no-margin text-nowrap text-muted small">{{i18n "char.basic.location"}}</div>
+                  <div class="prop-value no-margin text-nowrap">{{location}}</div>
                 </div>
               </div>
             </li>
             <!-- Character Ship -->
             <li class="has-icon col-xs-12 col-sm-6 col-md-4 col-lg-3">
               <div>
-                <img src="/icons/ship-64.png">
+                <img src="/svg/va_ship-titan.svg">
                 <div>
-                  <div class="prop-name no-margin text-nowrap text-muted small">Current Ship</div>
+                  <div class="prop-name no-margin text-nowrap text-muted small">{{i18n "char.basic.current-ship"}}</div>
                   <div class="prop-value no-margin text-nowrap">{{ship.name}} ({{ship.type.name}})</div>
                 </div>
               </div>
             </li>
           </ul>
-          <h2 class="text-muted text-light">Attributes</h2>
-          <div class="panel panel-default">
-            <ul class="list-group prop-list">
-              <li class="list-group-item has-icon">
-                <img class="pull-left" src="/icons/attribute/perception-128.png">
-                <div class="text-muted small">Perception</div>
-                <div class="progress">
-                  {{#with attrWidth "perception"}}
-                    <div class="progress-bar progress-bar-primary" style="width: {{base}}%;">
-                      {{../attributes.perception.value}}
-                    </div>
+          <h2 class="text-muted text-light">{{i18n "char.basic.attributes"}}</h2>
+          <ul class="tile-list">
+            <!-- Perception -->
+            <li class="has-icon col-xs-12 col-sm-6 col-md-4 col-lg-3">
+              <div>
+                <img src="/icons/attribute/perception-128.png">
+                <div>
+                  <div class="prop-name no-margin text-nowrap text-muted small">{{i18n "char.basic.perception"}}</div>
+                  <div class="prop-value no-margin text-nowrap h3">
+                    {{../attributes.perception.value}}
                     {{#if ../attributes.perception.bonus}}
-                      <div class="progress-bar progress-bar-success" style="width: {{bonus}}%;">
-                        {{../attributes.perception.bonus}}
-                      </div>
+                      <span class="text-success">+ {{../attributes.perception.bonus}}</span>
                     {{/if}}
-                  {{/with}}
+                  </div>
                 </div>
-              </li>
-              <li class="list-group-item has-icon">
-                <img class="pull-left" src="/icons/attribute/memory-128.png">
-                <div class="text-muted small">Memory</div>
-                <div class="progress">
-                  {{#with attrWidth "memory"}}
-                    <div class="progress-bar progress-bar-primary" style="width: {{base}}%;">
-                      {{../attributes.memory.value}}
-                    </div>
+              </div>
+            </li>
+            <!-- Memoty -->
+            <li class="has-icon col-xs-12 col-sm-6 col-md-4 col-lg-3">
+              <div>
+                <img src="/icons/attribute/memory-128.png">
+                <div>
+                  <div class="prop-name no-margin text-nowrap text-muted small">{{i18n "char.basic.memory"}}</div>
+                  <div class="prop-value no-margin text-nowrap h3">
+                    {{../attributes.memory.value}}
                     {{#if ../attributes.memory.bonus}}
-                      <div class="progress-bar progress-bar-success" style="width: {{bonus}}%;">
-                        {{../attributes.memory.bonus}}
-                      </div>
+                      <span class="text-success">+ {{../attributes.memory.bonus}}</span>
                     {{/if}}
-                  {{/with}}
+                  </div>
                 </div>
-              </li>
-              <li class="list-group-item has-icon">
-                <img class="pull-left" src="/icons/attribute/willpower-128.png">
-                <div class="text-muted small">Willpower</div>
-                <div class="progress">
-                  {{#with attrWidth "willpower"}}
-                    <div class="progress-bar progress-bar-primary" style="width: {{base}}%;">
-                      {{../attributes.willpower.value}}
-                    </div>
+              </div>
+            </li>
+            <!-- Willpower -->
+            <li class="has-icon col-xs-12 col-sm-6 col-md-4 col-lg-3">
+              <div>
+                <img src="/icons/attribute/willpower-128.png">
+                <div>
+                  <div class="prop-name no-margin text-nowrap text-muted small">{{i18n "char.basic.willpower"}}</div>
+                  <div class="prop-value no-margin text-nowrap h3">
+                    {{../attributes.willpower.value}}
                     {{#if ../attributes.willpower.bonus}}
-                      <div class="progress-bar progress-bar-success" style="width: {{bonus}}%;">
-                        {{../attributes.willpower.bonus}}
-                      </div>
+                      <span class="text-success">+ {{../attributes.willpower.bonus}}</span>
                     {{/if}}
-                  {{/with}}
+                  </div>
                 </div>
-              </li>
-              <li class="list-group-item has-icon">
-                <img class="pull-left" src="/icons/attribute/intelligence-128.png">
-                <div class="text-muted small">Intelligence</div>
-                <div class="progress">
-                  {{#with attrWidth "intelligence"}}
-                    <div class="progress-bar progress-bar-primary" style="width: {{base}}%;">
-                      {{../attributes.intelligence.value}}
-                    </div>
+              </div>
+            </li>
+            <!-- Intelligence -->
+            <li class="has-icon col-xs-12 col-sm-6 col-md-4 col-lg-3">
+              <div>
+                <img src="/icons/attribute/intelligence-128.png">
+                <div>
+                  <div class="prop-name no-margin text-nowrap text-muted small">{{i18n "char.basic.intelligence"}}</div>
+                  <div class="prop-value no-margin text-nowrap h3">
+                    {{../attributes.intelligence.value}}
                     {{#if ../attributes.intelligence.bonus}}
-                      <div class="progress-bar progress-bar-success" style="width: {{bonus}}%;">
-                        {{../attributes.intelligence.bonus}}
-                      </div>
+                      <span class="text-success">+ {{../attributes.intelligence.bonus}}</span>
                     {{/if}}
-                  {{/with}}
+                  </div>
                 </div>
-              </li>
-              <li class="list-group-item has-icon">
-                <img class="pull-left" src="/icons/attribute/charisma-128.png">
-                <div class="text-muted small">Charisma</div>
-                <div class="progress">
-                  {{#with attrWidth "charisma"}}
-                    <div class="progress-bar progress-bar-primary" style="width: {{base}}%;">
-                      {{../attributes.charisma.value}}
-                    </div>
+              </div>
+            </li>
+            <!-- Charisma -->
+            <li class="has-icon col-xs-12 col-sm-6 col-md-4 col-lg-3">
+              <div>
+                <img src="/icons/attribute/charisma-128.png">
+                <div>
+                  <div class="prop-name no-margin text-nowrap text-muted small">{{i18n "char.basic.charisma"}}</div>
+                  <div class="prop-value no-margin text-nowrap h3">
+                    {{../attributes.charisma.value}}
                     {{#if ../attributes.charisma.bonus}}
-                      <div class="progress-bar progress-bar-success" style="width: {{bonus}}%;">
-                        {{../attributes.charisma.bonus}}
-                      </div>
+                      <span class="text-success">+ {{../attributes.charisma.bonus}}</span>
                     {{/if}}
-                  {{/with}}
+                  </div>
                 </div>
-              </li>
-            </ul>
-          </div>
+              </div>
+            </li>
+          </ul>
         </div>
         <div id="ch-sht-employment" class="tab-pane fade">
-          <h2 class="text-muted text-light">Employment History</h2>
+          <h2 class="text-muted text-light">{{i18n "char.employment.employment-history"}}</h2>
           <ul class="tile-list">
             {{#each employmentHistory}}
               <li class="{{standingStyle}} has-icon col-xs-12 col-sm-6 col-md-4 col-lg-3">
@@ -240,7 +229,7 @@
           </ul>
         </div>
         <div id="ch-sht-standings" class="tab-pane fade">
-          <h2 class="text-muted text-light">Factions</h2>
+          <h2 class="text-muted text-light">{{i18n "char.standings.factions"}}</h2>
           <ul class="tile-list">
             <!-- Agent Entry -->
             {{#each factionStandings}}
@@ -255,7 +244,7 @@
               </li>
             {{/each}}
           </ul>
-          <h2 class="text-muted text-light">Corporations</h2>
+          <h2 class="text-muted text-light">{{i18n "char.standings.corps"}}</h2>
           <ul class="tile-list">
             <!-- Agent Entry -->
             {{#each corpStandings}}
@@ -270,7 +259,7 @@
               </li>
             {{/each}}
           </ul>
-          <h2 class="text-muted text-light">Agents</h2>
+          <h2 class="text-muted text-light">{{i18n "char.standings.agents"}}</h2>
           <ul class="tile-list">
             <!-- Agent Entry -->
             {{#each agentStandings}}

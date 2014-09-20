@@ -36,5 +36,4 @@ Meteor.methods
     applyToChar null, (id) ->
       UserData.updateCharacterSheet id
       UserData.updateSkillInTraining id
-
-  
+      UserData.updateNpcStandings id

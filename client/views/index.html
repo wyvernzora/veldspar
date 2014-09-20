@@ -58,16 +58,16 @@
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{userEmail}} <span class="caret"></span></a>
                 <ul class="dropdown-menu" role="menu">
-                  <li role="presentation" class="dropdown-header">Options</li>
-                  <li><a href="#">Preferences...</a></li>
-                  <li><a href="#">Change password</a></li>
+                  <li role="presentation" class="dropdown-header">{{i18n "nav.dropdown.options"}}</li>
+                  <li><a href="#">{{i18n "nav.dropdown.preferences"}}</a></li>
+                  <li><a href="#">{{i18n "nav.dropdown.change-password"}}</a></li>
                   <li class="divider"></li>
                   {{#if currentUser.isAdmin}}
-                    <li role="presentation" class="dropdown-header">Administrator Tools</li>
-                    <li><a href="{{pathFor "admin"}}">Administrator panel</a></li>
+                    <li role="presentation" class="dropdown-header">{{i18n "nav.dropdown.admin-tools"}}</li>
+                    <li><a href="{{pathFor "admin"}}">{{i18n "nav.dropdown.admin-panel"}}</a></li>
                     <li class="divider"></li>
                   {{/if}}
-                  <li id="rt-nav-logout"><a>Log Out</a></li>
+                  <li id="rt-nav-logout"><a>{{i18n "nav.dropdown.logout"}}</a></li>
                 </ul>
               </li>
             </ul>
@@ -86,7 +86,6 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">
           <span aria-hidden="true">&times;</span>
-          <span class="sr-only">Close</span>
         </button>
         {{> yield "title"}}
       </div>

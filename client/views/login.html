@@ -7,22 +7,22 @@
         <p class="lead">Your window into the <span class="text-primary">new eden.</span></p>
       </header>
       <div id="li-email-group" class="form-group">
-        <label for="li-email" class="sr-only">Email</label>
+        <label for="li-email" class="sr-only">{{i18n "login.email"}}</label>
         <input id="li-email" type="email" class="input-lg first form-control" placeholder="Email" required autofocus />
         <i class="icon ion-alert form-control-feedback"></i>
       </div>
       <div id="li-password-group" class="form-group">
-        <label for="li-password" class="sr-only">Password</label>
+        <label for="li-password" class="sr-only">{{i18n "login.password"}}</label>
         <input id="li-password" type="password" class="input-lg last form-control" placeholder="Password" required />
         <i class="icon ion-alert form-control-feedback"></i>
       </div>
-      <button id="li-forgot-password" class="btn btn-link btn-block" type="button">Forgot your password?</button>
+      <button id="li-forgot-password" class="btn btn-link btn-block" type="button">{{i18n "login.forgot-password"}}</button>
       <hr>
       <button id="li-login" class="btn btn-primary btn-lg btn-block" type="submit">
         {{#if session "login.loading"}}<i class="icon ion-loading-c"></i>
-        {{else}}Log In{{/if}}
+        {{else}}{{i18n "login.login"}}{{/if}}
       </button>
-      <button id="li-no-account" class="btn btn-link btn-block" type="button">Don't have an account?</button>
+      <button id="li-no-account" class="btn btn-link btn-block" type="button">{{i18n "login.no-account"}}</button>
     </div>
   </div>
 </template>

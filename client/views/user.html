@@ -4,12 +4,12 @@
     <!-- Tab Navigation -->
     <div id="ur-char-heading" class="page-header">
       <ul class="nav nav-pills" role="tablist">
-        <li class="active"><a href="#ur-characters" role="tab" data-toggle="pill">Characters <span class="badge"></span></a></li>
-        <li><a href="#ur-corporations" role="tab" data-toggle="pill">Corporations</a></li>
-        <li class="pull-right"><a id="ur-add-key"><i class="icon ion-plus"></i><span class="hidden-xs"> Add API Key</span></a></li>
+        <li class="active"><a href="#ur-characters" role="tab" data-toggle="pill">{{i18n "user.chars"}} <span class="badge"></span></a></li>
+        <li><a href="#ur-corporations" role="tab" data-toggle="pill">{{i18n "user.corps"}}</a></li>
+        <li class="pull-right"><a id="ur-add-key"><i class="icon ion-plus"></i><span class="hidden-xs"> {{i18n "user.add-key"}}</span></a></li>
         <li class="pull-right"><a id="ur-refresh">
           <i class="icon ion-refresh"></i>
-          <span class="hidden-xs"> Refresh</span></a></li>
+          <span class="hidden-xs"> {{i18n "nav.refresh"}}</span></a></li>
       </ul>
     </div>
     <!-- Tab Pages -->
@@ -22,7 +22,7 @@
             {{/each}}
           {{else}}
             <p class="text-muted text-center"><i class="icon icon-lg ion-ios7-information-outline"></i></p>
-            <p class="lead text-center">None of your characters are known to us.</p>
+            <p class="lead text-center">{{i18n "user.no-chars"}}</p>
           {{/if}}
         </section>
       </div>
@@ -58,14 +58,14 @@
       <hr>
       <div class="actions caption text-right">
         <div class="btn-group">
-          <a type="button" href="{{pathFor "char-sheet"}}" class="view-char btn btn-primary">View</a>
+          <a type="button" href="{{pathFor "char-sheet"}}" class="view-char btn btn-primary">{{i18n "user.view"}}</a>
           <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
             <span class="caret"></span>
           </button>
           <ul class="dropdown-menu" role="menu">
-            <li class="share-char"><a>Share</a></li>
+            <li class="share-char"><a>{{i18n "user.share"}}</a></li>
             <li class="divider"></li>
-            <li class="del-char"><a class="text-danger">Delete</a></li>
+            <li class="del-char"><a class="text-danger">{{i18n "user.delete"}}</a></li>
           </ul>
         </div>
       </div>
