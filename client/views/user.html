@@ -37,7 +37,7 @@
 <template name="ur_char_item">
   <div class="char-item col-sm-4 col-md-3 col-lg-3">
     <div class="thumbnail">
-      <img alt="portrait" src="{{portrait 512}}">
+      <img alt="portrait" src="{{portrait 512 "Character"}}">
       <div class="char-info caption">
         <h3 class="text-nowrap">{{name}}</h3>
         <p class="text-nowrap">{{corp.name}}</p>
@@ -56,19 +56,18 @@
         </div>
       </div>
       <hr>
-      <div class="actions caption text-center">
-        <div class="btn-group btn-group-sm dropup">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-              Action
-              <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-              <li class="share-char"><a>Share</a></li>
-              <li class="divider"></li>
-              <li class="del-char"><a class="text-danger">Delete</a></li>
-            </ul>
-          </div>
-        <button type="button" href="{{pathFor "char-sheet"}}" class="kern-link view-char btn btn-sm btn-primary">View</button>
+      <div class="actions caption text-right">
+        <div class="btn-group">
+          <a type="button" href="{{pathFor "char-sheet"}}" class="view-char btn btn-primary">View</a>
+          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li class="share-char"><a>Share</a></li>
+            <li class="divider"></li>
+            <li class="del-char"><a class="text-danger">Delete</a></li>
+          </ul>
+        </div>
       </div>
   </div>
   </div>
