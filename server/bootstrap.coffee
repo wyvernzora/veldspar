@@ -17,9 +17,12 @@ Meteor.startup ->
   # Calibrate timing
   try
     console.log 'Calibrating the cache timer...'
+    s = Date.now()
     srvInfo = Veldspar.API.Server.getServerStatus()
-    Veldspar.Timing.calibrate srvInfo._currentTime
-    console.log 'Timer calibration complete: dt = ' + Veldspar.Timing.dt + 'ms'
+    e = Date.now()
+    Veldspar.Timing.calibrate(new Date(srvInfo._currentTime.getTime() + (e - s) / 2))
+    console.log 'Timer calibration complete: dt = ' +
+      Veldspar.Timing.dt + 'ms, lag = ' + ((e - s) / 2) + 'ms'
   catch err
     console.error 'Timer calibration failed: ' + err.reason
     console.error 'Falling back to local time, but there may be up to 12 hours error.'
