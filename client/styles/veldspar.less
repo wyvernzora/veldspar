@@ -1,5 +1,56 @@
 /* import bootstrap */
-@import "../lib/bootstrap/bootstrap.import.less";
+@import "variables.import.less";
+
+@bootstrap-root: "../../packages/bootstrap3-less";
+
+/* Import Bootstrap */
+// Reset and dependencies
+@import "@{bootstrap-root}/lib/less/normalize.import.less";
+@import "@{bootstrap-root}/lib/less/print.import.less";
+@import "@{bootstrap-root}/lib/less/glyphicons.import.less";
+
+/* Core CSS */
+@import "@{bootstrap-root}/lib/less/scaffolding.import.less";
+@import "@{bootstrap-root}/lib/less/type.import.less";
+@import "@{bootstrap-root}/lib/less/code.import.less";
+@import "@{bootstrap-root}/lib/less/grid.import.less";
+@import "@{bootstrap-root}/lib/less/tables.import.less";
+@import "@{bootstrap-root}/lib/less/forms.import.less";
+@import "@{bootstrap-root}/lib/less/buttons.import.less";
+
+/* Components */
+@import "@{bootstrap-root}/lib/less/component-animations.import.less";
+@import "@{bootstrap-root}/lib/less/dropdowns.import.less";
+@import "@{bootstrap-root}/lib/less/button-groups.import.less";
+@import "@{bootstrap-root}/lib/less/input-groups.import.less";
+@import "@{bootstrap-root}/lib/less/navs.import.less";
+@import "@{bootstrap-root}/lib/less/navbar.import.less";
+@import "@{bootstrap-root}/lib/less/breadcrumbs.import.less";
+@import "@{bootstrap-root}/lib/less/pagination.import.less";
+@import "@{bootstrap-root}/lib/less/pager.import.less";
+@import "@{bootstrap-root}/lib/less/labels.import.less";
+@import "@{bootstrap-root}/lib/less/badges.import.less";
+@import "@{bootstrap-root}/lib/less/jumbotron.import.less";
+@import "@{bootstrap-root}/lib/less/thumbnails.import.less";
+@import "@{bootstrap-root}/lib/less/alerts.import.less";
+@import "@{bootstrap-root}/lib/less/progress-bars.import.less";
+@import "@{bootstrap-root}/lib/less/media.import.less";
+@import "@{bootstrap-root}/lib/less/list-group.import.less";
+@import "@{bootstrap-root}/lib/less/panels.import.less";
+@import "@{bootstrap-root}/lib/less/responsive-embed.import.less";
+@import "@{bootstrap-root}/lib/less/wells.import.less";
+@import "@{bootstrap-root}/lib/less/close.import.less";
+
+/* Components w/ JavaScript */
+@import "@{bootstrap-root}/lib/less/modals.import.less";
+@import "@{bootstrap-root}/lib/less/tooltip.import.less";
+@import "@{bootstrap-root}/lib/less/popovers.import.less";
+@import "@{bootstrap-root}/lib/less/carousel.import.less";
+
+/* Utility classes */
+@import "@{bootstrap-root}/lib/less/utilities.import.less";
+@import "@{bootstrap-root}/lib/less/responsive-utilities.import.less";
+
 
 /* import global styles */
 @import "global.import.less";
