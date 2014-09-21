@@ -41,7 +41,7 @@ i18n.map 'en',
       'basic-info': 'Basic Information'
       'gender': 'Gender'
       'race': 'Race'
-      'bloodline': 'Bloocline'
+      'bloodline': 'Bloodline'
       'ancestry': 'Ancestry'
       'current-ship': 'Current Ship'
       'attributes': 'Attributes'
@@ -51,6 +51,9 @@ i18n.map 'en',
       'intelligence': 'Intelligence'
       'charisma': 'Charisma'
       'location': 'Location'
+      'birthday': 'Date of Birth'
+      'clone': 'Clone Skill Points'
+      'clone-insufficient': 'Insufficient!'
     'employment':
       'employment-history': 'Employment History'
     'standings':

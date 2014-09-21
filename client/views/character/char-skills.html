@@ -129,8 +129,23 @@
     <div class="skill-cat-head collapsed" data-toggle="collapse" href="#cert{{id}}">
       <h4 class="panel-title text-nowrap"><i class="icon ion-arrow-right-b"></i>  {{name}}</h4>
     </div>
-    <div id="cert{{id}}" class="panel panel-default panel-collapse collapse">
-      <div class="list-group prop-list">
+    <div id="cert{{id}}" class="panel-collapse collapse">
+
+      <ul class="tile-list">
+        {{#each certificates}}
+          <li class="{{certStyle}} has-icon col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <div>
+              <img alt="level-icon" src="/svg/va_cert-{{level}}.svg">
+              <div>
+                <div class="caption bold text-nowrap"><a>{{name}}</a></div>
+                <div class="caption small text-muted text-nowrap">work in progress...</div>
+              </div>
+            </div>
+          </li>
+        {{/each}}
+      </ul>
+
+      <!--<div class="list-group prop-list">
         {{#each certificates}}
         <a class="list-group-item container-fluid has-icon">
           <img class="pull-left" src="/svg/va_cert-{{level}}.svg">
@@ -142,8 +157,9 @@
             <div class="no-left-padding col-xs-8 col-sm-10 text-muted small">{{skills.length}} Skills</div>
           </div>
         </a>
+
         {{/each}}
-      </div>
+      </div>-->
     </div>
   {{/each}}
 </template>

@@ -14,9 +14,7 @@ Meteor.startup ->
       'dob': ->
         @dob.toLocaleDateString()
 
-      'attrWidth': (attr) ->
-        base: @attributes[attr].value / maxAttrValue * 100
-        bonus: @attributes[attr].bonus / maxAttrValue * 100
+
 
 
       'timeInCorp': ->
@@ -28,7 +26,7 @@ Meteor.startup ->
         if -10.0 <= @standing <= -5.0 then 'danger'
         else if -5.0 < @standing <= -1.0 then 'warning'
         else if -1.0 < @standing < 1.0 then 'default'
-        else if 1.0 <= @standing < 5.0 then 'success'
+        else if 1.0 <= @standing < 5.0 then 'info'
         else if 5.0 <= @standing <= 10.0 then 'primary'
 
       'agentStandings': ->

@@ -41,24 +41,7 @@
             <h3 class="no-margin text-light">{{corp/name}}</h3>
             <hr>
             <div class="row">
-              <b class="col-xs-4 col-sm-2 text-right">Gender</b>
-              <span class="col-xs-8 col-sm-4 text-muted">{{gender}}</span>
-              <b class="col-xs-4 col-sm-2 text-right">
-                <span class="hidden-sm hidden-xs">Date of Birth</span>
-                <span class="visible-sm visible-xs">DOB</span>
-              </b>
-              <span class="col-xs-8 col-sm-4 text-muted">{{dob}}</span>
-              <b class="col-xs-4 col-sm-2 text-right">Wealth</b>
-              <span class="col-xs-8 col-sm-4 text-muted">{{millionize balance 2}} ISK</span>
-              <b class="col-xs-4 col-sm-2 text-right">
-                <span class="hidden-sm hidden-xs">Skill Points</span>
-                <span class="visible-sm visible-xs">SP</span>
-              </b>
-              <span class="col-xs-8 col-sm-4 text-muted">{{millionize skillPoints}} ({{skills/length}} Skills)</span>
-              <b class="col-xs-4 col-sm-2 text-right">Bloodline</b>
-              <span class="col-xs-8 col-sm-4 text-muted text-nowrap">{{race}}/{{bloodLine}}/{{ancestry}}</span>
-              <b class="col-xs-4 col-sm-2 text-right">Clone</b>
-              <span class="col-xs-8 col-sm-4 text-muted">{{clone/name}} ({{millionize clone/skillPoints}})</span>
+              <div class="lead text-light">{{balance}} ISK</div>
             </div>
           </div>
         </div>
@@ -68,6 +51,16 @@
         <div id="ch-sht-basic" class="tab-pane active fade in">
           <h2 class="text-muted text-light">{{i18n "char.basic.basic-info"}}</h2>
           <ul class="tile-list">
+            <!-- Character Birthday -->
+            <li class="has-icon col-xs-12 col-sm-6 col-md-4 col-lg-3">
+              <div>
+                <img src="/svg/va_egg.svg">
+                <div>
+                  <div class="prop-name no-margin text-nowrap text-muted small">{{i18n "char.basic.birthday"}}</div>
+                  <div class="prop-value no-margin text-nowrap">{{dob}}</div>
+                </div>
+              </div>
+            </li>
             <!-- Character Gender -->
             <li class="has-icon col-xs-12 col-sm-6 col-md-4 col-lg-3">
               <div>
@@ -108,6 +101,19 @@
                 </div>
               </div>
             </li>
+            <!-- Character Clone -->
+            <li class="has-icon col-xs-12 col-sm-6 col-md-4 col-lg-3">
+              <div>
+                <img src="/svg/va_clone.svg">
+                <div>
+                  <div class="prop-name no-margin text-nowrap text-muted small">{{i18n "char.basic.clone"}}</div>
+                  <div class="prop-value no-margin text-nowrap">
+                    {{millionize clone/skillPoints}}
+
+                  </div>
+                </div>
+              </div>
+            </li>
             <!-- Character Location -->
             <li class="has-icon col-xs-12 col-sm-6 col-md-4 col-lg-3">
               <div>
@@ -124,7 +130,7 @@
                 <img src="/svg/va_ship-titan.svg">
                 <div>
                   <div class="prop-name no-margin text-nowrap text-muted small">{{i18n "char.basic.current-ship"}}</div>
-                  <div class="prop-value no-margin text-nowrap">{{ship.name}} ({{ship.type.name}})</div>
+                  <div class="prop-value no-margin text-nowrap"><span class="label label-primary label-xs">{{ship.type.name}}</span> {{ship.name}}</div>
                 </div>
               </div>
             </li>
@@ -140,7 +146,7 @@
                   <div class="prop-value no-margin text-nowrap h3">
                     {{../attributes.perception.value}}
                     {{#if ../attributes.perception.bonus}}
-                      <span class="text-success">+ {{../attributes.perception.bonus}}</span>
+                      <span class="text-success-b">+ {{../attributes.perception.bonus}}</span>
                     {{/if}}
                   </div>
                 </div>
@@ -155,7 +161,7 @@
                   <div class="prop-value no-margin text-nowrap h3">
                     {{../attributes.memory.value}}
                     {{#if ../attributes.memory.bonus}}
-                      <span class="text-success">+ {{../attributes.memory.bonus}}</span>
+                      <span class="text-success-b">+ {{../attributes.memory.bonus}}</span>
                     {{/if}}
                   </div>
                 </div>
@@ -170,7 +176,7 @@
                   <div class="prop-value no-margin text-nowrap h3">
                     {{../attributes.willpower.value}}
                     {{#if ../attributes.willpower.bonus}}
-                      <span class="text-success">+ {{../attributes.willpower.bonus}}</span>
+                      <span class="text-success-b">+ {{../attributes.willpower.bonus}}</span>
                     {{/if}}
                   </div>
                 </div>
@@ -185,7 +191,7 @@
                   <div class="prop-value no-margin text-nowrap h3">
                     {{../attributes.intelligence.value}}
                     {{#if ../attributes.intelligence.bonus}}
-                      <span class="text-success">+ {{../attributes.intelligence.bonus}}</span>
+                      <span class="text-success-b">+ {{../attributes.intelligence.bonus}}</span>
                     {{/if}}
                   </div>
                 </div>
@@ -200,7 +206,7 @@
                   <div class="prop-value no-margin text-nowrap h3">
                     {{../attributes.charisma.value}}
                     {{#if ../attributes.charisma.bonus}}
-                      <span class="text-success">+ {{../attributes.charisma.bonus}}</span>
+                      <span class="text-success-b">+ {{../attributes.charisma.bonus}}</span>
                     {{/if}}
                   </div>
                 </div>

@@ -87,5 +87,8 @@ Meteor.startup ->
             cert.level = @certificates[cert._id] ? 0
 
         return certs
+      'certStyle': ->
+        if @level is 5 then 'success'
+        else if @level is 0 then 'not-injected'
 
   )(Template['char-skills-certificates'])
