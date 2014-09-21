@@ -92,12 +92,12 @@
 
 <template name="char-skills-my">
   {{#each skillCategories}}
-    <div class="skill-cat-head collapsed" data-toggle="collapse" href="#{{_id}}">
+    <div class="skill-cat-head collapsed" data-toggle="collapse" href="#{{tag}}">
       <h4 class="panel-title text-nowrap"><i class="icon ion-arrow-right-b"></i>  {{name}}
         <small>({{millionize skillPoints}} SP)</small>
       </h4>
     </div>
-    <div id="{{_id}}" class="skill-cat-body panel panel-default panel-collapse collapse">
+    <div id="{{tag}}" class="skill-cat-body panel panel-default panel-collapse collapse">
       <div  class="list-group prop-list">
         {{#if skills}}
           {{#each skills}}
@@ -125,11 +125,11 @@
 </template>
 
 <template name="char-skills-certificates">
-  {{#each certCategories}}
-    <div class="skill-cat-head collapsed" data-toggle="collapse" href="#cert{{id}}">
+  {{#each certGroups}}
+    <div class="skill-cat-head collapsed" data-toggle="collapse" href="#cert{{tag}}">
       <h4 class="panel-title text-nowrap"><i class="icon ion-arrow-right-b"></i>  {{name}}</h4>
     </div>
-    <div id="cert{{id}}" class="panel-collapse collapse">
+    <div id="cert{{tag}}" class="panel-collapse collapse">
 
       <ul class="tile-list">
         {{#each certificates}}

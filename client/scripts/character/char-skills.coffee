@@ -17,13 +17,14 @@ Meteor.startup ->
 
       # Character Helpers
       'charSkill': (char, skill) ->
-        skill = _.binSearch char.skills, skill, (a, b) -> a.id-b.id
+        skill = Veldspar.UserData.skills.findOne _id: String(char.id) + '.' + String(skill.id)
         return skill
       'queueParam': (char, q) ->
-          'level': _.binSearch(char.skills, q.skill, (a, b) -> a.id-b.id)?.level ? 0
+          'level': Veldspar.UserData.skills.findOne(_id: String(char.id) + '.' + String(skill.id))?.level ? 0
           'queued': q.skill.level
           'training': if q.position is 1 then _.chain(char.skillQueue).find((s) ->
             s.position is 1).value()?.skill.level ? 0 else 0
+
   )(Template['char-skills'])
 
 # CH-SKL-Q: Skill Queue Page
@@ -35,10 +36,10 @@ Meteor.startup ->
         _.values _.omit @skillQueue, '_cachedUntil'
       'skillQueueItem': (char) ->
         params =
-          skillInfo: Veldspar.StaticData.skillTree.findOne _id:String(@skill.id)
-          charSkill: _.binSearch char.skills, @skill, (a, b) -> a.id-b.id
+          skillInfo: Veldspar.StaticData.skills.findOne _id:String(@skill.id)
+          charSkill: Veldspar.UserData.skills.findOne _id:String(char.id)+'.'+String(@skill.id)
           indicator:
-            'level': char.getSkill(@skill.id)?.level ? 0
+            'level': Veldspar.UserData.skills.findOne(_id:String(char.id)+'.'+String(@skill.id))?.level ? 0
             'queued': @skill.level
             'training': if @position is 0 then @skill.level
           remainingTime: if @position is 0
@@ -56,35 +57,30 @@ Meteor.startup ->
     view.helpers
       'skillCategories': ->
         char = Veldspar.UserData.characters.findOne _id:Session.get 'app.character'
-        # Skip 'Fake Skills' category
-        categories = Veldspar.StaticData.skillCategories.find({$nor: [_id:'505']}, {sort: {name: 1}}).fetch()
-
-        for cat in categories
-          cat.skills = _.chain(@skills).where(groupID:Number cat._id).sort((a,b)->
-            return 1 if a.name > b.name
-            return -1 if a.name < b.name
-            return 0).value()
-          cat.skillPoints = _.chain(cat.skills).pluck('sp').reduce(((i, mem) -> i+mem), 0).value()
-
-        return categories
+        skills = Veldspar.UserData.skills.find({$nor: [group: 'Fake Skills']}, {sort: {name: 1}}).fetch()
+        groups = _.chain(skills).groupBy('group').map((v, k) -> {name: k, skills: v}).sort((a,b)->
+          return 1 if a.name > b.name
+          return -1 if a.name < b.name
+          return 0).value()
+        for group in groups
+          group.skillPoints = _.chain(group.skills).pluck('sp').reduce(((i, mem) -> mem + i), 0).value()
+          group.tag = group.name.replace ' ', '-'
+        return groups
 
   )(Template['char-skills-my'])
-
 
 # CH-SKL-C: Certificates
 Meteor.startup ->
   ((view) ->
 
     view.helpers
-      'certCategories': ->
+      'certGroups': ->
         certs = _.chain(Veldspar.StaticData.certificates.find().fetch())
-          .groupBy('groupID').map((v,k) -> id:k, certificates:v).value()
-        for id, group of certs
-          # Resolve category name
-          group.name = Veldspar.StaticData.skillCategories.findOne({_id:String(group.id)})?.name ? 'UNKNOWN CATEGORY (BUG): ' + group.id
-          # Retrieve certificate levels
+          .groupBy('group').map((v,k) -> name:k, certificates:v, tag:k.replace(' ', '-')).value()
+
+        for group in certs
           for cert in group.certificates
-            cert.level = @certificates[cert._id] ? 0
+            cert.level = @certificates[Number cert._id]
 
         return certs
       'certStyle': ->

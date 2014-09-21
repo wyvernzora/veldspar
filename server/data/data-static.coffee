@@ -5,35 +5,9 @@ Veldspar = (exports ? this).Veldspar
 StaticData = Veldspar.StaticData
 
 # Publish all static data
-Meteor.publish 'static.SkillTree', -> StaticData.skillTree.find()
-Meteor.publish 'static.SkillCategories', -> StaticData.skillCategories.find()
-Meteor.publish 'static.Certificates', -> StaticData.certificates.find()
+Meteor.publish 'static.skills', -> StaticData.skills.find()
+Meteor.publish 'static.certificates', -> StaticData.certificates.find()
 
-Meteor.publish 'static.Properties', -> StaticData.properties.find()
-Meteor.publish 'static.MarketGroups', -> StaticData.marketGroups.find()
-Meteor.publish 'static.Types', -> StaticData.types.find()
-
-
-# Security policies
-StaticData.skillTree.allow {
-  insert: (userId) ->
-    user = Meteor.users.findOne({_id: userId});
-    return (user?.isAdmin)
-  update: (userId) ->
-    user = Meteor.users.findOne({_id: userId});
-    return (user?.isAdmin)
-  remove: (userId) ->
-    user = Meteor.users.findOne({_id: userId});
-    return (user?.isAdmin)
-  }
-StaticData.skillCategories.allow {
-  insert: (userId) ->
-    user = Meteor.users.findOne({_id: userId});
-    return (user?.isAdmin)
-  update: (userId) ->
-    user = Meteor.users.findOne({_id: userId});
-    return (user?.isAdmin)
-  remove: (userId) ->
-    user = Meteor.users.findOne({_id: userId});
-    return (user?.isAdmin)
-  }
+Meteor.publish 'static.properties', -> StaticData.properties.find()
+Meteor.publish 'static.marketGroups', -> StaticData.marketGroups.find()
+Meteor.publish 'static.types', -> StaticData.types.find()

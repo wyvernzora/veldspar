@@ -30,7 +30,7 @@ Meteor.startup ->
       'skillName': ->
         id = @skillInTraining?.skill?.id
         if id
-          return Veldspar.StaticData.skillTree.findOne(_id: String id).name
+          return Veldspar.StaticData.skills.findOne(_id: String id).name
         else null
       'percent': ->
         info = _.extend this.skillInTraining, now:Session.get 'app.now'
