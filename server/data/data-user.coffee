@@ -2,28 +2,41 @@
 # data-user.coffee - User related data
 # Copyright © Denis Luchkin-Zhou
 Veldspar = (exports ? this).Veldspar
+StaticData = Veldspar.StaticData
 UserData = Veldspar.UserData
 Cache = Veldspar.Cache
 
 # Publish User Info
-Meteor.publish 'user.Config', ->
+Meteor.publish 'user.config', ->
   return Meteor.users.find(_id:this.userId, {fields: {isAdmin:1, config: 1}}) if @userId
   @ready()
 
 # Publish Character Data
-Meteor.publish 'user.Characters', ->
+Meteor.publish 'user.characters', ->
   # For the increased security and possible future implementation of character
   # sharing feature, API Keys should never be visible on the client side of the
   # application.
   return UserData.characters.find({owner: this.userId}, {fields: {apiKey: 0}}) if @userId
   @ready()
 
-Meteor.publish 'user.SkillQueue', ->
-  return UserData.skillQueue.find({owner: this.userId}) if @userId
-  @ready()
+Meteor.publish 'user.skills', (charid) ->
+  char = UserData.characters.findOne _id:charid
+  if char and (char.owner is this.userId)
+    cursor = UserData.skills.find 'charId': char.id
+    console.log 'Skills found: ' + cursor.count()
+    return cursor
+  else
+    this.ready()
+
+Meteor.publish 'user.skillQueue', (charid) ->
+  char = UserData.characters.findOne _id:charid
+  if char and (char.owner is this.userId)
+    return UserData.skillQueue.find 'charId': charid
+  else
+    this.ready()
 
 # Publish standing data
-Meteor.publish 'user.NpcStandings', (charid) ->
+Meteor.publish 'user.npcStandings', (charid) ->
   char = UserData.characters.findOne _id:charid
   if char and (char.owner is this.userId)
     return UserData.npcStandings.find 'charId': charid
@@ -32,6 +45,10 @@ Meteor.publish 'user.NpcStandings', (charid) ->
 
 # Utility methods
 UserData.updateCharacterSheet = (id) ->
+  ###
+  ID Generation:
+    Skill: CharID + '.' + SkillID
+  ###
   console.log 'UserData.updateCharacterSheet()'
 
   # Cannot do this if no user is logged in
@@ -46,13 +63,20 @@ UserData.updateCharacterSheet = (id) ->
     return
 
   # Skip the update if cache is still valid
-  if char._cachedUntil and char._cachedUntil >= Veldspar.Timing.eveTime()
-    console.log 'Cache timer in effect until ' + char._cachedUntil
+  cacheTimer = Cache.timers.findOne(charId: char.id, method: 'char-sheet')
+  if cacheTimer?.timer and cacheTimer.timer >= Veldspar.Timing.eveTime()
+    console.log 'Cache timer in effect until ' + cacheTimer.timer
     return
 
   # Start the update by getting the most recent character sheet
   charSheet = Veldspar.API.Character.getCharacterSheet char.apiKey, char.id
   charInfo = Veldspar.API.Eve.getCharacterInfo char.apiKey, char.id
+
+  # Update the cache timer
+  if cacheTimer
+    Cache.timers.update {_id: cacheTimer._id}, {$set: {timer: charSheet._cachedUntil}}
+  else
+    Cache.timers.insert charId: char.id, method: 'char-sheet', timer: charSheet._cachedUntil
 
   # Resolve employment history
   employerNames = Veldspar.Cache.resolveEntityNames _.map(charInfo.employmentHistory, (i)->i.corp.id)
@@ -62,22 +86,20 @@ UserData.updateCharacterSheet = (id) ->
   # Merge charInfo into charSheet
   _.extend charSheet, _.pick charInfo, 'employmentHistory', 'ship', 'location', 'securityStatus', 'corp'
 
-  # Convert skill array into a skill hash for faster lookup
-  charSheet.skills = _.indexBy charSheet.skills, 'id'
-
   # Compute total character skill points
   charSheet.skillPoints = _(charSheet.skills).pluck('sp').reduce(((memo, num) -> memo + num), 0)
 
-  # Resolve basic skill information
-  for id, s of charSheet.skills
-    skill = Veldspar.StaticData.skillTree.findOne({_id:String(s.id)}) ?
-      name: 'UNKNOWN'
-      rank: 1
-      attributes:
-        primary: 'intelligence'
-        secondary: 'memory'
-    _.extend s, _.pick skill, 'name', 'rank', 'attributes'
-    s.groupID = skill.group.id
+  # Update character skills
+  for skill in charSheet.skills
+    _id = char.id + '.' + String(skill.id)
+    info = StaticData.skills.findOne({_id:String(skill.id)})
+    _.extend(skill, _.pick(info, 'name', 'rank', 'attributes'), charId: char.id)
+    skill.group = info.group
+    # Insert the skill into database
+    UserData.skills.update {_id:_id}, {$set: skill}, {upsert: yes}
+
+  # Delete the skill collection fron character sheet
+  delete charSheet.skills
 
   # Calculate certificate levels from skills
   charSheet.certificates = { }
@@ -85,8 +107,7 @@ UserData.updateCharacterSheet = (id) ->
     skillLevels = []
     # Get skill levels for the character
     for skill in cert.skills
-      #l = char.getSkill(skill.id)?.level ? 0
-      l = charSheet.skills[skill.id]?.level ? 0
+      l = UserData.skills.findOne(_id:char.id + '.' + String(skill.id))?.level ? 0
       for i in [0..5]
         x = i if skill.levels[i] <= l
       skillLevels.push x

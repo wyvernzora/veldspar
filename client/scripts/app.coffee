@@ -21,7 +21,7 @@ Router.map ->
     path:'/'
     template: 'user'
     waitOn: ->
-      Meteor.subscribe 'user.Characters'
+      Meteor.subscribe 'user.characters'
     data: ->
       characters: Veldspar.UserData.characters.find type:'Character'
       corporations: Veldspar.UserData.characters.find type:'Corporation'
@@ -29,16 +29,23 @@ Router.map ->
   @route 'char-sheet',
     path:'/char/:_id'
     waitOn: ->
-      return [Meteor.subscribe('user.Characters'), Meteor.subscribe('user.NpcStandings', @params._id)]
+      return [
+        Meteor.subscribe('user.characters'),
+        Meteor.subscribe('user.npcStandings', @params._id)
+      ]
     data: ->
       return Veldspar.UserData.characters.findOne('_id':@params._id) ? null
   # Character Skills
   @route 'char-skills',
     path:'/char/:_id/skills'
     waitOn: ->
-      Meteor.subscribe 'user.Characters'
+      return [
+        Meteor.subscribe('user.characters'),
+        Meteor.subscribe('user.skills', @params._id)
+      ]
     data: ->
-      return Veldspar.UserData.characters.findOne('_id':@params._id) ? null
+      _.extend Veldspar.UserData.characters.findOne('_id':@params._id) ? {}
+
   # Administrator Panel
   @route 'admin',
     path: '/admin'

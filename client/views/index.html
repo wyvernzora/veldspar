@@ -65,6 +65,7 @@
                   {{#if currentUser.isAdmin}}
                     <li role="presentation" class="dropdown-header">{{i18n "nav.dropdown.admin-tools"}}</li>
                     <li><a href="{{pathFor "admin"}}">{{i18n "nav.dropdown.admin-panel"}}</a></li>
+                    <li id="rt-nav-drop-cache"><a class="text-danger">Drop cache timers</a></li>
                     <li class="divider"></li>
                   {{/if}}
                   <li id="rt-nav-logout"><a>{{i18n "nav.dropdown.logout"}}</a></li>

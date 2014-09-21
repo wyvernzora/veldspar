@@ -11,6 +11,14 @@ Meteor.startup ->
       'click #rt-nav-logout': ->
         Meteor.logout()
 
+      # Debugging tools
+      'click #rt-nav-drop-cache': ->
+        _id = Router.current()?.params?._id
+        if not _id then alert 'You need to have a character selected!'
+        else Meteor.call 'dev.dropCacheTimeout', _id, (error) ->
+          if (error) then alert error.reason
+          else alert 'Cache timers have been successfully dropped!'
+
     # Meteor.js helpers
     view.helpers
       'modal': ->
