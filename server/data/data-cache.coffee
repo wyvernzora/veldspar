@@ -27,3 +27,4 @@ Cache.resolveEntityNames = (IDs) ->
     Veldspar.Cache.entityNames.update {_id:id}, {name: name}, true
   # Return thje combined results
   return _.extend cached, response
+  

@@ -54,7 +54,7 @@
             <!-- Character Birthday -->
             <li class="has-icon col-xs-12 col-sm-6 col-md-4 col-lg-3">
               <div>
-                <img src="/svg/va_egg.svg">
+                <img src="/svg/general/egg.svg">
                 <div>
                   <div class="prop-name no-margin text-nowrap text-muted small">{{i18n "char.basic.birthday"}}</div>
                   <div class="prop-value no-margin text-nowrap">{{dob}}</div>
@@ -64,7 +64,7 @@
             <!-- Character Gender -->
             <li class="has-icon col-xs-12 col-sm-6 col-md-4 col-lg-3">
               <div>
-                <img src="/svg/va_gender-{{lower gender}}.svg">
+                <img src="/svg/general/gender-{{lower gender}}.svg">
                 <div>
                   <div class="prop-name no-margin text-nowrap text-muted small">{{i18n "char.basic.gender"}}</div>
                   <div class="prop-value no-margin text-nowrap">{{gender}}</div>
@@ -74,7 +74,7 @@
             <!-- Character Race -->
             <li class="has-icon col-xs-12 col-sm-6 col-md-4 col-lg-3">
               <div>
-                <img src="/svg/va_faction-{{lower race}}.svg">
+                <img src="/svg/entities/faction-{{lower race}}.svg">
                 <div>
                   <div class="prop-name no-margin text-nowrap text-muted small">{{i18n "char.basic.race"}}</div>
                   <div class="prop-value no-margin text-nowrap">{{race}}</div>
@@ -84,7 +84,7 @@
             <!-- Character Bloodline -->
             <li class="has-icon col-xs-12 col-sm-6 col-md-4 col-lg-3">
               <div>
-                <img src="/svg/va_bloodline-{{lower bloodLine}}.svg">
+                <img src="/svg/entities/bloodline-{{lower bloodLine}}.svg">
                 <div>
                   <div class="prop-name no-margin text-nowrap text-muted small">{{i18n "char.basic.bloodline"}}</div>
                   <div class="prop-value no-margin text-nowrap">{{bloodLine}}</div>
@@ -94,7 +94,7 @@
             <!-- Character Ancestry -->
             <li class="has-icon col-xs-12 col-sm-6 col-md-4 col-lg-3">
               <div>
-                <img src="/svg/va_faction-concord.svg">
+                <img src="/svg/entities/faction-concord.svg">
                 <div>
                   <div class="prop-name no-margin text-nowrap text-muted small">{{i18n "char.basic.ancestry"}}</div>
                   <div class="prop-value no-margin text-nowrap">{{ancestry}}</div>
@@ -104,12 +104,12 @@
             <!-- Character Clone -->
             <li class="has-icon col-xs-12 col-sm-6 col-md-4 col-lg-3">
               <div>
-                <img src="/svg/va_clone.svg">
+                <img src="/svg/general/clone.svg">
                 <div>
                   <div class="prop-name no-margin text-nowrap text-muted small">{{i18n "char.basic.clone"}}</div>
                   <div class="prop-value no-margin text-nowrap">
+                    <span class="label label-{{cloneTagStyle}} label-xs">{{cloneUtilization}}</span>
                     {{millionize clone/skillPoints}}
-
                   </div>
                 </div>
               </div>
@@ -117,7 +117,7 @@
             <!-- Character Location -->
             <li class="has-icon col-xs-12 col-sm-6 col-md-4 col-lg-3">
               <div>
-                <img src="/svg/va_location.svg">
+                <img src="/svg/general/location.svg">
                 <div>
                   <div class="prop-name no-margin text-nowrap text-muted small">{{i18n "char.basic.location"}}</div>
                   <div class="prop-value no-margin text-nowrap">{{location}}</div>
@@ -127,7 +127,7 @@
             <!-- Character Ship -->
             <li class="has-icon col-xs-12 col-sm-6 col-md-4 col-lg-3">
               <div>
-                <img src="/svg/va_ship-titan.svg">
+                <img src="/svg/ship-brackets/ship-titan.svg">
                 <div>
                   <div class="prop-name no-margin text-nowrap text-muted small">{{i18n "char.basic.current-ship"}}</div>
                   <div class="prop-value no-margin text-nowrap"><span class="label label-primary label-xs">{{ship.type.name}}</span> {{ship.name}}</div>

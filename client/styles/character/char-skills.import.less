@@ -1,7 +1,7 @@
 #char-skills {
 
-  .not-injected:not(:hover) { 
-    .opacity(0.3);
+  .not-injected > div:not(:hover) {
+    .opacity(0.4);
   }
 
   .no-left-padding { padding-left: 0; }
@@ -19,4 +19,13 @@
     i.icon:before { content: '\f104'; }
     &.collapsed i.icon:before { content: '\f10a'; }
   }
+
+}
+
+
+
+/* RESOURCES */
+@keyframes training {
+  0% { fill-opacity: 1; }
+  100% { fill-opacity: 0.5; }
 }

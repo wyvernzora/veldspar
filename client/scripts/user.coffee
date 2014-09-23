@@ -27,11 +27,6 @@ Meteor.startup ->
   ((view) ->
 
     view.helpers
-      'skillName': ->
-        id = @skillInTraining?.skill?.id
-        if id
-          return Veldspar.StaticData.skills.findOne(_id: String id).name
-        else null
       'percent': ->
         info = _.extend this.skillInTraining, now:Session.get 'app.now'
         if info and info.active then Veldspar.Timing.progress info else 0
@@ -42,7 +37,6 @@ Meteor.startup ->
         else null
 
   )(Template.ur_char_item)
-
 
 # AK: Add Key
 Meteor.startup ->

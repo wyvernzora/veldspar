@@ -22,9 +22,7 @@ Meteor.publish 'user.characters', ->
 Meteor.publish 'user.skills', (charid) ->
   char = UserData.characters.findOne _id:charid
   if char and (char.owner is this.userId)
-    cursor = UserData.skills.find 'charId': char.id
-    console.log 'Skills found: ' + cursor.count()
-    return cursor
+    return UserData.skills.find 'charId': char.id
   else
     this.ready()
 

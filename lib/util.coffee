@@ -16,3 +16,10 @@ Veldspar.util =
       p = char.attributes[skill.attributes.primary]
       s = char.attributes[skill.attributes.secondary]
       return p.value + p.bonus + (s.value + s.bonus) / 2
+
+  # Sorting and such
+  compare:
+    byName: (a, b) ->
+      return 1 if a.name > b.name
+      return -1 if a.name < b.name
+      return 0

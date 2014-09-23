@@ -52,8 +52,53 @@
   }
 }
 
+@skill-level-b-height: 5px;
+@skill-level-b-border: lighten(@gray-light, 20%);
+.skill-level-b {
+
+  /* Remove pesky gaps */
+  font-size: 0px;
+
+  clear: both;
+  position: relative;
+  height: @skill-level-b-height;
+  line-height: @skill-level-b-height;
+
+  border-top: 1px solid @skill-level-b-border;
+  margin-right: -8px;
+
+  .level {
+
+    width: 20%;
+    height: @skill-level-b-height;
+    display: inline-block;
+
+    background: transparent;
+    border-right: 1px solid @skill-level-b-border;
+
+    &:last-of-type { border-right: none; }
+
+    /* Specific styles */
+    &.need { background: fadeout(@brand-danger, 50%); }
+    &.queued { background: @brand-info;  }
+    &.training { animation: trainingb 1s linear 0s infinite alternate; }
+    &.have {
+      background: lighten(@gray-light, 10%);
+      border-right-color: white;
+    }
+
+    /* Force grren appearance when requested by parent element */
+    .success & { background: lighten(@brand-success, 10%); }
+  }
+}
+
 /* RESOURCES */
 @keyframes training {
   0% { fill-opacity: 1; }
   100% { fill-opacity: 0.5; }
+}
+
+@keyframes trainingb {
+  0% { opacity: 1; }
+  100% { opacity: 0; }
 }

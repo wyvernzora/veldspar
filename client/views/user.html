@@ -44,7 +44,16 @@
       </div>
       <hr>
       <div class="skill-info caption text-center">
-        <h5 class="text-nowrap">{{#if skillName}}{{skillName}}{{else}}- - -{{/if}}</h5>
+        <h5 class="text-nowrap">
+          {{#if skillInTraining/skill/id}}
+            {{#with skill skillInTraining/skill/id}}
+              {{name}}
+            {{/with}}
+            {{romanize skillInTraining/skill/level}}
+          {{else}}
+            - - -
+          {{/if}}
+        </h5>
         <div class="progress">
           <div class="progress-bar progress-bar-info progress-bar-striped"
             role="progressbar" style="width: {{percent}}%;"></div>

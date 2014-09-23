@@ -13,8 +13,15 @@ Meteor.startup ->
         _.values @skills
       'dob': ->
         @dob.toLocaleDateString()
-
-
+      'cloneUtilization': ->
+        percent = Math.round(@skillPoints / @clone.skillPoints * 100)
+        if percent < 100 then percent + '%'
+        else 'Insufficient!'
+      'cloneTagStyle': ->
+        percent = Math.round(@skillPoints / @clone.skillPoints * 100)
+        return 'success' if percent < 60
+        return 'warning' if percent < 80
+        return 'danger'
 
 
       'timeInCorp': ->

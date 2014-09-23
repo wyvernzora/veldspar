@@ -34,6 +34,7 @@ Meteor.startup ->
     view.helpers
       'skillQueue': ->
         _.values _.omit @skillQueue, '_cachedUntil'
+      'skillIcon': -> '/svg/skills/book-default.svg'
       'skillQueueItem': (char) ->
         params =
           skillInfo: Veldspar.StaticData.skills.findOne _id:String(@skill.id)
@@ -58,14 +59,19 @@ Meteor.startup ->
       'skillCategories': ->
         char = Veldspar.UserData.characters.findOne _id:Session.get 'app.character'
         skills = Veldspar.UserData.skills.find({$nor: [group: 'Fake Skills']}, {sort: {name: 1}}).fetch()
-        groups = _.chain(skills).groupBy('group').map((v, k) -> {name: k, skills: v}).sort((a,b)->
-          return 1 if a.name > b.name
-          return -1 if a.name < b.name
-          return 0).value()
+        groups = _.chain(skills).groupBy('group').map((v, k) -> {name: k, skills: v})
+          .sort(Veldspar.util.compare.byName).value()
         for group in groups
           group.skillPoints = _.chain(group.skills).pluck('sp').reduce(((i, mem) -> mem + i), 0).value()
           group.tag = group.name.replace ' ', '-'
         return groups
+      'skillStyle': ->
+        if @level is 5 then return 'success'
+      'skillIcon': ->
+        lv = @?.level ? 0
+        if lv is 5 then '/svg/skills/book-level-v.svg'
+        else if @sp isnt Veldspar.util.skill.sp(lv, @rank) then return '/svg/skills/book-partial.svg'
+        else '/svg/skills/book-default.svg'
 
   )(Template['char-skills-my'])
 
@@ -75,12 +81,13 @@ Meteor.startup ->
 
     view.helpers
       'certGroups': ->
-        certs = _.chain(Veldspar.StaticData.certificates.find().fetch())
-          .groupBy('group').map((v,k) -> name:k, certificates:v, tag:k.replace(' ', '-')).value()
+        certs = _.chain(Veldspar.StaticData.certificates.find({}, {sort: {name: 1}}).fetch())
+          .groupBy('group').map((v,k) -> name:k, certificates:v, tag:k.replace(' ', '-'))
+          .sort(Veldspar.util.compare.byName).value()
 
         for group in certs
           for cert in group.certificates
-            cert.level = @certificates[Number cert._id]
+            cert.level = @certificates[Number cert._id] if @?.certificates
 
         return certs
       'certStyle': ->

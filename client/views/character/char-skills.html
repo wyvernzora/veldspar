@@ -59,12 +59,22 @@
 <!-- Tab pages -->
 <template name="char-skills-queue">
   <h2 class="text-muted text-light">Skill Queue</h2>
-  <div class="panel panel-default">
     {{#if skillQueue.length}}
-      <ul class="list-group prop-list">
+      <ul class="tile-list">
         {{#each skillQueue}}
           {{#with skillQueueItem ..}}
-          <a class="list-group-item container-fluid has-icon">
+            <li class="has-icon col-xs-12 col-sm-6 col-md-4 col-lg-3">
+              <div class="hoverable">
+                <img class="pull-left" src="{{skillIcon}}">
+                <div>
+                  <div class="caption bold text-nowrap"><a>{{skillInfo.name}} ({{skillInfo.rank}}x)</a></div>
+                  <div class="caption small text-muted text-nowrap">{{timespan remainingTime}} ({{sph ../.. skillInfo}} SP/h)</div>
+                </div>
+                {{> skillLevelB ./indicator}}
+              </div>
+            </li>
+
+          <!--<a class="list-group-item container-fluid has-icon">
             <img class="pull-left" src="{{skillIcon}}">
             <div>
               <div class="no-left-padding col-xs-8 col-sm-10"><a>{{skillInfo.name}} ({{skillInfo.rank}}x)</a></div>
@@ -74,16 +84,17 @@
               <div class="no-left-padding text-nowrap small text-muted col-xs-7 col-sm-9">SP: {{sp skillInfo.rank queued.skill.level}} ({{sph ../.. skillInfo}} SP/h)</div>
               <div class="text-nowrap small text-right text-muted  col-xs-5 col-sm-3">{{timespan remainingTime}}</div>
             </div>
-          </a>
+          </a>-->
+
+
           {{/with}}
         {{/each}}
       </ul>
     {{else}}
-      {{#placeholder icon="ion-alert-circled text-danger"}}
+      {{#placeholder panel="panel panel-default" icon="ion-alert-circled text-danger"}}
         <span class="text-danger">Skill queue is empty!</span>
       {{/placeholder}}
     {{/if}}
-  </div>
   <h2 class="text-muted text-light">Active Skill Plan</h2>
   <div class="panel panel-default">
     {{> wip}}
@@ -97,29 +108,25 @@
         <small>({{millionize skillPoints}} SP)</small>
       </h4>
     </div>
-    <div id="{{tag}}" class="skill-cat-body panel panel-default panel-collapse collapse">
-      <div  class="list-group prop-list">
-        {{#if skills}}
+    <div id="{{tag}}" class="skill-cat-body panel-collapse collapse">
+      {{#if skills}}
+        <ul class="tile-list">
           {{#each skills}}
-          <a class="list-group-item container-fluid has-icon">
-            <img class="pull-left" src="{{skillIcon}}">
-            <div>
-              <div class="no-left-padding col-xs-8 col-sm-10"><a>{{name}} ({{rank}}x)</a></div>
-              {{#unless notTrained}}
-                <div class="col-xs-4 col-sm-2">{{> skillLevel level=level}}</div>
-              {{/unless}}
-            </div>
-            <div>
-              <div class="no-left-padding col-xs-8 col-sm-10 text-muted small">SP: {{sp rank level}}</div>
-            </div>
-          </a>
+            <li class="{{skillStyle}} has-icon col-xs-12 col-sm-6 col-md-4 col-lg-3">
+              <div class="hoverable">
+                <img class="pull-left" src="{{skillIcon}}">
+                <div>
+                  <div class="caption bold text-nowrap"><a>{{name}} ({{rank}}x)</a></div>
+                  <div class="caption small text-muted text-nowrap">{{sp rank level}} SP</div>
+                </div>
+                {{> skillLevelB}}
+              </div>
+            </li>
           {{/each}}
-        {{else}}
-          {{#placeholder icon="ion-ios7-information-outline"}}
-            You do not have any skills in this category.
-          {{/placeholder}}
-        {{/if}}
-      </div>
+        </ul>
+      {{else}}
+
+      {{/if}}
     </div>
   {{/each}}
 </template>
@@ -134,8 +141,8 @@
       <ul class="tile-list">
         {{#each certificates}}
           <li class="{{certStyle}} has-icon col-xs-12 col-sm-6 col-md-4 col-lg-3">
-            <div>
-              <img alt="level-icon" src="/svg/va_cert-{{level}}.svg">
+            <div class="hoverable">
+              <img alt="level-icon" src="/svg/skills/cert-{{level}}.svg">
               <div>
                 <div class="caption bold text-nowrap"><a>{{name}}</a></div>
                 <div class="caption small text-muted text-nowrap">work in progress...</div>
@@ -144,22 +151,6 @@
           </li>
         {{/each}}
       </ul>
-
-      <!--<div class="list-group prop-list">
-        {{#each certificates}}
-        <a class="list-group-item container-fluid has-icon">
-          <img class="pull-left" src="/svg/va_cert-{{level}}.svg">
-          <div>
-            <div class="no-left-padding col-xs-8 col-sm-10"><a>{{name}}</a></div>
-            <div class="col-xs-4 col-sm-2">{{> skillLevel .}}</div>
-          </div>
-          <div>
-            <div class="no-left-padding col-xs-8 col-sm-10 text-muted small">{{skills.length}} Skills</div>
-          </div>
-        </a>
-
-        {{/each}}
-      </div>-->
     </div>
   {{/each}}
 </template>
