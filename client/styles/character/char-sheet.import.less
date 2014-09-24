@@ -7,10 +7,11 @@
       margin: 0;
       font-size: @font-size-h4;
     }
-    .char-detail {
+    .char-corp, .char-detail {
       margin: 0;
       font-size: @font-size-h6;
     }
+
     hr { margin: 4px 0; }
 
     /* Portrait sizes for different devices */
@@ -24,7 +25,7 @@
       width: @portrait-size-xs;
       height: @portrait-size-xs;
       & + div {
-        padding: 8px;
+        padding: 6px 8px;
         margin-left: @portrait-size-xs;
       }
     }
@@ -32,24 +33,31 @@
     @media (min-width: @screen-sm-min) {
 
       .char-name { font-size: @font-size-h3; }
-      .char-detail { font-size: @font-size-h5; }
+      .char-corp, .char-detail { font-size: @font-size-h5; }
 
       > img {
         width: @portrait-size-sm;
         height: @portrait-size-sm;
-        & + div { margin-left: @portrait-size-sm; }
+        & + div {
+          padding: 12px 16px;
+          margin-left: @portrait-size-sm;
+        }
       }
     }
     @media (min-width: @screen-md-min) {
 
       .char-name { font-size: @font-size-h2; }
-      .char-detail { font-size: @font-size-h4; }
+      .char-corp {
+        line-height: 32px;
+        margin: 3px 16px;
+      }
+      .char-corp, .char-detail { font-size: @font-size-h4; }
 
       > img {
         width: @portrait-size-md;
         height: @portrait-size-md;
         & + div {
-          padding: 15px;
+          padding: 12px 16px;
           margin-left: @portrait-size-md;
         }
       }
@@ -58,7 +66,17 @@
       > img {
         width: @portrait-size-lg;
         height: @portrait-size-lg;
-        & + div { margin-left: @portrait-size-lg; }
+        & + div {
+          padding: 16px;
+          margin-left: @portrait-size-lg;
+        }
+      }
+      .details {
+        margin: 16px 0;
+      }
+      .char-corp {
+        margin-top: 4px;
+        margin-bottom: 4px;
       }
     }
 

@@ -52,6 +52,13 @@ UI.registerHelper 'delimit', (num, delimiter) ->
 UI.registerHelper 'fixDecimals', (num, decimals) ->
   return (Math.round(num * Math.pow(10, decimals)) / Math.pow(10, decimals)).toFixed(decimals);
 
+# Helper for the Numeral.js package
+UI.registerHelper 'numeral', (num, format) ->
+  return if not num
+  format = '0' if not _.isString(format)
+  return numeral(num).format(format)
+
+
 # Converts the string to lower case
 UI.registerHelper 'lower', (str) -> return str.toLowerCase()
 

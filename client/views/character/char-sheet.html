@@ -33,12 +33,35 @@
 
         <img alt="Character Portrait" src="{{portrait 256 "Character"}}">
         <div>
-          <h1 class="char-name h1">{{name}}</h1>
-          <p class="char-detail lead">{{corp.name}}</p>
+          <h1 class="char-name text-nowrap h1">{{name}}</h1>
+          {{#with corp}}
+            <p class="char-corp text-nowrap lead">
+              <img class="corp-logo visible-md-inline visible-lg-inline"
+                src="{{portrait 32 "Corporation"}}">
+              {{name}}
+            </p>
+          {{/with}}
+          {{#with alliance}}
+            <p class="char-corp text-nowrap hidden-xs">
+              <img class="corp-logo visible-md-inline visible-lg-inline"
+                src="{{portrait 32 "Alliance"}}">
+              {{#if name}}
+                {{name}}
+              {{else}}
+                <i class="text-muted">Not in alliance</i>
+              {{/if}}
+            </p>
+          {{/with}}
           <hr>
-          <p class="char-detail">{{millionize balance 2}} ISK</p>
-          <p class="char-detail">{{millionize skillPoints 2}} SP</p>
-
+          <div class="details">
+            <b class="col-xs-4 col-sm-2 text-right">Wealth</b>
+            <span class="col-xs-8 col-sm-4 text-muted">{{millionize balance 2}} ISK</span>
+            <b class="col-xs-4 col-sm-2 text-right">
+              <span class="hidden-sm hidden-xs">Skill Points</span>
+              <span class="visible-sm visible-xs">SP</span>
+            </b>
+            <span class="col-xs-8 col-sm-4 text-muted">{{millionize skillPoints}}</span>
+          </div>
         </div>
       </div>
 
