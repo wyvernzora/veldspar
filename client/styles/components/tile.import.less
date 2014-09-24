@@ -1,0 +1,36 @@
+/* VARIABLES */
+@lighten-ratio: 10%;
+@highlight-color: #C0E5DA;
+
+/* MIXINS */
+.tile-variation(@color) {
+  border-color: lighten(@color, @lighten-ratio);
+  &.hoverable:hover {
+    border-left-color: @color;
+    background: @highlight-color;
+  }
+  .accented { color: @color; }
+}
+
+/* STYLES */
+.tile {
+  .clearfix();
+  background-color: @panel-bg;
+
+  border: 1px solid transparent;
+  border-left-width: 5px;
+  border-radius: @panel-border-radius;
+
+  margin-bottom: @line-height-computed;
+
+  /* Color variations */
+  &.tile-default { .tile-variation(@gray-light); }
+  &.tile-success { .tile-variation(@brand-success); }
+  &.tile-primary { .tile-variation(@brand-primary); }
+  &.tile-warning { .tile-variation(@brand-warning); }
+  &.tile-danger  { .tile-variation(@brand-danger); }
+  &.tile-info    { .tile-variation(@brand-info); }
+
+  /* Icon */
+
+}

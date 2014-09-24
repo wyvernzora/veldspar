@@ -1,5 +1,74 @@
 #char-sheet {
 
+  /* Main tile that contains portrait and name */
+  .main-tile {
+
+    .char-name {
+      margin: 0;
+      font-size: @font-size-h4;
+    }
+    .char-detail {
+      margin: 0;
+      font-size: @font-size-h6;
+    }
+    hr { margin: 4px 0; }
+
+    /* Portrait sizes for different devices */
+    @portrait-size-xs: 96px;
+    @portrait-size-sm: 128px;
+    @portrait-size-md: 160px;
+    @portrait-size-lg: 192px;
+
+    > img {
+      float: left;
+      width: @portrait-size-xs;
+      height: @portrait-size-xs;
+      & + div {
+        padding: 8px;
+        margin-left: @portrait-size-xs;
+      }
+    }
+
+    @media (min-width: @screen-sm-min) {
+
+      .char-name { font-size: @font-size-h3; }
+      .char-detail { font-size: @font-size-h5; }
+
+      > img {
+        width: @portrait-size-sm;
+        height: @portrait-size-sm;
+        & + div { margin-left: @portrait-size-sm; }
+      }
+    }
+    @media (min-width: @screen-md-min) {
+
+      .char-name { font-size: @font-size-h2; }
+      .char-detail { font-size: @font-size-h4; }
+
+      > img {
+        width: @portrait-size-md;
+        height: @portrait-size-md;
+        & + div {
+          padding: 15px;
+          margin-left: @portrait-size-md;
+        }
+      }
+    }
+    @media (min-width: @screen-lg-min) {
+      > img {
+        width: @portrait-size-lg;
+        height: @portrait-size-lg;
+        & + div { margin-left: @portrait-size-lg; }
+      }
+    }
+
+    > img {
+      padding: 0;
+    }
+
+  }
+
+
   .prop-name {
     line-height: 20px;
     margin-bottom: 3px;

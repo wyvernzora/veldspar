@@ -29,21 +29,16 @@
     <div id="char-sheet">
       <div class="alert alert-danger hidden"></div>
 
-      <div class="panel panel-default">
-        <div class="panel-body container-fluid">
-          <!-- Character Portrait -->
-          <div class="portrait thumbnail col-xs-4 col-xs-offset-4 col-sm-2 col-sm-offset-0 col-md-2">
-            <img alt="Character Portrait" src="{{portrait 256 "Character"}}">
-          </div>
-          <!-- Character Information -->
-          <div class="info col-xs-12 col-sm-10 col-md-10 container-fluid">
-            <h1 class="no-margin text-nowrap">{{name}}</h1>
-            <h3 class="no-margin text-light">{{corp/name}}</h3>
-            <hr>
-            <div class="row">
-              <div class="lead text-light">{{balance}} ISK</div>
-            </div>
-          </div>
+      <div class="tile tile-default tile-has-icon main-tile">
+
+        <img alt="Character Portrait" src="{{portrait 256 "Character"}}">
+        <div>
+          <h1 class="char-name h1">{{name}}</h1>
+          <p class="char-detail lead">{{corp.name}}</p>
+          <hr>
+          <p class="char-detail">{{millionize balance 2}} ISK</p>
+          <p class="char-detail">{{millionize skillPoints 2}} SP</p>
+
         </div>
       </div>
 
