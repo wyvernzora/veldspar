@@ -47,10 +47,17 @@ Meteor.methods
             '$path': 'requiredSkills'
             'id': 'typeID'
             'level': 'number:skillLevel'
-          'bonus':
+          'bonus': (o) -> # This part is messy, therefore custom logic needed
+            result = { }
+            # Index bonuses
+            for bonus in o.skillBonusCollection
+              result[bonus.bonusType] = bonus.bonusValue
+            return result
+            ###
             '$path': 'skillBonusCollection'
             'name': 'bonusType'
             'value': 'number:bonusValue'
+            ###
     raw = client.transform(transform).request()
 
     # Delete the entire skill collection
@@ -64,6 +71,17 @@ Meteor.methods
     for skill in skills
       # Resolve skill group
       skill.group = categories[skill.group.id]?.name ? 'Unspecified'
+      # Extract data from 'bonus' section
+      for prop, value of skill.bonus
+        # Find all requiredLevel bonuses
+        if /^requiredSkill([0-9]+)$/.test(prop)
+          skill.prerequisites.push id:value, level:skill.bonus[prop + 'Level']
+          # delete the bonus after inserting its data into prerequisites
+          delete skill.bonus[prop]
+          delete skill.bonus[prop + 'Level']
+      # canTainOnTrial flag
+      skill.canTrainOnTrial = skill.bonus['canNotBeTrainedOnTrial'] isnt 1
+      delete skill.bonus['canNotBeTrainedOnTrial']
       # Insert into database
       StaticData.skills.insert skill
 
@@ -76,8 +94,10 @@ Meteor.methods
         i.prerequisites = dep.prerequisites
         resolveDeps(i) if i.id isnt skill.id
     for skill in skills
+      if skill.id is 3346 then console.log JSON.stringify skill
       resolveDeps skill
       StaticData.skills.update {_id:skill._id}, {$set: {prerequisites: skill.prerequisites}}
+    return skills
 
   # Public: updates certificate data from certificates.yaml
   'admin.updateCertificates': ->
