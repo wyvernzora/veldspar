@@ -70,7 +70,7 @@ Meteor.startup ->
       'skillIcon': ->
         lv = @?.level ? 0
         if lv is 5 then '/svg/skills/book-level-v.svg'
-        else if @sp isnt Veldspar.util.skill.sp(lv, @rank) then return '/svg/skills/book-partial.svg'
+        else if @sp isnt Veldspar.Skill.spAtLevel(lv, @rank) then return '/svg/skills/book-partial.svg'
         else '/svg/skills/book-default.svg'
 
   )(Template['char-skills-my'])

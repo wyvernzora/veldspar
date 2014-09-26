@@ -106,23 +106,13 @@ UI.registerHelper 'portrait', (size, type) ->
   return _.template '<%= host %>/<%= type %>/<%= id %>_<%= size %>.<%= ext %>',
     host: Veldspar.Config.imageHost, id: @id, size: size, type: t, ext: format
 
-
-# Gets the icon for a skill
-###
-UI.registerHelper 'skillIcon', ->
-  lv = @?.level ? 0
-  if lv is 5 then '/svg/skills/book-level-v.svg'
-  else if @sp isnt Veldspar.util.skill.sp(lv, @rank) then return '/svg/skills/book-partial.svg'
-  else '/svg/skills/book-default.svg'
-###
-
 # =============================================================================
 #   Calculations
 # =============================================================================
 # Gets the total SP for the specified skill rank and level
 UI.registerHelper 'sp', (rank, level) ->
-  return Veldspar.util.skill.sp level, rank
+  return Veldspar.Skill.spAtLevel level, rank
 
 # Gets the number of SP per hour a character trains for the given skill
 UI.registerHelper 'sph', (char, skill) ->
-  return Veldspar.util.skill.spm(char, skill) * 60
+  return Veldspar.Skill.spPerMinute(char, skill) * 60
